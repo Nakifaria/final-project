@@ -1,0 +1,7 @@
+{
+  "development": {
+    "use_env_variable": "DEV_DB_URL"
+  },
+  "test": {},
+  "production": {}
+}
