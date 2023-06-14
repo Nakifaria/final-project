@@ -1,6 +1,5 @@
 import { Link, Route, Routes } from "react-router-dom";
 import Configurator from "./components/Configurator/Configurator";
-
 import { Route, Routes } from "react-router-dom";
 import { Catalog } from "./components/Catalog/Catalog";
 import { CategoryCatalog } from "./components/CategoryCatalog/CategoryCatalog";
