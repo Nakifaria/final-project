@@ -10,13 +10,14 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.belongsTo(models.User, { foreignKey: 'user_id' });
+      this.hasMany(models.CartItem, { foreignKey: 'cart_id' });
     }
   }
   Cart.init(
     {
       user_id: DataTypes.INTEGER,
-      items: DataTypes.ARRAY(DataTypes.INTEGER),
       ordered: DataTypes.BOOLEAN,
+      total_price: DataTypes.INTEGER,
     },
     {
       sequelize,
