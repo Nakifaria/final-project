@@ -1,5 +1,5 @@
-import { Link, Route, Routes } from "react-router-dom";
-import Configurator from "./components/Configurator/Configurator";
+import { Link, Route, Routes } from 'react-router-dom';
+import Configurator from './components/Configurator/Configurator';
 
 function App() {
   return (

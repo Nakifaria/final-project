@@ -26,10 +26,10 @@ router.get('/logout', (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-  const { login, password } = req.body;
+  const { email, name, password } = req.body;
 
   try {
-    const user = await User.findOne({ where: { login } });
+    const user = await User.findOne({ where: { email } });
 
     if (user) {
       const clearPass = await bcrypt.compare(password, user.password);
