@@ -1,17 +1,56 @@
 import { useEffect, useState } from "react";
-import { category } from "../../types/configurator.types";
+import { category, choosenCategory } from "../../types/configurator.types";
 
 function Configurator() {
   const [categoriesArr, setCategoriesArr] = useState<category[]>([]);
+  const [primaryParts, setPrimaryParts] = useState<number>(0);
+  const [primaryPartsTotalAmount, setPrimaryPartsTotalAmount] =
+    useState<number>(0);
+  const [choosenCategory, setChoosenCategory] = useState<choosenCategory[]>([]);
+
+  function ChooseHandler(id: number): void {
+    // if (choosenCategory) {
+    //   setPrimaryParts((prevstate) => prevstate - 1);
+    // } else {
+    //   setPrimaryParts((prevstate) => prevstate + 1);
+    // }
+
+    const currentCategoryIndex = choosenCategory.findIndex(
+      (el) => el.id === id
+    );
+
+    if (currentCategoryIndex !== -1) {
+      if (choosenCategory[currentCategoryIndex].choosen) {
+        setPrimaryParts((prevState) => prevState - 1);
+      } else {
+        setPrimaryParts((prevState) => prevState + 1);
+      }
+
+      setChoosenCategory((prevState) => {
+        const added = !choosenCategory[currentCategoryIndex].choosen;
+        return [
+          ...prevState.filter((el) => el.id !== id),
+          { id, choosen: added },
+        ];
+      });
+    }
+
+    if (currentCategoryIndex === -1) {
+      setChoosenCategory([...choosenCategory, { id, choosen: true }]);
+      setPrimaryParts((prevState) => prevState + 1);
+    }
+  }
 
   useEffect(() => {
     (async function () {
       try {
-        const response = await fetch("http://localhost:3000/configurator", {
+        const response = await fetch("http://localhost:3001/configurator", {
           credentials: "include",
         });
         const result = await response.json();
-        setCategoriesArr(result);
+        setCategoriesArr(result.categoriesArr);
+        setPrimaryPartsTotalAmount(result.primaryPartsTotalAmount);
+        console.log(result.primaryPartsTotalAmount);
       } catch (error) {
         console.log(error);
       }
@@ -26,16 +65,30 @@ function Configurator() {
               categoriesArr.map((category) => (
                 <li key={category.id}>
                   <div className="bg-white py-3 px-4 rounded-lg my-3 mx-3 flex justify-between items-center">
-                    <span className="w-1/12">{category.title}</span>
+                    {category.significance ? (
+                      <span className="w-1/12">{category.title}*</span>
+                    ) : (
+                      <span className="w-1/12">{category.title}</span>
+                    )}
                     <span className="text-gray-500">
                       {category.amountItems} шт.
                     </span>
-                    <button
-                      type="button"
-                      className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5"
-                    >
-                      + Добавить
-                    </button>
+                    {category.significance ? (
+                      <button
+                        onClick={() => ChooseHandler(category.id)}
+                        type="button"
+                        className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5"
+                      >
+                        + Добавить
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5"
+                      >
+                        + Добавить
+                      </button>
+                    )}
                   </div>
                 </li>
               ))}
@@ -45,16 +98,18 @@ function Configurator() {
           <div className="bg-white py-3 px-4 rounded-lg">
             <div className="flex justify-between mb-1">
               <span className="text-base font-medium text-blue-700 dark:text-white">
-                Flowbite
+                * - обязательные комплектующие
               </span>
               <span className="text-sm font-medium text-blue-700 dark:text-white">
-                {45}%
+                {primaryParts}/{primaryPartsTotalAmount}
               </span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
               <div
                 className="bg-blue-600 h-2.5 rounded-full"
-                style={{ width: `${45}%` }}
+                style={{
+                  width: `${primaryParts / primaryPartsTotalAmount}`,
+                }}
               ></div>
             </div>
           </div>

@@ -1,40 +1,50 @@
-'use strict';
+"use strict";
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert(
-      'Categories',
+      "Categories",
       [
         {
-          title: 'Процессор',
+          title: "Процессор",
+          significance: 2,
         },
         {
-          title: 'Материнская плата',
+          title: "Материнская плата",
+          significance: 3,
         },
         {
-          title: 'Оперативная память',
+          title: "Оперативная память",
+          significance: 1,
         },
         {
-          title: 'Накопитель',
+          title: "Хранение данных (SSD/HDD)",
+          significance: 1,
         },
         {
-          title: 'Видеокарта',
+          title: "Видеокарта",
+          significance: 0,
         },
         {
-          title: 'Блок питания',
+          title: "Блок питания",
+          significance: 1,
         },
         {
-          title: 'Корпус',
+          title: "Корпус",
+          significance: 4,
         },
         {
-          title: 'Кулер',
+          title: "Кулер",
+          significance: 0,
         },
         {
-          title: 'Водяное охлаждение',
+          title: "Водяное охлаждение",
+          significance: 0,
         },
         {
-          title: 'Звуковая карта',
+          title: "Звуковая карта",
+          significance: 0,
         },
       ],
       {}
@@ -42,6 +52,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('Categories', null, {});
+    await queryInterface.bulkDelete("Categories", null, {});
   },
 };

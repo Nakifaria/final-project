@@ -6,6 +6,7 @@ router.get("/", async (req, res) => {
   try {
     const categoriesArrRaw = await Category.findAll({
       include: [{ model: Item }],
+      order: [["significance", "DESC"]],
     });
     const categoriesArr = categoriesArrRaw.map((category) => {
       category.dataValues.amountItems = category.dataValues.Items.length;
@@ -14,8 +15,12 @@ router.get("/", async (req, res) => {
       delete category.dataValues.updatedAt;
       return category.get({ plain: true });
     });
-    console.log(categoriesArr);
-    res.json(categoriesArr);
+
+    const primaryPartsTotalAmount = categoriesArr.filter(
+      (category) => category.significance !== 0
+    ).length;
+
+    res.json({ categoriesArr, primaryPartsTotalAmount });
   } catch (error) {}
 });
 
