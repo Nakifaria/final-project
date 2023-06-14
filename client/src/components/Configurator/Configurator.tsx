@@ -6,15 +6,13 @@ function Configurator() {
   const [primaryParts, setPrimaryParts] = useState<number>(0);
   const [primaryPartsTotalAmount, setPrimaryPartsTotalAmount] =
     useState<number>(0);
+
+  const [progressbarStyle, setProgressbarStyle] = useState<object>({
+    width: "0",
+  });
   const [choosenCategory, setChoosenCategory] = useState<choosenCategory[]>([]);
 
   function ChooseHandler(id: number): void {
-    // if (choosenCategory) {
-    //   setPrimaryParts((prevstate) => prevstate - 1);
-    // } else {
-    //   setPrimaryParts((prevstate) => prevstate + 1);
-    // }
-
     const currentCategoryIndex = choosenCategory.findIndex(
       (el) => el.id === id
     );
@@ -22,8 +20,18 @@ function Configurator() {
     if (currentCategoryIndex !== -1) {
       if (choosenCategory[currentCategoryIndex].choosen) {
         setPrimaryParts((prevState) => prevState - 1);
+        setProgressbarStyle({
+          width: `${Math.floor(
+            ((primaryParts - 1) / primaryPartsTotalAmount) * 100
+          )}%`,
+        });
       } else {
         setPrimaryParts((prevState) => prevState + 1);
+        setProgressbarStyle({
+          width: `${Math.floor(
+            ((primaryParts + 1) / primaryPartsTotalAmount) * 100
+          )}%`,
+        });
       }
 
       setChoosenCategory((prevState) => {
@@ -38,7 +46,15 @@ function Configurator() {
     if (currentCategoryIndex === -1) {
       setChoosenCategory([...choosenCategory, { id, choosen: true }]);
       setPrimaryParts((prevState) => prevState + 1);
+      setProgressbarStyle({
+        width: `${Math.floor(
+          ((primaryParts + 1) / primaryPartsTotalAmount) * 100
+        )}%`,
+      });
     }
+
+    // console.log(primaryParts);
+    // console.log(primaryPartsTotalAmount);
   }
 
   useEffect(() => {
@@ -50,7 +66,6 @@ function Configurator() {
         const result = await response.json();
         setCategoriesArr(result.categoriesArr);
         setPrimaryPartsTotalAmount(result.primaryPartsTotalAmount);
-        console.log(result.primaryPartsTotalAmount);
       } catch (error) {
         console.log(error);
       }
@@ -107,9 +122,7 @@ function Configurator() {
             <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
               <div
                 className="bg-blue-600 h-2.5 rounded-full"
-                style={{
-                  width: `${primaryParts / primaryPartsTotalAmount}`,
-                }}
+                style={progressbarStyle}
               ></div>
             </div>
           </div>
