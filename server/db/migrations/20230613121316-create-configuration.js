@@ -16,9 +16,12 @@ module.exports = {
           key: 'id',
         },
       },
-      items: {
-        type: Sequelize.ARRAY(Sequelize.INTEGER),
-        defaultValue: [],
+      item_id: {
+        type: Sequelize.INTEGER,
+				references: {
+          model: { tableName: 'Items' },
+          key: 'id',
+        },
       },
       createdAt: {
         allowNull: false,
