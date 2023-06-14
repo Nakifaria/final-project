@@ -1,25 +1,62 @@
-"use client";
-
-import { Progress, Button } from "flowbite-react";
+import { useEffect, useState } from "react";
+import { category } from "../../types/configurator.types";
 
 function Configurator() {
+  const [categoriesArr, setCategoriesArr] = useState<category[]>([]);
+
+  useEffect(() => {
+    (async function () {
+      try {
+        const response = await fetch("http://localhost:3000/configurator", {
+          credentials: "include",
+        });
+        const result = await response.json();
+        setCategoriesArr(result);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
   return (
     <>
       <div className="bg-gray-100 sm:grid grid-cols-5 grid-rows-2 px-4 py-6 min-h-full lg:min-h-screen space-y-6 sm:space-y-0 sm:gap-4">
-        <div className="h-96 col-span-4 bg-gradient-to-tr from-gray-400 to-gray-200 rounded-md flex ">
-         
+        <div className="h-max col-span-4 bg-gradient-to-tr from-gray-400 to-gray-200 rounded-md flex">
+          <ul className="w-full">
+            {categoriesArr &&
+              categoriesArr.map((category) => (
+                <li key={category.id}>
+                  <div className="bg-white py-3 px-4 rounded-lg my-3 mx-3 flex justify-between items-center">
+                    <span className="w-1/12">{category.title}</span>
+                    <span className="text-gray-500">
+                      {category.amountItems} шт.
+                    </span>
+                    <button
+                      type="button"
+                      className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5"
+                    >
+                      + Добавить
+                    </button>
+                  </div>
+                </li>
+              ))}
+          </ul>
         </div>
-        <div className="h-96 col-span-1 ">
+        <div className="h-96 col-span-1 sticky top-6">
           <div className="bg-white py-3 px-4 rounded-lg">
-            <Progress
-              labelProgress
-              labelText
-              progress={45}
-              progressLabelPosition="inside"
-              size="lg"
-              textLabel="Обязательные комплектующие"
-              textLabelPosition="outside"
-            />
+            <div className="flex justify-between mb-1">
+              <span className="text-base font-medium text-blue-700 dark:text-white">
+                Flowbite
+              </span>
+              <span className="text-sm font-medium text-blue-700 dark:text-white">
+                {45}%
+              </span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+              <div
+                className="bg-blue-600 h-2.5 rounded-full"
+                style={{ width: `${45}%` }}
+              ></div>
+            </div>
           </div>
 
           <div className="bg-white  rounded-md">
@@ -38,32 +75,20 @@ function Configurator() {
               />
             </div>
             <div className="bg-white py-3 px-4 rounded-lg flex justify-around items-center ">
-              <Button className="bg-gray">Сохранить</Button>
+              <button
+                type="button"
+                className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+              >
+                Сохранить
+              </button>
             </div>
             <div className="bg-white py-3 px-4 rounded-lg flex justify-around items-center ">
-              <Button>В корзину</Button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="rounded-lg shadow-lg bg-gray-600 w-full flex flex-row flex-wrap p-3 antialiased">
-        <div className="md:w-1/3 w-full">
-          <img
-            className="rounded-lg shadow-lg antialiased"
-            src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-          />
-        </div>
-        <div className="md:w-2/3 w-full px-3 flex flex-row flex-wrap">
-          <div className="w-full text-right text-gray-700 font-semibold relative pt-3 md:pt-0">
-            <div className="text-2xl text-white leading-tight">Admin User</div>
-            <div className="text-normal text-gray-300 hover:text-gray-400 cursor-pointer">
-              <span className="border-b border-dashed border-gray-500 pb-1">
-                Administrator
-              </span>
-            </div>
-            <div className="text-sm text-gray-300 hover:text-gray-400 cursor-pointer md:absolute pt-3 md:pt-0 bottom-0 right-0">
-              Last Seen: <b>2 days ago</b>
+              <button
+                type="button"
+                className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+              >
+                В корзину
+              </button>
             </div>
           </div>
         </div>
