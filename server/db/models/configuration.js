@@ -10,12 +10,13 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.belongsTo(models.User, { foreignKey: 'user_id' });
+      this.belongsTo(models.Item, { foreignKey: 'item_id' });
     }
   }
   Configuration.init(
     {
       user_id: DataTypes.INTEGER,
-      items: DataTypes.ARRAY(DataTypes.INTEGER),
+      item_id: DataTypes.INTEGER,
     },
     {
       sequelize,
