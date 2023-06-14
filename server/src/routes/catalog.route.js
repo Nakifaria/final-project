@@ -21,4 +21,14 @@ router.get('/category/:id', async (req, res) => {
     }
 })
 
+router.get('/category/product/:id', async (req, res) => {
+    try {
+        const productResult = await Item.findOne({ where: { id: req.params.id }, raw: true })
+        // console.log(productResult);
+        res.json(productResult)
+    } catch (error) {
+        console.log(error);
+    }
+})
+
 module.exports = router;

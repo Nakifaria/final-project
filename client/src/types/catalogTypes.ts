@@ -1,6 +1,7 @@
 export type StateType = {
     catalog: CatalogType[],
-    category: CategoryType[]
+    category: CategoryType[],
+    item: object
   }
 
   export type CatalogType = {
@@ -13,4 +14,12 @@ export type StateType = {
     name: string,
     price: number,
     img: string
+  }
+
+  export type ItemType = {
+    id: number;
+    name: string,
+    price: number,
+    img: string,
+    description: object
   }
