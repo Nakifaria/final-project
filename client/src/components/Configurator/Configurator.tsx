@@ -6,7 +6,9 @@ function Configurator() {
   return (
     <>
       <div className="bg-gray-100 sm:grid grid-cols-5 grid-rows-2 px-4 py-6 min-h-full lg:min-h-screen space-y-6 sm:space-y-0 sm:gap-4">
-        <div className="h-96 col-span-4 bg-gradient-to-tr from-indigo-800 to-indigo-500 rounded-md flex items-center"></div>
+        <div className="h-96 col-span-4 bg-gradient-to-tr from-gray-400 to-gray-200 rounded-md flex ">
+         
+        </div>
         <div className="h-96 col-span-1 ">
           <div className="bg-white py-3 px-4 rounded-lg">
             <Progress
@@ -36,7 +38,7 @@ function Configurator() {
               />
             </div>
             <div className="bg-white py-3 px-4 rounded-lg flex justify-around items-center ">
-              <Button>Сохранить</Button>
+              <Button className="bg-gray">Сохранить</Button>
             </div>
             <div className="bg-white py-3 px-4 rounded-lg flex justify-around items-center ">
               <Button>В корзину</Button>
