@@ -17,8 +17,8 @@ function App() {
       <main className="max-w-screen-xl mx-auto">
         <Routes>
           <Route path="catalog" element={<Catalog />} />
-          <Route path="category" element={<CategoryCatalog />} />
-          <Route path="product" element={<ItemPage />} />
+          <Route path="category/:catId" element={<CategoryCatalog />} /> 
+          <Route path="product/:prodId" element={<ItemPage />} />
           <Route path="configurator" element={<Configurator />} />
           <Route path="favorites" element={<Favorites />} />
           {/* <Route path="/" element={<Home />} /> */}
