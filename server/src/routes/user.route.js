@@ -35,9 +35,12 @@ router.post('/login', async (req, res) => {
       const clearPass = await bcrypt.compare(password, user.password);
 
       if (clearPass) {
-        req.session.user = { login, id: user.id };
+        req.session.user = { email, name, id: user.id };
 
-        res.json({ auth: true, msg: user.id });
+        res.json({
+          auth: true,
+          userInfo: { id: user.id, name: user.name, email: user.email },
+        });
       } else {
         res.json({ auth: false, msg: 'неверный пароль' });
       }
@@ -51,27 +54,28 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/registration', async (req, res) => {
-  const { login, password } = req.body;
+  const { email, name, password } = req.body;
 
   try {
     const hashPass = await bcrypt.hash(password, 10);
 
     const [user, created] = await User.findOrCreate({
-      where: { login },
-      defaults: { login, password: hashPass },
+      where: { email },
+      defaults: { email, name, password: hashPass },
     });
 
     if (created) {
-      req.session.user = { login, id: user.id };
+      req.session.user = { email, name, id: user.id };
 
-      await Comparison.create({ user_id: user.id });
-      await Configuration.create({ user_id: user.id });
-      await Favourite.create({ user_id: user.id });
-      await Cart.create({ user_id: user.id });
-
-      res.json({ auth: true, msg: user.id });
+      res.json({
+        auth: true,
+        userInfo: { id: user.id, name: user.name, email: user.email },
+      });
     } else {
-      res.json({ auth: false, msg: 'пользователь с таким именем существует' });
+      res.json({
+        auth: false,
+        msg: 'пользователь с такой почтой уже зарегистрирован',
+      });
     }
   } catch (error) {
     console.log(error);
