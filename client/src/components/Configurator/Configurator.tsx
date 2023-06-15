@@ -52,9 +52,6 @@ function Configurator() {
         )}%`,
       });
     }
-
-    // console.log(primaryParts);
-    // console.log(primaryPartsTotalAmount);
   }
 
   useEffect(() => {

@@ -8,43 +8,53 @@ module.exports = {
       [
         {
           title: "Процессор",
-          significance: 2,
+          significance: 4,
+          image: "",
         },
         {
           title: "Материнская плата",
           significance: 3,
+          image: "",
         },
         {
           title: "Оперативная память",
           significance: 1,
+          image: "",
         },
         {
           title: "Хранение данных (SSD/HDD)",
           significance: 1,
+          image: "",
         },
         {
           title: "Видеокарта",
           significance: 0,
+          image: "",
         },
         {
           title: "Блок питания",
           significance: 1,
+          image: "",
         },
         {
           title: "Корпус",
-          significance: 4,
+          significance: 2,
+          image: "",
         },
         {
           title: "Кулер",
           significance: 0,
+          image: "",
         },
         {
           title: "Водяное охлаждение",
           significance: 0,
+          image: "",
         },
         {
           title: "Звуковая карта",
           significance: 0,
+          image: "",
         },
       ],
       {}
