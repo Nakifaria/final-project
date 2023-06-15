@@ -1,3 +1,4 @@
+
 import { Link, Route, Routes } from "react-router-dom";
 import Configurator from "./components/Configurator/Configurator";
 import { Catalog } from "./components/Catalog/Catalog";
@@ -11,8 +12,11 @@ function App() {
     <Route path='/catalog/category' element={<CategoryCatalog/>}/>
     <Route path='/catalog/category/product' element={<ItemPage/>}/>
     <Route path="/configurator" element={<Configurator />} />
+    <Route path="" element={<Home />} />
   </Routes>
+     <ToastContainer />
   </>;
+
 }
 
 export default App;

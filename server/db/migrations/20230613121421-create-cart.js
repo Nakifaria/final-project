@@ -16,13 +16,13 @@ module.exports = {
           key: 'id',
         },
       },
-      items: {
-        type: Sequelize.ARRAY(Sequelize.INTEGER),
-        defaultValue: [],
-      },
       ordered: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
+      },
+      total_price: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
       },
       createdAt: {
         allowNull: false,

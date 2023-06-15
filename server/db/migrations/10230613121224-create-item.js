@@ -22,6 +22,10 @@ module.exports = {
       price: {
         type: Sequelize.INTEGER,
       },
+      order_count: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
+      },
       img: {
         type: Sequelize.STRING,
       },
