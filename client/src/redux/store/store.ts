@@ -1,7 +1,11 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, createAsyncThunk } from '@reduxjs/toolkit';
+
+import userSlice from '../slices/user.slice';
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    userSlice,
+  },
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

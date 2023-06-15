@@ -1,13 +1,16 @@
 import { Link, Route, Routes } from 'react-router-dom';
 import Configurator from './components/Configurator/Configurator';
+import { Home } from './components/Home/Home';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   return (
     <>
-      <Link to="/configurator">Configurator</Link>
       <Routes>
         <Route path="/configurator" element={<Configurator />} />
+        <Route path="" element={<Home />} />
       </Routes>
+      <ToastContainer />
     </>
   );
 }
