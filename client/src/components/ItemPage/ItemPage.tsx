@@ -10,7 +10,7 @@ export const ItemPage = () => {
   const categoryData = async () => {
     try {
       const response = await fetch(
-        'http://localhost:3001/catalog/category/product/27'
+        'http://localhost:3000/catalog/category/product/27'
       );
       const itemData = await response.json();
       // console.log(categoryData);

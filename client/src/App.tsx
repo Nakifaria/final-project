@@ -7,21 +7,33 @@ import { Favorites } from './components/Favourites/Favourites';
 import { ToastContainer } from 'react-toastify';
 import { Home } from './components/Home/Home';
 import { Searchbar } from './components/Searchbar/Searchbar';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { checkSessionThunk } from './redux/thunk/user.action';
+import { RootState } from './redux/store/store';
+import { loadItems } from './redux/thunk/items.action';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkSessionThunk());
+    dispatch(loadItems());
+  }, []);
+
   return (
     <div className="box-border">
-      <header className="max-w-screen-lg mx-auto sticky top-0">
+      <header className="max-w-screen-xl mx-auto sticky top-0">
         <Searchbar />
       </header>
-      <main className="max-w-screen-lg mx-auto">
+      <main className="max-w-screen-xl mx-auto">
         <Routes>
           <Route path="catalog" element={<Catalog />} />
           <Route path="category" element={<CategoryCatalog />} />
           <Route path="product" element={<ItemPage />} />
           <Route path="configurator" element={<Configurator />} />
           <Route path="favorites" element={<Favorites />} />
-          {/* <Route path="/" element={<Home />} /> */}
+          <Route path="/" element={<Home />} />
         </Routes>
       </main>
       <ToastContainer />

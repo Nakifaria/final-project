@@ -1,13 +1,10 @@
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { regUserThunk } from '../../redux/thunk/user.action';
-import { ToastContainer, toast } from 'react-toastify';
-import { RootState } from '../../redux/store/store';
+import { logUserThunk, regUserThunk } from '../../redux/thunk/user.action';
+import { toast } from 'react-toastify';
 
 export const Auth = () => {
   const dispatch = useDispatch();
-
-  const status = useSelector((state: RootState) => state.userSlice.loading);
 
   const [regForm, setRegForm] = useState(false);
 
@@ -28,51 +25,88 @@ export const Auth = () => {
     });
   };
 
-  const authUser = () => {
-    if (!Object.values(formData).includes('')) {
-      if (
-        !formData.email.match(
-          /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/
-        )
-      ) {
-        toast.warn('Неверный формат электронной почты', {
-          position: 'bottom-right',
-          autoClose: 2500,
-          hideProgressBar: true,
-        });
+  const authUser = (type: string) => {
+    if (type === 'reg') {
+      if (!Object.values(formData).includes('')) {
+        if (
+          !formData.email.match(
+            /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/
+          )
+        ) {
+          toast.warn('Неверный формат электронной почты', {
+            position: 'top-right',
+            autoClose: 2500,
+            hideProgressBar: true,
+          });
 
-        return;
-      } else if (formData.clearPassword === formData.password) {
-        dispatch(
-          regUserThunk({
-            name: formData.name,
-            email: formData.email,
-            password: formData.password,
-          })
-        );
+          return;
+        } else if (formData.clearPassword === formData.password) {
+          dispatch(
+            regUserThunk({
+              name: formData.name,
+              email: formData.email,
+              password: formData.password,
+            })
+          );
+        } else {
+          setClearPass(false);
+          toast.error('Пароли не совпадают', {
+            position: 'top-right',
+            autoClose: 2500,
+            hideProgressBar: true,
+          });
+          setTimeout(() => {
+            setClearPass(true);
+          }, 2500);
+        }
       } else {
+        setFilled(false);
         setClearPass(false);
-        toast.error('Пароли не совпадают', {
-          position: 'bottom-right',
+        toast.warn('Остались пустые поля', {
+          position: 'top-right',
           autoClose: 2500,
           hideProgressBar: true,
         });
         setTimeout(() => {
+          setFilled(true);
           setClearPass(true);
         }, 2500);
       }
-    } else {
-      setFilled(false);
-      setClearPass(false);
-      toast.warn('Остались пустые поля', {
-        position: 'bottom-right',
-        autoClose: 2500,
-        hideProgressBar: true,
-      });
-      setTimeout(() => {
-        setFilled(true);
-        setClearPass(true);
-      }, 2500);
+    } else if (type === 'log') {
+      if (formData.email !== '' && formData.password !== '') {
+        if (
+          !formData.email.match(
+            /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/
+          )
+        ) {
+          toast.warn('Неверный формат электронной почты', {
+            position: 'top-right',
+            autoClose: 2500,
+            hideProgressBar: true,
+          });
+
+          return;
+        } else {
+          dispatch(
+            logUserThunk({
+              email: formData.email,
+              password: formData.password,
+            })
+          );
+        }
+      } else {
+        setFilled(false);
+        setClearPass(false);
+        toast.warn('Остались пустые поля', {
+          position: 'top-right',
+          autoClose: 2500,
+          hideProgressBar: true,
+        });
+        setTimeout(() => {
+          setFilled(true);
+          setClearPass(true);
+        }, 2500);
+      }
     }
   };
 
@@ -121,7 +155,12 @@ export const Auth = () => {
               clearPass ? 'border-black' : 'border-red-600'
             } rounded-lg `}
           />
-          <button onClick={authUser} className="btn">
+          <button
+            onClick={() => {
+              authUser('reg');
+            }}
+            className="btn"
+          >
             Зарегистрироваться
           </button>
         </>
@@ -150,7 +189,14 @@ export const Auth = () => {
           />
 
           <div className="flex flex-col gap-2">
-            <button className="btn">Войти</button>
+            <button
+              className="btn"
+              onClick={() => {
+                authUser('log');
+              }}
+            >
+              Войти
+            </button>
             <button className="btn" onClick={() => setRegForm(true)}>
               Нет аккаунта?
             </button>

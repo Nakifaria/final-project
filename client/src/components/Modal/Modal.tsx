@@ -4,7 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 interface IModalProps {
   children: JSX.Element;
-  close: (event: MouseEvent<HTMLDivElement>) => void;
+  close?: (event: MouseEvent<HTMLDivElement>) => void;
 }
 
 export const Modal = ({ children, close }: IModalProps) => {

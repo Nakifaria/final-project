@@ -1,13 +1,16 @@
-
-import { configureStore} from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 
 import userSlice from '../slices/user.slice';
-import catalogSlice from "../slices/catalogSlice";
+import catalogSlice from '../slices/catalogSlice';
+import itemsSlice from '../slices/items.slice';
+import loaderSlice from '../slices/loader.slice';
 
 export const store = configureStore({
   reducer: {
     userSlice,
+    itemsSlice,
     catalog: catalogSlice,
+    loaderSlice,
   },
 });
 

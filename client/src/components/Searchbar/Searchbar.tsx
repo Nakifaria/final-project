@@ -8,12 +8,16 @@ import { ToastContainer, toast } from 'react-toastify';
 import { ReactSVG } from 'react-svg';
 
 import 'react-toastify/dist/ReactToastify.css';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store/store';
 
 export const Searchbar = () => {
   const [showModal, setShowModal] = useState(false);
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
+
+  const isAuth = useSelector((state: RootState) => state.userSlice.isAuth);
 
   const closeModal = (event: MouseEvent<HTMLDivElement>) => {
     if (!(event.target instanceof HTMLDivElement)) return;
@@ -33,7 +37,13 @@ export const Searchbar = () => {
     }
   };
 
-  const notify = () => toast('Wow so easy!');
+  const profile = () => {
+    if (isAuth) {
+      navigate('/profile');
+    } else {
+      setShowModal(true);
+    }
+  };
 
   return (
     <>
@@ -42,7 +52,12 @@ export const Searchbar = () => {
           <button onClick={backHome} className="btn w-1/3 flex justify-center">
             <ReactSVG src="home.svg" className="w-6" />
           </button>
-          <button onClick={notify} className="btn uppercase w-1/2 grow">
+          <button
+            onClick={() => {
+              navigate('/catalog');
+            }}
+            className="btn uppercase w-1/2 grow"
+          >
             каталог
           </button>
         </div>
@@ -56,24 +71,31 @@ export const Searchbar = () => {
           </button>
         </div>
         <div className="flex w-1/3 gap-1">
-          <button
-            className="btn w-1/4 flex justify-center"
-            onClick={() => setShowModal(true)}
-          >
+          <button className="btn w-1/4 flex justify-center" onClick={profile}>
             <ReactSVG src="profile.svg" className="w-6" />
           </button>
           <button className="btn w-1/4 flex justify-center">
             <ReactSVG src="sravnenie.svg" className="w-6" />
           </button>
-          <button className="btn w-1/4 flex justify-center">
+          <button
+            className="btn w-1/4 flex justify-center"
+            onClick={() => {
+              navigate('/favorites');
+            }}
+          >
             <ReactSVG src="favourite.svg" className="w-6" />
           </button>
-          <button className="btn w-1/4 flex justify-center">
+          <button
+            onClick={() => {
+              navigate('/cart');
+            }}
+            className="btn w-1/4 flex justify-center"
+          >
             <ReactSVG src="cart.svg" className="w-6" />
           </button>
         </div>
       </div>
-      {showModal && (
+      {!isAuth && showModal && (
         <Modal close={closeModal}>
           <Auth />
         </Modal>
