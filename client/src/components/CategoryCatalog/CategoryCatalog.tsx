@@ -8,7 +8,7 @@ export const CategoryCatalog = () => {
 
   const categoryData = async () => {
     try {
-      const response = await fetch('http://localhost:3001/catalog/category/1');
+      const response = await fetch('http://localhost:3000/catalog/category/1');
       const categoryData = await response.json();
       // console.log(categoryData);
       dispatch(setCategory(categoryData));

@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { category, choosenCategory } from '../../types/configurator.types';
+import { useEffect, useState } from "react";
+import { category, choosenCategory } from "../../types/configurator.types";
 
 function Configurator() {
   const [categoriesArr, setCategoriesArr] = useState<category[]>([]);
@@ -8,7 +8,7 @@ function Configurator() {
     useState<number>(0);
 
   const [progressbarStyle, setProgressbarStyle] = useState<object>({
-    width: '0',
+    width: "0",
   });
   const [choosenCategory, setChoosenCategory] = useState<choosenCategory[]>([]);
 
@@ -57,8 +57,8 @@ function Configurator() {
   useEffect(() => {
     (async function () {
       try {
-        const response = await fetch('http://localhost:3001/configurator', {
-          credentials: 'include',
+        const response = await fetch("http://localhost:3000/configurator", {
+          credentials: "include",
         });
         const result = await response.json();
         setCategoriesArr(result.categoriesArr);
@@ -106,7 +106,7 @@ function Configurator() {
               ))}
           </ul>
         </div>
-        <div className="h-96 col-span-1 sticky top-6">
+        <div className="h-96 col-span-1 sticky top-20">
           <div className="bg-white py-3 px-4 rounded-lg">
             <div className="flex justify-between mb-1">
               <span className="text-base font-medium text-blue-700">
@@ -134,9 +134,10 @@ function Configurator() {
             </div>
 
             <div className="bg-white py-3 px-4 rounded-lg flex justify-around items-center ">
-              <textarea
+              <input
+                type="text"
                 placeholder="Введите описание сборки (необязательно)"
-                className=" bg-gray-100 rounded-md  outline-none pl-2 ring-indigo-700 w-full mr-2 p-2"
+                className=" bg-gray-100 rounded-md  outline-none pl-2 ring-indigo-700 w-full mr-2 p-2 h-64"
               />
             </div>
             <div className="bg-white py-3 px-4 rounded-lg flex justify-around items-center ">

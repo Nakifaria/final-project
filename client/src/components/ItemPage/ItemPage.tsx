@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../redux/hook';
-import { setItem } from '../../redux/slices/catalogSlice';
-import { RootState } from '../../redux/store/store';
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import { setItem } from "../../redux/slices/catalogSlice";
+import { RootState } from "../../redux/store/store";
 
 export const ItemPage = () => {
   const dispatch = useAppDispatch();
@@ -10,7 +10,7 @@ export const ItemPage = () => {
   const categoryData = async () => {
     try {
       const response = await fetch(
-        'http://localhost:3001/catalog/category/product/27'
+        "http://localhost:3000/catalog/category/product/27"
       );
       const itemData = await response.json();
       // console.log(categoryData);

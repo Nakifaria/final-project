@@ -8,7 +8,7 @@ export const Catalog = () => {
 
   const catalogData = async () => {
     try {
-      const response = await fetch("http://localhost:3001/catalog");
+      const response = await fetch("http://localhost:3000/catalog");
       const catalogData = await response.json();
       // console.log(catalogData);
       dispatch(setCatalog(catalogData));

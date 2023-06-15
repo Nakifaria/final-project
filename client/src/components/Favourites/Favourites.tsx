@@ -5,7 +5,7 @@ export const Favorites = () => {
     const [items, setItems] = useState([])
 
     useEffect(() => {
-        fetch('http://localhost:3001/favorites')
+        fetch('http://localhost:3000/favorites')
         .then((res: Response) => res.json())
         .then(data => setItems(data))
         .catch(err => console.log(err)
