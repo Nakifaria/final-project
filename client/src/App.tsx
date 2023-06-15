@@ -4,6 +4,8 @@ import Configurator from "./components/Configurator/Configurator";
 import { Catalog } from "./components/Catalog/Catalog";
 import { CategoryCatalog } from "./components/CategoryCatalog/CategoryCatalog";
 import { ItemPage } from "./components/ItemPage/ItemPage";
+import { ToastContainer } from "react-toastify";
+import { Home } from "./components/Home/Home";
 
 function App() {
   return <>
