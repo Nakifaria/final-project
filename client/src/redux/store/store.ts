@@ -1,7 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
+import catalogSlice from "../slices/catalogSlice";
 
 export const store = configureStore({
   reducer: {
+<<<<<<< HEAD
+=======
+    catalog: catalogSlice
+>>>>>>> dev
   },
 });
 
