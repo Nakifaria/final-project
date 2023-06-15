@@ -182,10 +182,6 @@ function Configurator() {
         </div>
       </div>
 
-      <Button onClick={() => setOpenModal(true)} gradientDuoTone="purpleToBlue">
-        Добавить +
-      </Button>
-
       <ModalConfigurator
         openModal={openModal}
         setOpenModal={setOpenModal}

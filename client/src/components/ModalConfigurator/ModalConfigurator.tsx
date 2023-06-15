@@ -80,7 +80,11 @@ function ModalConfigurator({
           <div className="space-y-6 p-6"></div>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => ChooseHandler(categoryId, significance)}>
+          <Button
+            onClick={() => ChooseHandler(categoryId, significance)}
+            gradientDuoTone="tealToLime"
+            outline
+          >
             Добавить
           </Button>
         </Modal.Footer>
