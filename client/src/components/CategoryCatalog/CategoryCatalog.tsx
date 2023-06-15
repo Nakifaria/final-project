@@ -4,6 +4,7 @@ import { setCategory } from '../../redux/slices/catalogSlice';
 import { RootState } from '../../redux/store/store';
 import { ReactSVG } from 'react-svg';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Dropdown } from 'flowbite-react';
 
 export const CategoryCatalog = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -41,9 +42,28 @@ export const CategoryCatalog = () => {
       <h1 className="text-center text-2xl font-semibold leading-7 text-gray-900">
          {categoryItems && categoryItems[0].category}
       </h1>
-      <div>
-        <a>Фильтр</a>
-      </div>
+<div className="mt-10">
+   {/* Цена от
+   <input onChange={} value={} name="low" type="text" className="border rounded border-black"/> 
+   до 
+    <input onChange={} value={} name="high" type="text" className="border rounded border-black"/> */}
+<Dropdown color="light"
+      label="Dropdown button"
+    >
+      <Dropdown.Item>
+        Dashboard
+      </Dropdown.Item>
+      <Dropdown.Item>
+        Settings
+      </Dropdown.Item>
+      <Dropdown.Item>
+        Earnings
+      </Dropdown.Item>
+      <Dropdown.Item>
+        Sign out
+      </Dropdown.Item>
+    </Dropdown>
+</div>
       <div className=" mx-auto max-w-screen-xl mt-10 grid  group bg-white shadow-xl shadow-neutral-100 border ">
         <ul role="list" className="divide-y divide-gray-100">
           {categoryItems &&
