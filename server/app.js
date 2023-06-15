@@ -11,9 +11,12 @@ const dbCheck = require('./src/middlewares/dbCheck');
 
 // Require routes
 
+
 const userRoute = require('./src/routes/user.route');
 const catalogRoute = require('./src/routes/catalog.route');
 const configuratorRoute = require('./src/routes/configurator.route');
+const favoritesRoute = require('./src/routes/favorites.route');
+
 
 const app = express();
 const PORT = process.env.PORT || 3002;
@@ -46,9 +49,12 @@ app.use(dbCheck);
 
 // Routes
 
-app.use('/user', userRoute);
-app.use('/catalog', catalogRoute);
+
+app.use("/user", userRoute)
 app.use('/configurator', configuratorRoute);
+app.use('/catalog', catalogRoute)
+app.use('/favorites', favoritesRoute);
+
 
 app.listen(PORT, () => {
   console.log(`Server started at ${PORT}`);
