@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { category, choosenCategory } from "../../types/configurator.types";
+import { useEffect, useState } from 'react';
+import { category, choosenCategory } from '../../types/configurator.types';
 
 function Configurator() {
   const [categoriesArr, setCategoriesArr] = useState<category[]>([]);
@@ -8,7 +8,7 @@ function Configurator() {
     useState<number>(0);
 
   const [progressbarStyle, setProgressbarStyle] = useState<object>({
-    width: "0",
+    width: '0',
   });
   const [choosenCategory, setChoosenCategory] = useState<choosenCategory[]>([]);
 
@@ -57,8 +57,8 @@ function Configurator() {
   useEffect(() => {
     (async function () {
       try {
-        const response = await fetch("http://localhost:3001/configurator", {
-          credentials: "include",
+        const response = await fetch('http://localhost:3001/configurator', {
+          credentials: 'include',
         });
         const result = await response.json();
         setCategoriesArr(result.categoriesArr);
@@ -109,14 +109,14 @@ function Configurator() {
         <div className="h-96 col-span-1 sticky top-6">
           <div className="bg-white py-3 px-4 rounded-lg">
             <div className="flex justify-between mb-1">
-              <span className="text-base font-medium text-blue-700 dark:text-white">
+              <span className="text-base font-medium text-blue-700">
                 * - обязательные комплектующие
               </span>
-              <span className="text-sm font-medium text-blue-700 dark:text-white">
+              <span className="text-sm font-medium text-blue-700">
                 {primaryParts}/{primaryPartsTotalAmount}
               </span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+            <div className="w-full bg-gray-200 rounded-full h-2.5">
               <div
                 className="bg-blue-600 h-2.5 rounded-full"
                 style={progressbarStyle}
