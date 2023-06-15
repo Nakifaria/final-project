@@ -1,58 +1,17 @@
 import { useEffect, useState } from "react";
 import { category, choosenCategory } from "../../types/configurator.types";
+import ModalConfigurator from "../ModalConfigurator/ModalConfigurator";
+import { Button } from "flowbite-react";
 
 function Configurator() {
   const [categoriesArr, setCategoriesArr] = useState<category[]>([]);
   const [primaryParts, setPrimaryParts] = useState<number>(0);
   const [primaryPartsTotalAmount, setPrimaryPartsTotalAmount] =
     useState<number>(0);
-
   const [progressbarStyle, setProgressbarStyle] = useState<object>({
     width: "0",
   });
   const [choosenCategory, setChoosenCategory] = useState<choosenCategory[]>([]);
-
-  function ChooseHandler(id: number): void {
-    const currentCategoryIndex = choosenCategory.findIndex(
-      (el) => el.id === id
-    );
-
-    if (currentCategoryIndex !== -1) {
-      if (choosenCategory[currentCategoryIndex].choosen) {
-        setPrimaryParts((prevState) => prevState - 1);
-        setProgressbarStyle({
-          width: `${Math.floor(
-            ((primaryParts - 1) / primaryPartsTotalAmount) * 100
-          )}%`,
-        });
-      } else {
-        setPrimaryParts((prevState) => prevState + 1);
-        setProgressbarStyle({
-          width: `${Math.floor(
-            ((primaryParts + 1) / primaryPartsTotalAmount) * 100
-          )}%`,
-        });
-      }
-
-      setChoosenCategory((prevState) => {
-        const added = !choosenCategory[currentCategoryIndex].choosen;
-        return [
-          ...prevState.filter((el) => el.id !== id),
-          { id, choosen: added },
-        ];
-      });
-    }
-
-    if (currentCategoryIndex === -1) {
-      setChoosenCategory([...choosenCategory, { id, choosen: true }]);
-      setPrimaryParts((prevState) => prevState + 1);
-      setProgressbarStyle({
-        width: `${Math.floor(
-          ((primaryParts + 1) / primaryPartsTotalAmount) * 100
-        )}%`,
-      });
-    }
-  }
 
   useEffect(() => {
     (async function () {
@@ -68,6 +27,59 @@ function Configurator() {
       }
     })();
   }, []);
+
+  function removeItemHandler(id: number, significance: number): void {
+    const currentCategoryIndex = choosenCategory.findIndex(
+      (el) => el.id === id
+    );
+    if (significance !== 0) {
+      if (choosenCategory[currentCategoryIndex].choosen) {
+        setPrimaryParts((prevState) => prevState - 1);
+        setProgressbarStyle({
+          width: `${Math.floor(
+            ((primaryParts - 1) / primaryPartsTotalAmount) * 100
+          )}%`,
+        });
+      }
+
+      setChoosenCategory((prevState) => {
+        const added = !choosenCategory[currentCategoryIndex].choosen;
+        return [
+          ...prevState.filter((el) => el.id !== id),
+          { id, choosen: added },
+        ];
+      });
+    } else {
+      if (currentCategoryIndex !== -1) {
+        setChoosenCategory((prevState) => {
+          const added = !choosenCategory[currentCategoryIndex].choosen;
+          return [
+            ...prevState.filter((el) => el.id !== id),
+            { id, choosen: added },
+          ];
+        });
+      }
+    }
+  }
+
+  // ------------------------------
+
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [categoryId, setCategoryId] = useState<number>(0);
+  const [significance, setSignificance] = useState<number>(0);
+  const [categoryTitle, setCategoryTitle] = useState<string>("");
+
+  function openModalHandler(
+    id: number,
+    significance: number,
+    categoryTitle: string
+  ) {
+    setOpenModal(true);
+    setCategoryId(id);
+    setSignificance(significance);
+    setCategoryTitle(categoryTitle);
+  }
+
   return (
     <>
       <div className="bg-gray-100 sm:grid grid-cols-5 grid-rows-2 px-4 py-6 min-h-full lg:min-h-screen space-y-6 sm:space-y-0 sm:gap-4">
@@ -85,21 +97,31 @@ function Configurator() {
                     <span className="text-gray-500">
                       {category.amountItems} шт.
                     </span>
-                    {category.significance ? (
-                      <button
-                        onClick={() => ChooseHandler(category.id)}
-                        type="button"
-                        className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5"
+
+                    {choosenCategory.findIndex(
+                      (el) => el.id === category.id && el.choosen === true
+                    ) === -1 ? (
+                      <Button
+                        onClick={() =>
+                          openModalHandler(
+                            category.id,
+                            category.significance,
+                            category.title
+                          )
+                        }
+                        gradientDuoTone="purpleToBlue"
                       >
-                        + Добавить
-                      </button>
+                        Добавить +
+                      </Button>
                     ) : (
-                      <button
-                        type="button"
-                        className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5"
+                      <Button
+                        onClick={() =>
+                          removeItemHandler(category.id, category.significance)
+                        }
+                        gradientDuoTone="pinkToOrange"
                       >
-                        + Добавить
-                      </button>
+                        Удалить
+                      </Button>
                     )}
                   </div>
                 </li>
@@ -159,6 +181,24 @@ function Configurator() {
           </div>
         </div>
       </div>
+
+      <Button onClick={() => setOpenModal(true)} gradientDuoTone="purpleToBlue">
+        Добавить +
+      </Button>
+
+      <ModalConfigurator
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        categoryId={categoryId}
+        setProgressbarStyle={setProgressbarStyle}
+        choosenCategory={choosenCategory}
+        setChoosenCategory={setChoosenCategory}
+        setPrimaryParts={setPrimaryParts}
+        primaryParts={primaryParts}
+        primaryPartsTotalAmount={primaryPartsTotalAmount}
+        significance={significance}
+        categoryTitle={categoryTitle}
+      />
     </>
   );
 }
