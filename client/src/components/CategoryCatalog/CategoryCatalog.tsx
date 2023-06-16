@@ -5,6 +5,7 @@ import { RootState } from '../../redux/store/store';
 import { ReactSVG } from 'react-svg';
 import { useNavigate, useParams } from 'react-router';
 import { Dropdown } from 'flowbite-react';
+import { SVGComponent } from '../Svg/svgComponent';
 
 export const CategoryCatalog = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -177,13 +178,13 @@ export const CategoryCatalog = () => {
                     type="button"
                     className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 "
                   >
-                    <ReactSVG src="/cart.svg" className="w-6" />
+                    <SVGComponent svgName="cart"/>
                   </button>
                   <button type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
-                  <ReactSVG src="/sravnenie.svg" className="w-6" />
+                  <SVGComponent svgName="sravnenie"/>
                     </button>
                   <button type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
-                  <ReactSVG src="/favourite.svg" className="w-6" />
+                  <SVGComponent svgName="favourite"/>
                     </button>
                 </div>
               </li>
