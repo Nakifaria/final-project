@@ -57,7 +57,7 @@ function Configurator() {
   useEffect(() => {
     (async function () {
       try {
-        const response = await fetch('http://localhost:3001/configurator', {
+        const response = await fetch('http://localhost:3000/configurator', {
           credentials: 'include',
         });
         const result = await response.json();

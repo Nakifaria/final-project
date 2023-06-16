@@ -13,7 +13,12 @@ router.get('/', async (req, res) => {
 
 router.get('/category/:id', async (req, res) => {
     try {
-        const categoryResult = await Item.findAll({ where: { category_id: req.params.id }, raw: true })
+        const rawCategoryResult = await Item.findAll({ where: { category_id: req.params.id }, include: { model: Category, attributes: ['title'] } })
+        const categoryResult = rawCategoryResult.map((el) => {
+            el.dataValues.category = el.dataValues.Category.title
+            delete el.dataValues.Category
+            return el.get({ plain: true })
+        })
         // console.log(categoryResult);
         res.json(categoryResult)
     } catch (error) {
@@ -23,7 +28,7 @@ router.get('/category/:id', async (req, res) => {
 
 router.get('/category/product/:id', async (req, res) => {
     try {
-        const productResult = await Item.findOne({ where: { id: req.params.id }, raw: true })
+        const productResult = (await Item.findOne({ where: { id: req.params.id } })).get({ plain: true })
         // console.log(productResult);
         res.json(productResult)
     } catch (error) {
