@@ -6,11 +6,13 @@ import { ReactSVG } from "react-svg";
 import { useNavigate, useParams } from "react-router";
 import { Dropdown } from "flowbite-react";
 import { categoryFetch } from "../../redux/thunk/category.action";
+import { SVGComponent } from '../Svg/SVGComponent';
 
 export const CategoryCatalog = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [priceData, setFormData] = useState({ low: "", high: "" });
-  const [sortOption, setSortOption] = useState("");
+  const [priceData, setFormData] = useState({ low: '', high: '' });
+  const [sortOption, setSortOption] = useState('')
+  const [dropdawnLabel, setDropdawnLabel] = useState('Сортировка')
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -20,10 +22,10 @@ export const CategoryCatalog = () => {
     dispatch(categoryFetch(catId, setIsLoading));
   }, []);
 
+
   const categoryItems = useAppSelector(
-    (state: RootState) => state.catalog.category
-  );
-  // console.log(categoryItems);
+    (state: RootState) => state.catalog.category)
+    console.log(categoryItems);
 
   const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...priceData, [e.target.name]: e.target.value });
@@ -32,18 +34,62 @@ export const CategoryCatalog = () => {
   const submitHandler = () => {
     // console.log(priceData);
     if (priceData.low && priceData.high) {
-      const newCategoryItems = categoryItems.filter(
-        (item) => item.price >= priceData.low && item.price <= priceData.high
-      );
-      dispatch(setCategory(newCategoryItems));
-      // console.log(newCategoryItems);
-    }
-  };
+    const newCategoryItems = categoryItems.filter((item) => (item.price >= priceData.low && item.price <= priceData.high));
+    dispatch(setCategory(newCategoryItems));
+    // console.log(newCategoryItems);
+    }}
 
-  if (sortOption === "popularity") {
-    const popularCatalog = categoryItems.order_count.sort((a, b) => a - b);
-    console.log(popularCatalog);
-  }
+    if (sortOption === 'popularity') {
+         const newArr = JSON.parse(JSON.stringify(categoryItems))
+        const newCatalog = newArr.sort((a,b) => a.order_count - b.order_count)
+        dispatch(setCategory(newCatalog));
+        setSortOption('')
+        setDropdawnLabel('По популярности')
+    } else if (sortOption === 'priceLow') {
+       const newArr = JSON.parse(JSON.stringify(categoryItems))
+       const newCatalog = newArr.sort((a,b) => a.price - b.price)
+       dispatch(setCategory(newCatalog));
+       setSortOption('')
+       setDropdawnLabel('По цене (сначала дешевле)')
+   } else if (sortOption === 'priceHigh') {
+    const newArr = JSON.parse(JSON.stringify(categoryItems))
+    const newCatalog = newArr.sort((a,b) => b.price - a.price)
+    dispatch(setCategory(newCatalog));
+    setSortOption('')
+    setDropdawnLabel('По цене (сначала дороже)')
+} else if (sortOption === 'nameAsc') {
+    const newArr = JSON.parse(JSON.stringify(categoryItems))
+    const newCatalog = newArr.sort(( a, b ) => {
+        if ( a.name.toLowerCase() < b.name.toLowerCase() ){
+          return -1;
+        }
+        if ( a.name.toLowerCase() > b.name.toLowerCase() ){
+          return 1;
+        }
+        return 0;
+      }
+    )
+    console.log(newCatalog);
+    dispatch(setCategory(newCatalog));
+    setSortOption('')
+    setDropdawnLabel('По названию (A-Я)')
+} else if (sortOption === 'nameDesc') {
+    const newArr = JSON.parse(JSON.stringify(categoryItems))
+    const newCatalog = newArr.sort((a,b) => 
+    {
+        if ( a.name.toLowerCase() < b.name.toLowerCase() ){
+          return 1;
+        }
+        if ( a.name.toLowerCase() > b.name.toLowerCase() ){
+          return -1;
+        }
+        return 0;
+      })
+    dispatch(setCategory(newCatalog));
+    setSortOption('')
+    setDropdawnLabel('По названию (Я-А)')
+} 
+    
 
   if (isLoading) {
     return (
@@ -66,17 +112,14 @@ export const CategoryCatalog = () => {
             value={priceData?.high}
             name="high"
             type="text"
-            className="border rounded border-black"
-          />
-          <button
-            onClick={submitHandler}
-            type="button"
-            className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-          >
-            Применить
-          </button>
-          <Dropdown color="light" label="Сортировка">
-            <Dropdown.Item onClick={() => setSortOption("popularity")}>
+            className="border rounded border-black"/>
+<button onClick={submitHandler} type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+    Применить
+</button>
+
+
+<Dropdown color="light" label={dropdawnLabel}>
+            <Dropdown.Item onClick={() => setSortOption('popularity')}>
               По популярности
             </Dropdown.Item>
             <Dropdown.Item onClick={() => setSortOption("priceLow")}>
@@ -92,54 +135,45 @@ export const CategoryCatalog = () => {
               По названию (Я-А)
             </Dropdown.Item>
           </Dropdown>
-        </div>
-        <div className=" mx-auto max-w-screen-xl mt-10 grid  group bg-white shadow-xl shadow-neutral-100 border ">
-          <ul role="list" className="divide-y divide-gray-100">
-            {categoryItems &&
-              categoryItems.map((el) => (
-                <li key={el.id} className="flex justify-between gap-x-6 py-5">
-                  <div
-                    onClick={() => navigate(`/product/${el.id}`)}
-                    className="flex justify-between gap-x-6"
-                  >
-                    <div className="flex-shrink-0">
-                      <img
-                        className="w-8 h-8"
-                        src="https://cdn1.ozone.ru/s3/multimedia-2/6368709194.jpg"
-                        alt="Neil image"
-                      />
-                    </div>
-                    <div className="flex justify-left gap-x-4">
-                      <div className="min-w-0 flex-auto">
-                        <p className="text-sm text-center font-bold leading-6 text-gray-900">
-                          {el.name}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="ml-10 sm:flex sm:flex-col sm:items-end">
-                      <p className="text-sm text-center leading-6 text-gray-900">
-                        {el.price} ₽
-                      </p>
-                    </div>
+</div>
+      <div className=" mx-auto max-w-screen-xl mt-10 grid  group bg-white shadow-xl shadow-neutral-100 border ">
+        <ul role="list" className="divide-y divide-gray-100">
+          {categoryItems &&
+            categoryItems.map((el) => (
+              <li  key={el.id} className="flex justify-between gap-x-6 py-5">
+                <div onClick={() => navigate(`/product/${el.id}`)} className="flex justify-between gap-x-6">
+                <div className="flex-shrink-0">
+                  <img
+                    className="w-8 h-8"
+                    src="https://cdn1.ozone.ru/s3/multimedia-2/6368709194.jpg"
+                    alt="Neil image"
+                  />
+                </div>
+                <div className="flex justify-left gap-x-4">
+                  <div className="min-w-0 flex-auto">
+                    <p className="text-sm text-center font-bold leading-6 text-gray-900">
+                      {el.name}
+                    </p>
                   </div>
-                  <div className="sm:flex sm:items-end">
-                    <button
-                      type="button"
-                      className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 "
-                    >
-                      <ReactSVG src="cart.svg" className="w-6" />
+                </div>
+                <div className="ml-10 sm:flex sm:flex-col sm:items-end">
+                  <p className="text-sm text-center leading-6 text-gray-900">
+                    {el.price} ₽
+                  </p>
+                </div>
+                </div>
+                <div className="sm:flex sm:items-end">
+                  <button
+                    type="button"
+                    className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 "
+                  >
+                    <SVGComponent svgName="cart"/>
+                  </button>
+                  <button type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                  <SVGComponent svgName="sravnenie"/>
                     </button>
-                    <button
-                      type="button"
-                      className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                    >
-                      <ReactSVG src="sravnenie.svg" className="w-6" />
-                    </button>
-                    <button
-                      type="button"
-                      className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                    >
-                      <ReactSVG src="favourite.svg" className="w-6" />
+                  <button type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                  <SVGComponent svgName="favourite"/>
                     </button>
                   </div>
                 </li>

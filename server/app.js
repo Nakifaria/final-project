@@ -51,7 +51,7 @@ app.use(dbCheck);
 app.use('/user', userRoute);
 app.use('/configurator', configuratorRoute);
 app.use('/catalog', catalogRoute);
-app.use('/favorites', favoritesRoute);
+app.use('/favourites', favoritesRoute);
 app.use('/items', itemRoute);
 
 app.listen(PORT, () => {

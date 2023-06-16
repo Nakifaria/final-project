@@ -3,7 +3,8 @@ import { useAppDispatch, useAppSelector } from '../../redux/hook';
 import { setItem } from '../../redux/slices/catalogSlice';
 import { RootState } from '../../redux/store/store';
 import { useParams } from 'react-router-dom';
-import { ReactSVG } from 'react-svg';
+import { SVGComponent } from '../Svg/SVGComponent';
+
 
 export const ItemPage = () => {
   const dispatch = useAppDispatch();
@@ -62,17 +63,17 @@ export const ItemPage = () => {
 
               <div className="mt-3 md:flex md:items-center md:-mx-2">
               <button type="button" className="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2">
-               <ReactSVG src="cart.svg" className="w-6" />
+              <SVGComponent svgName="cart"/>
                 В корзину
                </button>
 
                <button type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
-                  <ReactSVG src="favourite.svg" className="w-6" />
+               <SVGComponent svgName="favourite"/>
                 В избранное
                 </button>
 
                 <button type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
-                 <ReactSVG src="sravnenie.svg" className="w-6" />
+                <SVGComponent svgName="sravnenie"/>
                 В сравнение
                 </button>
               </div>
