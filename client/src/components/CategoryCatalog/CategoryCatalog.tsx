@@ -8,8 +8,9 @@ import { Dropdown } from 'flowbite-react';
 
 export const CategoryCatalog = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [lowPrice, setLowPrice] = useState('');
-  const [highPrice, setHighPrice] = useState('');
+  const [priceData, setFormData] = useState({ low: '', high: '' });
+//   const [lowPrice, setLowPrice] = useState('');
+//   const [highPrice, setHighPrice] = useState('');
 
   const navigate = useNavigate()
   const dispatch = useAppDispatch();
@@ -38,8 +39,18 @@ export const CategoryCatalog = () => {
     (state: RootState) => state.catalog.category)
     console.log(categoryItems);
 
+    const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setFormData({...priceData, [e.target.name]: e.target.value});
+    }
 
-    
+    const submitHandler = () => {
+        console.log(priceData);
+        
+    if (priceData.low && priceData.high) {
+    const newCategoryItems = categoryItems.filter((item) => (item.price >= priceData.low && item.price <= priceData.high));
+    dispatch(setCategory(newCategoryItems));
+    console.log(newCategoryItems);
+    }}
 
 
     if (isLoading) {
@@ -50,17 +61,22 @@ export const CategoryCatalog = () => {
       </h1>
 <div className="mt-10">
    Цена от
-   <input onChange={(e) => setLowPrice(e.target.value)}
-            value={lowPrice}
+   <input onChange={changeHandler}
+            value={priceData?.low}
             name="low"
             type="text"
             className="border rounded border-black"/> 
    до
-    <input onChange={(e) => setHighPrice(e.target.value)}
-            value={highPrice}
+    <input onChange={changeHandler}
+            value={priceData?.high}
             name="high"
             type="text"
             className="border rounded border-black"/>
+<button onClick={submitHandler} type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+    Применить
+</button>
+
+
 <Dropdown color="light"
       label="Dropdown button"
     >
@@ -124,4 +140,4 @@ export const CategoryCatalog = () => {
       </div>
     </div>
   )
-}};
+}}
