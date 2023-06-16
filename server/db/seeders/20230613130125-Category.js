@@ -1,60 +1,60 @@
-"use strict";
+'use strict';
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert(
-      "Categories",
+      'Categories',
       [
         {
-          title: "Процессор",
+          title: 'Процессор',
           significance: 4,
-          image: "",
+          image: '',
         },
         {
-          title: "Материнская плата",
+          title: 'Материнская плата',
           significance: 3,
-          image: "",
+          image: '',
         },
         {
-          title: "Оперативная память",
+          title: 'Оперативная память',
           significance: 1,
-          image: "",
+          image: '',
         },
         {
-          title: "Хранение данных (SSD/HDD)",
+          title: 'Хранение данных (SSD/HDD)',
           significance: 1,
-          image: "",
+          image: '',
         },
         {
-          title: "Видеокарта",
+          title: 'Видеокарта',
           significance: 0,
-          image: "",
+          image: '',
         },
         {
-          title: "Блок питания",
+          title: 'Блок питания',
           significance: 1,
-          image: "",
+          image: '',
         },
         {
-          title: "Корпус",
+          title: 'Корпус',
           significance: 2,
-          image: "",
+          image: '',
         },
         {
-          title: "Кулер",
+          title: 'Кулер',
           significance: 0,
-          image: "",
+          image: '',
         },
         {
-          title: "Водяное охлаждение",
+          title: 'Водяное охлаждение',
           significance: 0,
-          image: "",
+          image: '',
         },
         {
-          title: "Звуковая карта",
+          title: 'Звуковая карта',
           significance: 0,
-          image: "",
+          image: '',
         },
       ],
       {}
@@ -62,6 +62,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete("Categories", null, {});
+    await queryInterface.bulkDelete('Categories', null, {});
   },
 };

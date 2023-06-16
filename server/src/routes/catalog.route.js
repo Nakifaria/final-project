@@ -19,7 +19,7 @@ router.get('/category/:id', async (req, res) => {
             delete el.dataValues.Category
             return el.get({ plain: true })
         })
-        // console.log(categoryResult);
+        console.log(categoryResult);
         res.json(categoryResult)
     } catch (error) {
         console.log(error);

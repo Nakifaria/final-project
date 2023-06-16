@@ -1,5 +1,9 @@
 'use strict';
 
+const randomOrderCount = () => {
+  return Math.round(Math.random() * 100);
+};
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -10,6 +14,7 @@ module.exports = {
           name: 'NVIDIA GeForce RTX 3080',
           category_id: 5,
           price: 135000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'GPU Architecture': 'NVIDIA Ampere',
@@ -30,6 +35,7 @@ module.exports = {
           name: 'AMD Radeon RX 6900 XT',
           category_id: 5,
           price: 130000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'GPU Architecture': 'RDNA 2',
@@ -50,6 +56,7 @@ module.exports = {
           name: 'NVIDIA GeForce RTX 3070',
           category_id: 5,
           price: 90000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'GPU Architecture': 'NVIDIA Ampere',
@@ -70,6 +77,7 @@ module.exports = {
           name: 'AMD Radeon RX 6800 XT',
           category_id: 5,
           price: 95000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'GPU Architecture': 'RDNA 2',
@@ -90,6 +98,7 @@ module.exports = {
           name: 'NVIDIA GeForce RTX 3060 Ti',
           category_id: 5,
           price: 60000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'GPU Architecture': 'NVIDIA Ampere',
@@ -110,6 +119,7 @@ module.exports = {
           name: 'AMD Radeon RX 6700 XT',
           category_id: 5,
           price: 48000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'GPU Architecture': 'RDNA 2',
@@ -130,6 +140,7 @@ module.exports = {
           name: 'NVIDIA GeForce RTX 2080 Ti',
           category_id: 5,
           price: 110000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'GPU Architecture': 'NVIDIA Turing',
@@ -150,6 +161,7 @@ module.exports = {
           name: 'AMD Radeon RX 5700 XT',
           category_id: 5,
           price: 40000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'GPU Architecture': 'RDNA',
@@ -170,6 +182,7 @@ module.exports = {
           name: 'NVIDIA GeForce GTX 1660 Super',
           category_id: 5,
           price: 25000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'GPU Architecture': 'NVIDIA Turing',
@@ -190,6 +203,7 @@ module.exports = {
           name: 'AMD Radeon RX 5600 XT',
           category_id: 5,
           price: 28000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'GPU Architecture': 'RDNA',
@@ -210,6 +224,7 @@ module.exports = {
           name: 'NVIDIA GeForce GTX 1650 Super',
           category_id: 5,
           price: 16000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'GPU Architecture': 'NVIDIA Turing',
@@ -230,6 +245,7 @@ module.exports = {
           name: 'AMD Radeon RX 5500 XT',
           category_id: 5,
           price: 20000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'GPU Architecture': 'RDNA',
@@ -250,6 +266,7 @@ module.exports = {
           name: 'ASUS ROG Strix X570-E Gaming',
           category_id: 2,
           price: 24500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Type': 'AM4',
@@ -264,6 +281,7 @@ module.exports = {
           name: 'GIGABYTE X570 AORUS Elite',
           category_id: 2,
           price: 17500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Type': 'AM4',
@@ -278,6 +296,7 @@ module.exports = {
           name: 'MSI MPG B550 Gaming Plus',
           category_id: 2,
           price: 12900,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Type': 'AM4',
@@ -292,6 +311,7 @@ module.exports = {
           name: 'ASRock B550M-ITX/ac',
           category_id: 2,
           price: 10900,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Type': 'AM4',
@@ -306,6 +326,7 @@ module.exports = {
           name: 'ASUS TUF Gaming B550-PLUS',
           category_id: 2,
           price: 13900,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Type': 'AM4',
@@ -320,6 +341,7 @@ module.exports = {
           name: 'GIGABYTE B450 AORUS Elite',
           category_id: 2,
           price: 9900,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Type': 'AM4',
@@ -334,6 +356,7 @@ module.exports = {
           name: 'ASRock B450M PRO4',
           category_id: 2,
           price: 8500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Type': 'AM4',
@@ -348,6 +371,7 @@ module.exports = {
           name: 'MSI B450 TOMAHAWK MAX',
           category_id: 2,
           price: 9900,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Type': 'AM4',
@@ -362,6 +386,7 @@ module.exports = {
           name: 'ASUS PRIME B450-PLUS',
           category_id: 2,
           price: 7900,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Type': 'AM4',
@@ -376,6 +401,7 @@ module.exports = {
           name: 'GIGABYTE B365M DS3H',
           category_id: 2,
           price: 5900,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Type': 'LGA 1151',
@@ -390,6 +416,7 @@ module.exports = {
           name: 'Intel Core i9-9900K',
           category_id: 1,
           price: 29900,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Type': 'LGA 1151',
@@ -403,6 +430,7 @@ module.exports = {
           name: 'AMD Ryzen 7 5800X',
           category_id: 1,
           price: 25900,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Type': 'AM4',
@@ -416,6 +444,7 @@ module.exports = {
           name: 'Intel Core i7-10700K',
           category_id: 1,
           price: 21900,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Type': 'LGA 1200',
@@ -429,6 +458,7 @@ module.exports = {
           name: 'AMD Ryzen 5 5600X',
           category_id: 1,
           price: 17900,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Type': 'AM4',
@@ -442,6 +472,7 @@ module.exports = {
           name: 'Intel Core i5-11600K',
           category_id: 1,
           price: 16900,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Type': 'LGA 1200',
@@ -455,6 +486,7 @@ module.exports = {
           name: 'AMD Ryzen 9 5900X',
           category_id: 1,
           price: 38900,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Type': 'AM4',
@@ -468,6 +500,7 @@ module.exports = {
           name: 'Intel Core i7-11700K',
           category_id: 1,
           price: 24900,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Type': 'LGA 1200',
@@ -481,6 +514,7 @@ module.exports = {
           name: 'AMD Ryzen 7 3700X',
           category_id: 1,
           price: 19900,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Type': 'AM4',
@@ -494,6 +528,7 @@ module.exports = {
           name: 'Intel Core i5-10600K',
           category_id: 1,
           price: 15900,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Type': 'LGA 1200',
@@ -507,6 +542,7 @@ module.exports = {
           name: 'AMD Ryzen 5 3600X',
           category_id: 1,
           price: 13900,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Type': 'AM4',
@@ -520,6 +556,7 @@ module.exports = {
           name: 'Corsair Vengeance LPX 16GB (2 x 8GB) DDR4 3200MHz',
           category_id: 3,
           price: 7500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Capacity: '16GB (2 x 8GB)',
@@ -533,6 +570,7 @@ module.exports = {
           name: 'G.Skill Trident Z RGB 32GB (2 x 16GB) DDR4 3600MHz',
           category_id: 3,
           price: 10500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Capacity: '32GB (2 x 16GB)',
@@ -546,6 +584,7 @@ module.exports = {
           name: 'Crucial Ballistix 16GB (2 x 8GB) DDR4 3000MHz',
           category_id: 3,
           price: 6000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Capacity: '16GB (2 x 8GB)',
@@ -559,6 +598,7 @@ module.exports = {
           name: 'Kingston HyperX Fury RGB 16GB (2 x 8GB) DDR4 3200MHz',
           category_id: 3,
           price: 6500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Capacity: '16GB (2 x 8GB)',
@@ -572,6 +612,7 @@ module.exports = {
           name: 'Team T-Force Delta RGB 32GB (2 x 16GB) DDR4 3200MHz',
           category_id: 3,
           price: 8500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Capacity: '32GB (2 x 16GB)',
@@ -585,6 +626,7 @@ module.exports = {
           name: 'Corsair Vengeance RGB Pro 32GB (2 x 16GB) DDR4 3600MHz',
           category_id: 3,
           price: 9500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Capacity: '32GB (2 x 16GB)',
@@ -598,6 +640,7 @@ module.exports = {
           name: 'G.Skill Ripjaws V 16GB (2 x 8GB) DDR4 3200MHz',
           category_id: 3,
           price: 7000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Capacity: '16GB (2 x 8GB)',
@@ -611,6 +654,7 @@ module.exports = {
           name: 'Crucial Ballistix MAX 32GB (2 x 16GB) DDR4 4000MHz',
           category_id: 3,
           price: 11000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Capacity: '32GB (2 x 16GB)',
@@ -624,6 +668,7 @@ module.exports = {
           name: 'Kingston HyperX Fury 16GB (2 x 8GB) DDR4 2666MHz',
           category_id: 3,
           price: 5500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Capacity: '16GB (2 x 8GB)',
@@ -637,6 +682,7 @@ module.exports = {
           name: 'Team T-Force Vulcan Z 32GB (2 x 16GB) DDR4 3000MHz',
           category_id: 3,
           price: 8000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Capacity: '32GB (2 x 16GB)',
@@ -650,6 +696,7 @@ module.exports = {
           name: 'Corsair Vengeance LPX 16GB (2 x 8GB) DDR4 3200MHz',
           category_id: 3,
           price: 7500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Capacity: '16GB (2 x 8GB)',
@@ -663,6 +710,7 @@ module.exports = {
           name: 'G.Skill Trident Z RGB 32GB (2 x 16GB) DDR4 3600MHz',
           category_id: 3,
           price: 10500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Capacity: '32GB (2 x 16GB)',
@@ -676,6 +724,7 @@ module.exports = {
           name: 'Crucial Ballistix 16GB (2 x 8GB) DDR4 3000MHz',
           category_id: 3,
           price: 6000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Capacity: '16GB (2 x 8GB)',
@@ -689,6 +738,7 @@ module.exports = {
           name: 'Kingston HyperX Fury RGB 16GB (2 x 8GB) DDR4 3200MHz',
           category_id: 3,
           price: 6500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Capacity: '16GB (2 x 8GB)',
@@ -702,6 +752,7 @@ module.exports = {
           name: 'Team T-Force Delta RGB 32GB (2 x 16GB) DDR4 3200MHz',
           category_id: 3,
           price: 8500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Capacity: '32GB (2 x 16GB)',
@@ -715,6 +766,7 @@ module.exports = {
           name: 'Corsair Vengeance RGB Pro 32GB (2 x 16GB) DDR4 3600MHz',
           category_id: 3,
           price: 9500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Capacity: '32GB (2 x 16GB)',
@@ -728,6 +780,7 @@ module.exports = {
           name: 'G.Skill Ripjaws V 16GB (2 x 8GB) DDR4 3200MHz',
           category_id: 3,
           price: 7000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Capacity: '16GB (2 x 8GB)',
@@ -741,6 +794,7 @@ module.exports = {
           name: 'Crucial Ballistix MAX 32GB (2 x 16GB) DDR4 4000MHz',
           category_id: 3,
           price: 11000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Capacity: '32GB (2 x 16GB)',
@@ -754,6 +808,7 @@ module.exports = {
           name: 'Kingston HyperX Fury 16GB (2 x 8GB) DDR4 2666MHz',
           category_id: 3,
           price: 5500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Capacity: '16GB (2 x 8GB)',
@@ -767,6 +822,7 @@ module.exports = {
           name: 'Team T-Force Vulcan Z 32GB (2 x 16GB) DDR4 3000MHz',
           category_id: 3,
           price: 8000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Capacity: '32GB (2 x 16GB)',
@@ -780,6 +836,7 @@ module.exports = {
           category_id: 4,
           name: 'SSD Kingston A2000',
           price: 5000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             capacity: '500GB',
@@ -792,6 +849,7 @@ module.exports = {
           category_id: 4,
           name: 'HDD Seagate Barracuda',
           price: 4000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             capacity: '2TB',
@@ -804,6 +862,7 @@ module.exports = {
           category_id: 4,
           name: 'SSD Samsung 970 EVO Plus',
           price: 8000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             capacity: '1TB',
@@ -816,6 +875,7 @@ module.exports = {
           category_id: 4,
           name: 'HDD Western Digital Blue',
           price: 3500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             capacity: '1TB',
@@ -828,6 +888,7 @@ module.exports = {
           category_id: 4,
           name: 'SSD Crucial MX500',
           price: 4500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             capacity: '1TB',
@@ -840,6 +901,7 @@ module.exports = {
           category_id: 4,
           name: 'SSD WD Blue SN550',
           price: 6000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             capacity: '500GB',
@@ -852,6 +914,7 @@ module.exports = {
           category_id: 4,
           name: 'HDD Toshiba P300',
           price: 3000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             capacity: '1TB',
@@ -864,6 +927,7 @@ module.exports = {
           category_id: 4,
           name: 'SSD SanDisk Ultra 3D',
           price: 3500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             capacity: '500GB',
@@ -876,6 +940,7 @@ module.exports = {
           category_id: 4,
           name: 'HDD WD Red',
           price: 5500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             capacity: '4TB',
@@ -888,6 +953,7 @@ module.exports = {
           category_id: 4,
           name: 'SSD Samsung 860 EVO',
           price: 7000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             capacity: '1TB',
@@ -900,6 +966,7 @@ module.exports = {
           name: 'Corsair RM750x',
           category_id: 6,
           price: 7990,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Power: '750W',
@@ -913,6 +980,7 @@ module.exports = {
           name: 'EVGA SuperNOVA 650 G3',
           category_id: 6,
           price: 6490,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Power: '650W',
@@ -926,6 +994,7 @@ module.exports = {
           name: 'Seasonic Focus GX-850',
           category_id: 6,
           price: 10990,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Power: '850W',
@@ -939,6 +1008,7 @@ module.exports = {
           name: 'Thermaltake Toughpower GF1 750W',
           category_id: 6,
           price: 8590,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Power: '750W',
@@ -952,6 +1022,7 @@ module.exports = {
           name: 'Cooler Master MWE Gold 650',
           category_id: 6,
           price: 6990,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Power: '650W',
@@ -965,6 +1036,7 @@ module.exports = {
           name: 'be quiet! Straight Power 11 650W',
           category_id: 6,
           price: 8490,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Power: '650W',
@@ -978,6 +1050,7 @@ module.exports = {
           name: 'FSP Hydro G PRO 750W',
           category_id: 6,
           price: 7790,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Power: '750W',
@@ -991,6 +1064,7 @@ module.exports = {
           name: 'Antec Earthwatts Gold Pro 750W',
           category_id: 6,
           price: 7590,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Power: '750W',
@@ -1004,6 +1078,7 @@ module.exports = {
           name: 'Gigabyte P750GM',
           category_id: 6,
           price: 6690,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Power: '750W',
@@ -1017,6 +1092,7 @@ module.exports = {
           name: 'SilverStone Strider Gold S 750W',
           category_id: 6,
           price: 8990,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Power: '750W',
@@ -1030,6 +1106,7 @@ module.exports = {
           name: 'Corsair Carbide Series 275R',
           category_id: 7,
           price: 5500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Form Factor': 'ATX',
@@ -1043,6 +1120,7 @@ module.exports = {
           name: 'NZXT H510',
           category_id: 7,
           price: 4500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Form Factor': 'ATX, Micro-ATX, Mini-ITX',
@@ -1057,6 +1135,7 @@ module.exports = {
           name: 'Cooler Master MasterBox Q300L',
           category_id: 7,
           price: 3000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Form Factor': 'Micro-ATX, Mini-ITX',
@@ -1070,6 +1149,7 @@ module.exports = {
           name: 'Fractal Design Meshify C',
           category_id: 7,
           price: 6500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Form Factor': 'ATX, Micro-ATX, Mini-ITX',
@@ -1083,6 +1163,7 @@ module.exports = {
           name: 'Phanteks Eclipse P400A',
           category_id: 7,
           price: 5000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Form Factor': 'ATX, Micro-ATX, Mini-ITX',
@@ -1096,6 +1177,7 @@ module.exports = {
           name: 'Lian Li PC-O11 Dynamic',
           category_id: 7,
           price: 8500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Form Factor': 'ATX, EATX, Micro-ATX',
@@ -1109,6 +1191,7 @@ module.exports = {
           name: 'Thermaltake Core P3',
           category_id: 7,
           price: 4000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Form Factor': 'ATX, Micro-ATX, Mini-ITX',
@@ -1122,6 +1205,7 @@ module.exports = {
           name: 'be quiet! Pure Base 500DX',
           category_id: 7,
           price: 6000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Form Factor': 'ATX, Micro-ATX, Mini-ITX',
@@ -1136,6 +1220,7 @@ module.exports = {
           name: 'SilverStone RL06',
           category_id: 7,
           price: 3500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Form Factor': 'ATX, Micro-ATX',
@@ -1149,6 +1234,7 @@ module.exports = {
           name: 'Deepcool Matrexx 55',
           category_id: 7,
           price: 2500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Form Factor': 'ATX, Micro-ATX, Mini-ITX',
@@ -1162,6 +1248,7 @@ module.exports = {
           name: 'Noctua NH-D15',
           category_id: 8,
           price: 9200,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Compatibility':
@@ -1176,6 +1263,7 @@ module.exports = {
           name: 'be quiet! Dark Rock Pro 4',
           category_id: 8,
           price: 7600,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Compatibility':
@@ -1190,6 +1278,7 @@ module.exports = {
           name: 'Cooler Master MasterLiquid ML240L RGB',
           category_id: 8,
           price: 4200,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Compatibility':
@@ -1204,6 +1293,7 @@ module.exports = {
           name: 'Arctic Freezer 34 eSports DUO',
           category_id: 8,
           price: 2500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Compatibility': 'Intel 115X, 2011-3, 2066, AMD AM4',
@@ -1217,6 +1307,7 @@ module.exports = {
           name: 'Thermaltake Floe Riing RGB 240 TT Premium Edition',
           category_id: 8,
           price: 5300,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Compatibility':
@@ -1231,6 +1322,7 @@ module.exports = {
           name: 'Corsair H100i RGB PLATINUM SE',
           category_id: 8,
           price: 7100,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Compatibility':
@@ -1245,6 +1337,7 @@ module.exports = {
           name: 'NZXT Kraken X62',
           category_id: 8,
           price: 7800,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Compatibility':
@@ -1259,6 +1352,7 @@ module.exports = {
           name: 'Deepcool GAMMAXX 400 V2',
           category_id: 8,
           price: 1500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Compatibility':
@@ -1273,6 +1367,7 @@ module.exports = {
           name: 'CRYORIG H7',
           category_id: 8,
           price: 3200,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Compatibility':
@@ -1287,6 +1382,7 @@ module.exports = {
           name: 'Cooler Master Hyper 212 RGB Black Edition',
           category_id: 8,
           price: 2800,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Compatibility':
@@ -1301,6 +1397,7 @@ module.exports = {
           name: 'Cooler Master MasterLiquid ML240R RGB',
           category_id: 9,
           price: 6500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Compatibility':
@@ -1315,6 +1412,7 @@ module.exports = {
           name: 'Corsair Hydro Series H100i RGB Platinum',
           category_id: 9,
           price: 8500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Compatibility':
@@ -1329,6 +1427,7 @@ module.exports = {
           name: 'NZXT Kraken X62 Rev 2',
           category_id: 9,
           price: 9800,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Compatibility':
@@ -1343,6 +1442,7 @@ module.exports = {
           name: 'EVGA CLC 280',
           category_id: 9,
           price: 7600,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Compatibility':
@@ -1357,6 +1457,7 @@ module.exports = {
           name: 'Thermaltake Floe Riing RGB 360 TT Premium Edition',
           category_id: 9,
           price: 11000,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Compatibility':
@@ -1371,6 +1472,7 @@ module.exports = {
           name: 'Deepcool Captain 240EX RGB',
           category_id: 9,
           price: 5500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Compatibility':
@@ -1385,6 +1487,7 @@ module.exports = {
           name: 'Cooler Master MasterLiquid ML360R RGB',
           category_id: 9,
           price: 9500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Compatibility':
@@ -1399,6 +1502,7 @@ module.exports = {
           name: 'NZXT Kraken X53',
           category_id: 9,
           price: 5800,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Compatibility':
@@ -1413,6 +1517,7 @@ module.exports = {
           name: 'Corsair iCUE H150i ELITE CAPELLIX',
           category_id: 9,
           price: 11500,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Compatibility':
@@ -1427,6 +1532,7 @@ module.exports = {
           name: 'Thermaltake Water 3.0 ARGB Sync',
           category_id: 9,
           price: 4200,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             'Socket Compatibility':
@@ -1441,6 +1547,7 @@ module.exports = {
           name: 'Creative Sound Blaster Z',
           category_id: 10,
           price: 5890,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Channels: '5.1',
@@ -1455,6 +1562,7 @@ module.exports = {
           name: 'ASUS Xonar Essence STX II',
           category_id: 10,
           price: 12990,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Channels: '7.1',
@@ -1469,6 +1577,7 @@ module.exports = {
           name: 'Focusrite Scarlett 2i2',
           category_id: 10,
           price: 7990,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Channels: '2',
@@ -1482,6 +1591,7 @@ module.exports = {
           name: 'M-Audio AIR 192|4',
           category_id: 10,
           price: 4990,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Channels: '2',
@@ -1495,6 +1605,7 @@ module.exports = {
           name: 'Behringer U-Phoria UM2',
           category_id: 10,
           price: 2490,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Channels: '2',
@@ -1507,6 +1618,7 @@ module.exports = {
           name: 'ESI MAYA44 USB+',
           category_id: 10,
           price: 6990,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Channels: '4',
@@ -1519,6 +1631,7 @@ module.exports = {
           name: 'Roland UA-1010 Octa-Capture',
           category_id: 10,
           price: 29990,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Channels: '10',
@@ -1532,6 +1645,7 @@ module.exports = {
           name: 'RME Fireface UC',
           category_id: 10,
           price: 35990,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Channels: '36',
@@ -1545,6 +1659,7 @@ module.exports = {
           name: 'Presonus AudioBox USB 96',
           category_id: 10,
           price: 3590,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Channels: '2',
@@ -1557,6 +1672,7 @@ module.exports = {
           name: 'Steinberg UR22mkII',
           category_id: 10,
           price: 6990,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Channels: '2',
@@ -1570,6 +1686,7 @@ module.exports = {
           name: 'Avid Pro Tools Carbon',
           category_id: 10,
           price: 369990,
+          order_count: randomOrderCount(),
           img: '',
           description: JSON.stringify({
             Channels: '25',
