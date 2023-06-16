@@ -1,7 +1,8 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
-import { StateType, ItemType } from "../../types/catalogTypes"
+import { ItemsType } from "../../types/favTypes"
 
-const initialState: ItemType = {
+
+const initialState: ItemsType = {
     items: []
 }
 
@@ -9,15 +10,15 @@ export const favSlice = createSlice({
     name: 'favourites',
     initialState,
     reducers: {
-           setItems: (state, action) => ({
+           setFavs: (state, action) => ({
             ...state,
-            items: action.payload
-           })
-           
-           
-    }
+            items: action.payload,
+           }),
+           deleteFavs: (state, action) => {
+            state.items = state.items.filter((item)=> item.id !== action.payload)    
+    }}
 })
 
-export const {setItems} = favSlice.actions
+export const {setFavs, deleteFavs} = favSlice.actions
 
 export default favSlice.reducer
