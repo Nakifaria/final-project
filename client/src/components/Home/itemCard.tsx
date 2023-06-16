@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { ICategory, IItem } from '../../redux/slices/items.slice';
 import { ReactSVG } from 'react-svg';
-import { SVGComponent } from '../Svg/svgComponent';
+import { SVGComponent } from '../Svg/SVGComponent';
 
 export interface ICard {
   item: IItem;

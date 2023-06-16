@@ -1,13 +1,13 @@
-import { KeyboardEvent, MouseEvent, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { KeyboardEvent, MouseEvent, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
-import { Modal } from '../Modal/Modal';
-import { Auth } from '../Auth/Auth';
+import { Modal } from "../Modal/Modal";
+import { Auth } from "../Auth/Auth";
 
-import 'react-toastify/dist/ReactToastify.css';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store/store';
-import { SVGComponent } from '../Svg/svgComponent';
+import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store/store";
+import { SVGComponent } from "../Svg/SVGComponent";
 
 export const Searchbar = () => {
   const [showModal, setShowModal] = useState(false);
@@ -24,28 +24,28 @@ export const Searchbar = () => {
 
     const { id } = event.target;
 
-    if (id === 'colseModal') {
+    if (id === "colseModal") {
       setShowModal(false);
     }
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === 'Tab' && disableTabFocus) {
+    if (event.key === "Tab" && disableTabFocus) {
       event.preventDefault();
     }
   };
 
   const backHome = () => {
-    if (pathname === '/') {
+    if (pathname === "/") {
       window.scroll(0, 0);
     } else {
-      navigate('/');
+      navigate("/");
     }
   };
 
   const profile = () => {
     if (isAuth) {
-      navigate('/profile');
+      navigate("/profile");
     } else {
       setShowModal(true);
     }
@@ -60,7 +60,7 @@ export const Searchbar = () => {
           </button>
           <button
             onClick={() => {
-              navigate('/catalog');
+              navigate("/catalog");
             }}
             className="btn uppercase w-1/2 grow"
           >
@@ -89,14 +89,14 @@ export const Searchbar = () => {
           <button
             className="btn w-1/4 hidden md:flex lg:flex justify-center"
             onClick={() => {
-              navigate('/favorites');
+              navigate("/favorites");
             }}
           >
             <SVGComponent svgName="favourite" />
           </button>
           <button
             onClick={() => {
-              navigate('/cart');
+              navigate("/cart");
             }}
             className="btn w-1/4 hidden md:flex lg:flex justify-center"
           >
