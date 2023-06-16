@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/hook';
 import { setCategory } from '../../redux/slices/catalogSlice';
 import { RootState } from '../../redux/store/store';
 import { ReactSVG } from 'react-svg';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import { Dropdown } from 'flowbite-react';
 
 export const CategoryCatalog = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [priceData, setFormData] = useState({ low: '', high: '' });
-//   const [lowPrice, setLowPrice] = useState('');
-//   const [highPrice, setHighPrice] = useState('');
+  const [sortOption, setSortOption] = useState('')
+
 
   const navigate = useNavigate()
   const dispatch = useAppDispatch();
@@ -37,21 +37,26 @@ export const CategoryCatalog = () => {
     
   const categoryItems = useAppSelector(
     (state: RootState) => state.catalog.category)
-    console.log(categoryItems);
+    // console.log(categoryItems);
 
     const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setFormData({...priceData, [e.target.name]: e.target.value});
     }
 
     const submitHandler = () => {
-        console.log(priceData);
-        
+        // console.log(priceData);
     if (priceData.low && priceData.high) {
     const newCategoryItems = categoryItems.filter((item) => (item.price >= priceData.low && item.price <= priceData.high));
     dispatch(setCategory(newCategoryItems));
-    console.log(newCategoryItems);
+    // console.log(newCategoryItems);
     }}
 
+    if (sortOption === 'popularity') {
+        const popularCatalog = categoryItems.order_count.sort((a,b) => (a-b))
+        console.log(popularCatalog);
+        
+    }
+    
 
     if (isLoading) {
   return (
@@ -77,22 +82,23 @@ export const CategoryCatalog = () => {
 </button>
 
 
-<Dropdown color="light"
-      label="Dropdown button"
-    >
-      <Dropdown.Item>
-        Dashboard
-      </Dropdown.Item>
-      <Dropdown.Item>
-        Settings
-      </Dropdown.Item>
-      <Dropdown.Item>
-        Earnings
-      </Dropdown.Item>
-      <Dropdown.Item>
-        Sign out
-      </Dropdown.Item>
-    </Dropdown>
+<Dropdown color="light" label="Сортировка">
+            <Dropdown.Item onClick={() => setSortOption('popularity')}>
+              По популярности
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => setSortOption('priceLow')}>
+              По цене (сначала дешевле)
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => setSortOption('priceHigh')}>
+              По цене (сначала дороже)
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => setSortOption('nameAsc')}>
+              По названию (А-Я)
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => setSortOption('nameDesc')}>
+              По названию (Я-А)
+            </Dropdown.Item>
+          </Dropdown>
 </div>
       <div className=" mx-auto max-w-screen-xl mt-10 grid  group bg-white shadow-xl shadow-neutral-100 border ">
         <ul role="list" className="divide-y divide-gray-100">
