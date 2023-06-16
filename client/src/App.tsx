@@ -15,6 +15,7 @@ import { loadItems } from './redux/thunk/items.action';
 import { Modal } from './components/Modal/Modal';
 import PacmanLoader from 'react-spinners/PacmanLoader';
 function App() {
+  function App() {
     const dispatch = useDispatch();
   
     const loading = useSelector((state: RootState) => state.loaderSlice.load);
@@ -35,8 +36,8 @@ function App() {
             <main className="max-w-screen-xl mx-auto">
               <Routes>
                 <Route path="catalog" element={<Catalog />} />
-                <Route path="category" element={<CategoryCatalog />} />
-                <Route path="product" element={<ItemPage />} />
+                <Route path="category/:catId" element={<CategoryCatalog />} />
+                <Route path="product/:prodId" element={<ItemPage />} />
                 <Route path="configurator" element={<Configurator />} />
                 <Route path="favorites" element={<Favorites />} />
                 <Route path="/" element={<Home />} />
@@ -54,4 +55,5 @@ function App() {
   
     );
   }
+}
   export default App;

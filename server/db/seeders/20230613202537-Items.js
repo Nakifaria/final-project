@@ -1,4 +1,5 @@
 'use strict';
+const { faker } = require('@faker-js/faker');
 
 const randomOrderCount = () => {
   return Math.round(Math.random() * 100);
@@ -10,6 +11,22 @@ module.exports = {
     await queryInterface.bulkInsert(
       'Items',
       [
+        {
+          name: 'Cooler Master MasterLiquid ML240R RGB',
+          category_id: 9,
+          price: 6500,
+          order_count: randomOrderCount(),
+          img: '',
+          description: JSON.stringify({
+            'Socket Compatibility':
+              'Intel LGA 2066/2011-v3/2011/1200/1151/1150/1155/1366 and AMD AM4/AM3+/AM3/AM2+/AM2/FM2+/FM2/FM1',
+            'Radiator Size': '240mm',
+            'Fan Speed': '650 - 2000 RPM',
+            'Noise Level': '6 - 30 dBA',
+            'RGB Lighting': 'Yes',
+          }),
+          createdAt: faker.date.anytime(),
+        },
         {
           name: 'NVIDIA GeForce RTX 3080',
           category_id: 5,
@@ -30,6 +47,37 @@ module.exports = {
             },
             'Recommended Power Supply': '750W',
           }),
+          createdAt: faker.date.anytime(),
+        },
+        {
+          name: 'Avid Pro Tools Carbon',
+          category_id: 10,
+          price: 369990,
+          order_count: randomOrderCount(),
+          img: '',
+          description: JSON.stringify({
+            Channels: '25',
+            'Max Sample Rate': '192 kHz',
+            Interface: 'Thunderbolt 3',
+            'Bit Depth': '24-bit',
+            'DAC (Digital-to-Analog Converter)': '24-bit/192 kHz',
+          }),
+          createdAt: faker.date.anytime(),
+        },
+        {
+          name: 'Intel Core i5-10600K',
+          category_id: 1,
+          price: 15900,
+          order_count: randomOrderCount(),
+          img: '',
+          description: JSON.stringify({
+            'Socket Type': 'LGA 1200',
+            'Cores/Threads': '6/12',
+            'Base Clock Speed': '4.1 GHz',
+            'Max Boost Clock Speed': '4.8 GHz',
+            TDP: '125W',
+          }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'AMD Radeon RX 6900 XT',
@@ -51,6 +99,7 @@ module.exports = {
             },
             'Recommended Power Supply': '850W',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'NVIDIA GeForce RTX 3070',
@@ -72,6 +121,7 @@ module.exports = {
             },
             'Recommended Power Supply': '650W',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'AMD Radeon RX 6800 XT',
@@ -93,6 +143,7 @@ module.exports = {
             },
             'Recommended Power Supply': '750W',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'NVIDIA GeForce RTX 3060 Ti',
@@ -114,6 +165,7 @@ module.exports = {
             },
             'Recommended Power Supply': '600W',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'AMD Radeon RX 6700 XT',
@@ -135,6 +187,7 @@ module.exports = {
             },
             'Recommended Power Supply': '650W',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'NVIDIA GeForce RTX 2080 Ti',
@@ -156,6 +209,7 @@ module.exports = {
             },
             'Recommended Power Supply': '650W',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'AMD Radeon RX 5700 XT',
@@ -177,6 +231,7 @@ module.exports = {
             },
             'Recommended Power Supply': '600W',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'NVIDIA GeForce GTX 1660 Super',
@@ -198,6 +253,7 @@ module.exports = {
             },
             'Recommended Power Supply': '450W',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'AMD Radeon RX 5600 XT',
@@ -219,6 +275,7 @@ module.exports = {
             },
             'Recommended Power Supply': '550W',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'NVIDIA GeForce GTX 1650 Super',
@@ -240,6 +297,7 @@ module.exports = {
             },
             'Recommended Power Supply': '350W',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'AMD Radeon RX 5500 XT',
@@ -261,6 +319,7 @@ module.exports = {
             },
             'Recommended Power Supply': '450W',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'ASUS ROG Strix X570-E Gaming',
@@ -276,6 +335,7 @@ module.exports = {
             'PCI Express Slots': '3 x16, 2 x1',
             'USB Ports': '12 x USB 3.2 Gen 2, 8 x USB 3.2 Gen 1',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'GIGABYTE X570 AORUS Elite',
@@ -291,6 +351,7 @@ module.exports = {
             'PCI Express Slots': '2 x16, 1 x4, 3 x1',
             'USB Ports': '8 x USB 3.2 Gen 2, 6 x USB 2.0',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'MSI MPG B550 Gaming Plus',
@@ -306,6 +367,7 @@ module.exports = {
             'PCI Express Slots': '2 x16, 3 x1',
             'USB Ports': '6 x USB 3.2 Gen 1, 6 x USB 2.0',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'ASRock B550M-ITX/ac',
@@ -321,6 +383,7 @@ module.exports = {
             'PCI Express Slots': '1 x16',
             'USB Ports': '6 x USB 3.2 Gen 1, 6 x USB 2.0',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'ASUS TUF Gaming B550-PLUS',
@@ -336,6 +399,7 @@ module.exports = {
             'PCI Express Slots': '2 x16, 3 x1',
             'USB Ports': '6 x USB 3.2 Gen 2, 6 x USB 2.0',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'GIGABYTE B450 AORUS Elite',
@@ -351,6 +415,7 @@ module.exports = {
             'PCI Express Slots': '1 x16, 1 x4, 2 x1',
             'USB Ports': '6 x USB 3.1 Gen 1, 8 x USB 2.0',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'ASRock B450M PRO4',
@@ -366,6 +431,7 @@ module.exports = {
             'PCI Express Slots': '1 x16, 1 x4, 1 x1',
             'USB Ports': '6 x USB 3.1 Gen 1, 8 x USB 2.0',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'MSI B450 TOMAHAWK MAX',
@@ -381,6 +447,7 @@ module.exports = {
             'PCI Express Slots': '1 x16, 1 x4, 4 x1',
             'USB Ports': '6 x USB 3.2 Gen 1, 6 x USB 2.0',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'ASUS PRIME B450-PLUS',
@@ -396,6 +463,7 @@ module.exports = {
             'PCI Express Slots': '1 x16, 2 x4, 3 x1',
             'USB Ports': '6 x USB 3.1 Gen 1, 8 x USB 2.0',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'GIGABYTE B365M DS3H',
@@ -411,6 +479,7 @@ module.exports = {
             'PCI Express Slots': '1 x16, 2 x1',
             'USB Ports': '4 x USB 3.1 Gen 1, 8 x USB 2.0',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Intel Core i9-9900K',
@@ -425,6 +494,7 @@ module.exports = {
             'Max Boost Clock Speed': '5.0 GHz',
             TDP: '95W',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'AMD Ryzen 7 5800X',
@@ -439,6 +509,7 @@ module.exports = {
             'Max Boost Clock Speed': '4.7 GHz',
             TDP: '105W',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Intel Core i7-10700K',
@@ -453,6 +524,7 @@ module.exports = {
             'Max Boost Clock Speed': '5.1 GHz',
             TDP: '125W',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'AMD Ryzen 5 5600X',
@@ -467,6 +539,7 @@ module.exports = {
             'Max Boost Clock Speed': '4.6 GHz',
             TDP: '65W',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Intel Core i5-11600K',
@@ -481,6 +554,7 @@ module.exports = {
             'Max Boost Clock Speed': '4.9 GHz',
             TDP: '125W',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'AMD Ryzen 9 5900X',
@@ -495,6 +569,7 @@ module.exports = {
             'Max Boost Clock Speed': '4.8 GHz',
             TDP: '105W',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Intel Core i7-11700K',
@@ -509,6 +584,7 @@ module.exports = {
             'Max Boost Clock Speed': '5.0 GHz',
             TDP: '125W',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'AMD Ryzen 7 3700X',
@@ -523,20 +599,7 @@ module.exports = {
             'Max Boost Clock Speed': '4.4 GHz',
             TDP: '65W',
           }),
-        },
-        {
-          name: 'Intel Core i5-10600K',
-          category_id: 1,
-          price: 15900,
-          order_count: randomOrderCount(),
-          img: '',
-          description: JSON.stringify({
-            'Socket Type': 'LGA 1200',
-            'Cores/Threads': '6/12',
-            'Base Clock Speed': '4.1 GHz',
-            'Max Boost Clock Speed': '4.8 GHz',
-            TDP: '125W',
-          }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'AMD Ryzen 5 3600X',
@@ -551,6 +614,7 @@ module.exports = {
             'Max Boost Clock Speed': '4.4 GHz',
             TDP: '95W',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Corsair Vengeance LPX 16GB (2 x 8GB) DDR4 3200MHz',
@@ -565,6 +629,7 @@ module.exports = {
             'CAS Latency': '16',
             Voltage: '1.35V',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'G.Skill Trident Z RGB 32GB (2 x 16GB) DDR4 3600MHz',
@@ -579,6 +644,7 @@ module.exports = {
             'CAS Latency': '18',
             Voltage: '1.35V',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Crucial Ballistix 16GB (2 x 8GB) DDR4 3000MHz',
@@ -593,6 +659,7 @@ module.exports = {
             'CAS Latency': '15',
             Voltage: '1.35V',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Kingston HyperX Fury RGB 16GB (2 x 8GB) DDR4 3200MHz',
@@ -607,6 +674,7 @@ module.exports = {
             'CAS Latency': '16',
             Voltage: '1.35V',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Team T-Force Delta RGB 32GB (2 x 16GB) DDR4 3200MHz',
@@ -621,6 +689,7 @@ module.exports = {
             'CAS Latency': '16',
             Voltage: '1.35V',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Corsair Vengeance RGB Pro 32GB (2 x 16GB) DDR4 3600MHz',
@@ -635,6 +704,7 @@ module.exports = {
             'CAS Latency': '18',
             Voltage: '1.35V',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'G.Skill Ripjaws V 16GB (2 x 8GB) DDR4 3200MHz',
@@ -649,6 +719,7 @@ module.exports = {
             'CAS Latency': '16',
             Voltage: '1.35V',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Crucial Ballistix MAX 32GB (2 x 16GB) DDR4 4000MHz',
@@ -663,6 +734,7 @@ module.exports = {
             'CAS Latency': '19',
             Voltage: '1.35V',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Kingston HyperX Fury 16GB (2 x 8GB) DDR4 2666MHz',
@@ -677,6 +749,7 @@ module.exports = {
             'CAS Latency': '16',
             Voltage: '1.2V',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Team T-Force Vulcan Z 32GB (2 x 16GB) DDR4 3000MHz',
@@ -691,6 +764,7 @@ module.exports = {
             'CAS Latency': '16',
             Voltage: '1.35V',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Corsair Vengeance LPX 16GB (2 x 8GB) DDR4 3200MHz',
@@ -705,6 +779,7 @@ module.exports = {
             'CAS Latency': '16',
             Voltage: '1.35V',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'G.Skill Trident Z RGB 32GB (2 x 16GB) DDR4 3600MHz',
@@ -719,6 +794,7 @@ module.exports = {
             'CAS Latency': '18',
             Voltage: '1.35V',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Crucial Ballistix 16GB (2 x 8GB) DDR4 3000MHz',
@@ -733,6 +809,7 @@ module.exports = {
             'CAS Latency': '15',
             Voltage: '1.35V',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Kingston HyperX Fury RGB 16GB (2 x 8GB) DDR4 3200MHz',
@@ -747,6 +824,7 @@ module.exports = {
             'CAS Latency': '16',
             Voltage: '1.35V',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Team T-Force Delta RGB 32GB (2 x 16GB) DDR4 3200MHz',
@@ -761,6 +839,7 @@ module.exports = {
             'CAS Latency': '16',
             Voltage: '1.35V',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Corsair Vengeance RGB Pro 32GB (2 x 16GB) DDR4 3600MHz',
@@ -775,6 +854,7 @@ module.exports = {
             'CAS Latency': '18',
             Voltage: '1.35V',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'G.Skill Ripjaws V 16GB (2 x 8GB) DDR4 3200MHz',
@@ -789,6 +869,7 @@ module.exports = {
             'CAS Latency': '16',
             Voltage: '1.35V',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Crucial Ballistix MAX 32GB (2 x 16GB) DDR4 4000MHz',
@@ -803,6 +884,7 @@ module.exports = {
             'CAS Latency': '19',
             Voltage: '1.35V',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Kingston HyperX Fury 16GB (2 x 8GB) DDR4 2666MHz',
@@ -817,6 +899,7 @@ module.exports = {
             'CAS Latency': '16',
             Voltage: '1.2V',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Team T-Force Vulcan Z 32GB (2 x 16GB) DDR4 3000MHz',
@@ -831,6 +914,7 @@ module.exports = {
             'CAS Latency': '16',
             Voltage: '1.35V',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           category_id: 4,
@@ -844,6 +928,7 @@ module.exports = {
             form_factor: 'M.2 2280',
             speed: 'Read up to 2200MB/s, Write up to 2000MB/s',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           category_id: 4,
@@ -857,6 +942,7 @@ module.exports = {
             form_factor: '3.5-inch',
             speed: '7200 RPM',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           category_id: 4,
@@ -870,6 +956,7 @@ module.exports = {
             form_factor: 'M.2 2280',
             speed: 'Read up to 3500MB/s, Write up to 3300MB/s',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           category_id: 4,
@@ -883,6 +970,7 @@ module.exports = {
             form_factor: '3.5-inch',
             speed: '5400 RPM',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           category_id: 4,
@@ -896,6 +984,7 @@ module.exports = {
             form_factor: '2.5-inch',
             speed: 'Read up to 560MB/s, Write up to 510MB/s',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           category_id: 4,
@@ -909,6 +998,7 @@ module.exports = {
             form_factor: 'M.2 2280',
             speed: 'Read up to 2400MB/s, Write up to 1750MB/s',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           category_id: 4,
@@ -922,6 +1012,7 @@ module.exports = {
             form_factor: '3.5-inch',
             speed: '7200 RPM',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           category_id: 4,
@@ -935,6 +1026,7 @@ module.exports = {
             form_factor: '2.5-inch',
             speed: 'Read up to 560MB/s, Write up to 530MB/s',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           category_id: 4,
@@ -948,6 +1040,7 @@ module.exports = {
             form_factor: '3.5-inch',
             speed: '5400 RPM',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           category_id: 4,
@@ -961,6 +1054,7 @@ module.exports = {
             form_factor: '2.5-inch',
             speed: 'Read up to 550MB/s, Write up to 520MB/s',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Corsair RM750x',
@@ -975,6 +1069,7 @@ module.exports = {
             'Fan Size': '135mm',
             Connectors: '1 x ATX, 2 x EPS, 4 x PCIe, 8 x SATA, 8 x Molex',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'EVGA SuperNOVA 650 G3',
@@ -989,6 +1084,7 @@ module.exports = {
             'Fan Size': '130mm',
             Connectors: '1 x ATX, 2 x EPS, 4 x PCIe, 9 x SATA, 6 x Molex',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Seasonic Focus GX-850',
@@ -1003,6 +1099,7 @@ module.exports = {
             'Fan Size': '120mm',
             Connectors: '1 x ATX, 2 x EPS, 6 x PCIe, 10 x SATA, 5 x Molex',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Thermaltake Toughpower GF1 750W',
@@ -1017,6 +1114,7 @@ module.exports = {
             'Fan Size': '140mm',
             Connectors: '1 x ATX, 2 x EPS, 4 x PCIe, 9 x SATA, 6 x Molex',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Cooler Master MWE Gold 650',
@@ -1031,6 +1129,7 @@ module.exports = {
             'Fan Size': '120mm',
             Connectors: '1 x ATX, 1 x EPS, 2 x PCIe, 6 x SATA, 3 x Molex',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'be quiet! Straight Power 11 650W',
@@ -1045,6 +1144,7 @@ module.exports = {
             'Fan Size': '135mm',
             Connectors: '1 x ATX, 2 x EPS, 4 x PCIe, 9 x SATA, 6 x Molex',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'FSP Hydro G PRO 750W',
@@ -1059,6 +1159,7 @@ module.exports = {
             'Fan Size': '135mm',
             Connectors: '1 x ATX, 2 x EPS, 4 x PCIe, 8 x SATA, 8 x Molex',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Antec Earthwatts Gold Pro 750W',
@@ -1073,6 +1174,7 @@ module.exports = {
             'Fan Size': '120mm',
             Connectors: '1 x ATX, 2 x EPS, 4 x PCIe, 8 x SATA, 6 x Molex',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Gigabyte P750GM',
@@ -1087,6 +1189,7 @@ module.exports = {
             'Fan Size': '120mm',
             Connectors: '1 x ATX, 2 x EPS, 4 x PCIe, 8 x SATA, 5 x Molex',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'SilverStone Strider Gold S 750W',
@@ -1101,6 +1204,7 @@ module.exports = {
             'Fan Size': '120mm',
             Connectors: '1 x ATX, 2 x EPS, 4 x PCIe, 8 x SATA, 6 x Molex',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Corsair Carbide Series 275R',
@@ -1115,6 +1219,7 @@ module.exports = {
             'Expansion Slots': '7',
             'Front I/O Ports': '2 x USB 3.0, Audio In/Out',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'NZXT H510',
@@ -1130,6 +1235,7 @@ module.exports = {
             'Front I/O Ports':
               '1 x USB 3.1 Gen 2 Type-C, 1 x USB 3.1 Gen 1 Type-A, 1 x USB 3.0 Type-A, 1 x Audio/Mic',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Cooler Master MasterBox Q300L',
@@ -1144,6 +1250,7 @@ module.exports = {
             'Expansion Slots': '4',
             'Front I/O Ports': '2 x USB 3.0, Audio In/Out',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Fractal Design Meshify C',
@@ -1158,6 +1265,7 @@ module.exports = {
             'Expansion Slots': '7',
             'Front I/O Ports': '2 x USB 3.0, Audio In/Out',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Phanteks Eclipse P400A',
@@ -1172,6 +1280,7 @@ module.exports = {
             'Expansion Slots': '7',
             'Front I/O Ports': '2 x USB 3.0, 1 x USB 3.1 Type-C, Audio In/Out',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Lian Li PC-O11 Dynamic',
@@ -1186,6 +1295,7 @@ module.exports = {
             'Expansion Slots': '8',
             'Front I/O Ports': '2 x USB 3.0, 1 x USB 3.1 Type-C, HD Audio',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Thermaltake Core P3',
@@ -1200,6 +1310,7 @@ module.exports = {
             'Expansion Slots': '8',
             'Front I/O Ports': '2 x USB 3.0, 2 x USB 2.0, HD Audio',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'be quiet! Pure Base 500DX',
@@ -1215,6 +1326,7 @@ module.exports = {
             'Front I/O Ports':
               '1 x USB 3.1 Gen 2 Type-C, 2 x USB 3.0, HD Audio',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'SilverStone RL06',
@@ -1229,6 +1341,7 @@ module.exports = {
             'Expansion Slots': '7',
             'Front I/O Ports': '2 x USB 3.0, Audio In/Out',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Deepcool Matrexx 55',
@@ -1243,6 +1356,7 @@ module.exports = {
             'Expansion Slots': '7',
             'Front I/O Ports': '2 x USB 3.0, Audio In/Out',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Noctua NH-D15',
@@ -1258,6 +1372,7 @@ module.exports = {
             'Noise Level': '24.6 dBA',
             Height: '165 mm',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'be quiet! Dark Rock Pro 4',
@@ -1273,6 +1388,7 @@ module.exports = {
             'Noise Level': '24.3 dBA',
             Height: '162.8 mm',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Cooler Master MasterLiquid ML240L RGB',
@@ -1288,6 +1404,7 @@ module.exports = {
             'Noise Level': '6 - 30 dBA',
             Height: '157 mm',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Arctic Freezer 34 eSports DUO',
@@ -1302,6 +1419,7 @@ module.exports = {
             'Noise Level': '0.3 Sone',
             Height: '157 mm',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Thermaltake Floe Riing RGB 240 TT Premium Edition',
@@ -1317,6 +1435,7 @@ module.exports = {
             'Noise Level': '24.7 dBA',
             Height: '270 mm',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Corsair H100i RGB PLATINUM SE',
@@ -1332,6 +1451,7 @@ module.exports = {
             'Noise Level': '37 dBA',
             Height: '277 mm',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'NZXT Kraken X62',
@@ -1347,6 +1467,7 @@ module.exports = {
             'Noise Level': '21 - 38 dBA',
             Height: '315 mm',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Deepcool GAMMAXX 400 V2',
@@ -1362,6 +1483,7 @@ module.exports = {
             'Noise Level': '27.8 dBA',
             Height: '155 mm',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'CRYORIG H7',
@@ -1377,6 +1499,7 @@ module.exports = {
             'Noise Level': '25 dBA',
             Height: '145 mm',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Cooler Master Hyper 212 RGB Black Edition',
@@ -1392,21 +1515,7 @@ module.exports = {
             'Noise Level': '26 dBA',
             Height: '159 mm',
           }),
-        },
-        {
-          name: 'Cooler Master MasterLiquid ML240R RGB',
-          category_id: 9,
-          price: 6500,
-          order_count: randomOrderCount(),
-          img: '',
-          description: JSON.stringify({
-            'Socket Compatibility':
-              'Intel LGA 2066/2011-v3/2011/1200/1151/1150/1155/1366 and AMD AM4/AM3+/AM3/AM2+/AM2/FM2+/FM2/FM1',
-            'Radiator Size': '240mm',
-            'Fan Speed': '650 - 2000 RPM',
-            'Noise Level': '6 - 30 dBA',
-            'RGB Lighting': 'Yes',
-          }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Corsair Hydro Series H100i RGB Platinum',
@@ -1422,6 +1531,7 @@ module.exports = {
             'Noise Level': '37 dBA',
             'RGB Lighting': 'Yes',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'NZXT Kraken X62 Rev 2',
@@ -1437,6 +1547,7 @@ module.exports = {
             'Noise Level': '21 - 38 dBA',
             'RGB Lighting': 'Yes',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'EVGA CLC 280',
@@ -1452,6 +1563,7 @@ module.exports = {
             'Noise Level': '16 - 39.5 dBA',
             'RGB Lighting': 'Yes',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Thermaltake Floe Riing RGB 360 TT Premium Edition',
@@ -1467,6 +1579,7 @@ module.exports = {
             'Noise Level': '19.8 - 24.7 dBA',
             'RGB Lighting': 'Yes',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Deepcool Captain 240EX RGB',
@@ -1482,6 +1595,7 @@ module.exports = {
             'Noise Level': '17.8 - 30 dBA',
             'RGB Lighting': 'Yes',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Cooler Master MasterLiquid ML360R RGB',
@@ -1497,6 +1611,7 @@ module.exports = {
             'Noise Level': '6 - 30 dBA',
             'RGB Lighting': 'Yes',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'NZXT Kraken X53',
@@ -1512,6 +1627,7 @@ module.exports = {
             'Noise Level': '21 - 36 dBA',
             'RGB Lighting': 'Yes',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Corsair iCUE H150i ELITE CAPELLIX',
@@ -1527,6 +1643,7 @@ module.exports = {
             'Noise Level': '10 - 37 dBA',
             'RGB Lighting': 'Yes',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Thermaltake Water 3.0 ARGB Sync',
@@ -1542,6 +1659,7 @@ module.exports = {
             'Noise Level': '25 dBA',
             'RGB Lighting': 'Yes',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Creative Sound Blaster Z',
@@ -1557,6 +1675,7 @@ module.exports = {
             'Audio Processor': 'Sound Core3D',
             'DAC (Digital-to-Analog Converter)': '24-bit/192 kHz',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'ASUS Xonar Essence STX II',
@@ -1572,6 +1691,7 @@ module.exports = {
             'Audio Processor': 'ASUS AV100',
             'DAC (Digital-to-Analog Converter)': '24-bit/192 kHz',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Focusrite Scarlett 2i2',
@@ -1586,6 +1706,7 @@ module.exports = {
             'Bit Depth': '24-bit',
             'DAC (Digital-to-Analog Converter)': '24-bit/192 kHz',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'M-Audio AIR 192|4',
@@ -1600,6 +1721,7 @@ module.exports = {
             'Bit Depth': '24-bit',
             'DAC (Digital-to-Analog Converter)': '24-bit/192 kHz',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Behringer U-Phoria UM2',
@@ -1613,6 +1735,7 @@ module.exports = {
             Interface: 'USB',
             'Bit Depth': '16-bit',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'ESI MAYA44 USB+',
@@ -1626,6 +1749,7 @@ module.exports = {
             Interface: 'USB',
             'Bit Depth': '24-bit',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Roland UA-1010 Octa-Capture',
@@ -1640,6 +1764,7 @@ module.exports = {
             'Bit Depth': '24-bit',
             'DAC (Digital-to-Analog Converter)': '24-bit/192 kHz',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'RME Fireface UC',
@@ -1654,6 +1779,7 @@ module.exports = {
             'Bit Depth': '24-bit',
             'DAC (Digital-to-Analog Converter)': '24-bit/192 kHz',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Presonus AudioBox USB 96',
@@ -1667,6 +1793,7 @@ module.exports = {
             Interface: 'USB',
             'Bit Depth': '24-bit',
           }),
+          createdAt: faker.date.anytime(),
         },
         {
           name: 'Steinberg UR22mkII',
@@ -1681,20 +1808,7 @@ module.exports = {
             'Bit Depth': '24-bit',
             'DAC (Digital-to-Analog Converter)': '24-bit/192 kHz',
           }),
-        },
-        {
-          name: 'Avid Pro Tools Carbon',
-          category_id: 10,
-          price: 369990,
-          order_count: randomOrderCount(),
-          img: '',
-          description: JSON.stringify({
-            Channels: '25',
-            'Max Sample Rate': '192 kHz',
-            Interface: 'Thunderbolt 3',
-            'Bit Depth': '24-bit',
-            'DAC (Digital-to-Analog Converter)': '24-bit/192 kHz',
-          }),
+          createdAt: faker.date.anytime(),
         },
       ],
       {}

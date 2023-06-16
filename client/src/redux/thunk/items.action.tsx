@@ -9,8 +9,6 @@ export const loadItems: ThunkActionCreater = () => (dispatch) => {
     .then((data) => data.json())
     .then(({ items, msg }) => {
       if (items.length !== 0) {
-        console.log(items);
-
         dispatch(setItems(items));
         dispatch(startLoad(false));
 
