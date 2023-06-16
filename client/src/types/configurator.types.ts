@@ -22,6 +22,7 @@ export type modalConfiguratorProps = {
   setPrimaryParts: React.Dispatch<React.SetStateAction<number>>;
   significance: number;
   categoryTitle: string;
+  closeModalHandler: void;
 };
 
 export interface IUser {
