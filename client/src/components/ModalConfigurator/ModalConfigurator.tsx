@@ -1,6 +1,6 @@
 import { modalConfiguratorProps } from "../../types/configurator.types";
 import { Button, Modal } from "flowbite-react";
-import { CategoryCatalog } from "../CategoryCatalog/CategoryCatalog";
+import { CategoryConfigurator } from "../CategoryConfigurator/CategoryConfigurator";
 
 function ModalConfigurator({
   openModal,
@@ -14,6 +14,8 @@ function ModalConfigurator({
   setPrimaryParts,
   significance,
   categoryTitle,
+  isLoading,
+  categoryItems,
 }: modalConfiguratorProps) {
   function ChooseHandler(id: number, significance: number): void {
     const currentCategoryIndex = choosenCategory.findIndex(
@@ -62,37 +64,43 @@ function ModalConfigurator({
     }
     setOpenModal(false);
   }
-  return (
-    <>
-      <Modal
-        dismissible
-        show={openModal === true}
-        size="7xl"
-        onClose={() => setOpenModal(false)}
-      >
-        <div className="flex items-center justify-between w-full px-4 py-4 border-b border-gray-200">
-          <div className="px-4"> {categoryTitle} </div>
-          <Button color="light" onClick={() => setOpenModal(false)}>
-            X Закрыть
-          </Button>
-        </div>
 
-        <Modal.Body>
-          <div className="space-y-6 p-6">
-            <CategoryCatalog />
+  if (isLoading) {
+    return (
+      <>
+        <Modal
+          dismissible
+          show={openModal === true}
+          size="7xl"
+          onClose={() => setOpenModal(false)}
+        >
+          <div className="flex items-center justify-between w-full px-4 py-4 border-b border-gray-200">
+            <div className="px-4"> {categoryTitle} </div>
+            <Button color="light" onClick={() => setOpenModal(false)}>
+              X Закрыть
+            </Button>
           </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            onClick={() => ChooseHandler(categoryId, significance)}
-            gradientDuoTone="tealToLime"
-            outline
-          >
-            Добавить
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </>
-  );
+
+          <Modal.Body>
+            <div className="space-y-6 p-6">
+              <CategoryConfigurator
+                categoryTitle={categoryTitle}
+                categoryItems={categoryItems}
+              />
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              onClick={() => ChooseHandler(categoryId, significance)}
+              gradientDuoTone="tealToLime"
+              outline
+            >
+              Добавить
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </>
+    );
+  }
 }
 export default ModalConfigurator;

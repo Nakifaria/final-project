@@ -1,7 +1,10 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { category, choosenCategory } from "../../types/configurator.types";
 import ModalConfigurator from "../ModalConfigurator/ModalConfigurator";
 import { Button } from "flowbite-react";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import { RootState } from "../../redux/store/store";
+import { categoryFetch } from "../../redux/thunk/category.action";
 
 function Configurator() {
   const [categoriesArr, setCategoriesArr] = useState<category[]>([]);
@@ -79,6 +82,58 @@ function Configurator() {
     setSignificance(significance);
     setCategoryTitle(categoryTitle);
   }
+
+  // -----------------------------------
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [priceData, setFormData] = useState({ low: "", high: "" });
+  // const [sortOption, setSortOption] = useState("");
+
+  const dispatch = useAppDispatch();
+
+  // const categoryData = async () => {
+  //   try {
+  //     const response = await fetch(
+  //       `http://localhost:3000/catalog/category/${catId}`
+  //     );
+
+  //     const categoryData = await response.json();
+  //     dispatch(setCategory(categoryData));
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setIsLoading(true);
+  //   }
+  // };
+
+  useEffect(() => {
+    dispatch(categoryFetch(categoryId, setIsLoading));
+  }, [categoryId]);
+
+  const categoryItems = useAppSelector(
+    (state: RootState) => state.catalog.category
+  );
+  // console.log(categoryItems);
+
+  const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...priceData, [e.target.name]: e.target.value });
+  };
+
+  // const submitHandler = () => {
+  //   // console.log(priceData);
+  //   if (priceData.low && priceData.high) {
+  //     const newCategoryItems = categoryItems.filter(
+  //       (item) => item.price >= priceData.low && item.price <= priceData.high
+  //     );
+  //     dispatch(setCategory(newCategoryItems));
+  //     // console.log(newCategoryItems);
+  //   }
+  // };
+
+  // if (sortOption === "popularity") {
+  //   const popularCatalog = categoryItems.order_count.sort((a, b) => a - b);
+  //   console.log(popularCatalog);
+  // }
 
   return (
     <>
@@ -194,6 +249,8 @@ function Configurator() {
         primaryPartsTotalAmount={primaryPartsTotalAmount}
         significance={significance}
         categoryTitle={categoryTitle}
+        isLoading={isLoading}
+        categoryItems={categoryItems}
       />
     </>
   );

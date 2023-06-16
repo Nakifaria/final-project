@@ -5,8 +5,9 @@ import { RootState } from "../../redux/store/store";
 import { ReactSVG } from "react-svg";
 import { useNavigate, useParams } from "react-router";
 import { Dropdown } from "flowbite-react";
+import { categoryFetch } from "../../redux/thunk/category.action";
 
-export const CategoryCatalog = ({ catId }: number | undefined) => {
+export const CategoryCatalog = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [priceData, setFormData] = useState({ low: "", high: "" });
   const [sortOption, setSortOption] = useState("");
@@ -15,23 +16,8 @@ export const CategoryCatalog = ({ catId }: number | undefined) => {
   const dispatch = useAppDispatch();
   const { catId } = useParams();
 
-  const categoryData = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:3000/catalog/category/${catId}`
-      );
-
-      const categoryData = await response.json();
-      dispatch(setCategory(categoryData));
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(true);
-    }
-  };
-
   useEffect(() => {
-    categoryData();
+    dispatch(categoryFetch(catId, setIsLoading));
   }, []);
 
   const categoryItems = useAppSelector(
