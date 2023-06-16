@@ -26,6 +26,7 @@ function App() {
   }, []);
 
   return (
+
     <>
       {!loading && (
         <div className="box-border">
@@ -51,6 +52,7 @@ function App() {
         </Modal>
       )}
     </>
+
   );
 }
 
