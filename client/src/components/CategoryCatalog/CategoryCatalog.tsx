@@ -8,11 +8,12 @@ import { Dropdown } from 'flowbite-react';
 
 export const CategoryCatalog = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [lowPrice, setLowPrice] = useState('');
+  const [highPrice, setHighPrice] = useState('');
+
   const navigate = useNavigate()
   const dispatch = useAppDispatch();
-  const {catId} = useParams()
-//   console.log(catId);
-  
+  const {catId} = useParams()  
 
   const categoryData = async () => {
     try {
@@ -20,7 +21,6 @@ export const CategoryCatalog = () => {
       const response = await fetch(`http://localhost:3000/catalog/category/${catId}`);
 
       const categoryData = await response.json();
-    //   console.log(categoryData['Category.title']);
       dispatch(setCategory(categoryData));
     } catch (error) {
       console.log(error);
@@ -33,10 +33,14 @@ export const CategoryCatalog = () => {
     categoryData();
   }, []);
 
+    
   const categoryItems = useAppSelector(
-    (state: RootState) => state.catalog.category
-  );
+    (state: RootState) => state.catalog.category)
     console.log(categoryItems);
+
+
+    
+
 
     if (isLoading) {
   return (
@@ -45,10 +49,18 @@ export const CategoryCatalog = () => {
          {categoryItems && categoryItems[0].category}
       </h1>
 <div className="mt-10">
-   {/* Цена от
-   <input onChange={} value={} name="low" type="text" className="border rounded border-black"/> 
-   до 
-    <input onChange={} value={} name="high" type="text" className="border rounded border-black"/> */}
+   Цена от
+   <input onChange={(e) => setLowPrice(e.target.value)}
+            value={lowPrice}
+            name="low"
+            type="text"
+            className="border rounded border-black"/> 
+   до
+    <input onChange={(e) => setHighPrice(e.target.value)}
+            value={highPrice}
+            name="high"
+            type="text"
+            className="border rounded border-black"/>
 <Dropdown color="light"
       label="Dropdown button"
     >
