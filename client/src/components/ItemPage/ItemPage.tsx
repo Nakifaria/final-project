@@ -2,15 +2,18 @@ import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/hook';
 import { setItem } from '../../redux/slices/catalogSlice';
 import { RootState } from '../../redux/store/store';
+import { useParams } from 'react-router-dom';
+import { ReactSVG } from 'react-svg';
 
 export const ItemPage = () => {
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
+  const {prodId} = useParams()
 
   const categoryData = async () => {
     try {
       const response = await fetch(
-        'http://localhost:3000/catalog/category/product/27'
+        `http://localhost:3000/catalog/category/product/${prodId}`
       );
       const itemData = await response.json();
       // console.log(categoryData);
@@ -44,100 +47,39 @@ export const ItemPage = () => {
               {item.name}
             </h1>
 
-            <p className="mt-4 text-gray-500 ">
+            <div className="mt-4 text-gray-500 ">
               <ul>
-                {result.map((el) => (
-                  <li>
+                {result.map((el, i) => (
+                  <li key={i}>
                     {el[0]}: {el[1]}
                   </li>
                 ))}
               </ul>
-            </p>
+            </div>
 
             <div className="mt-6">
               <h1 className="text-black-500 ">Цена: {item.price} ₽</h1>
 
               <div className="mt-3 md:flex md:items-center md:-mx-2">
-                <button className="flex justify-center w-full px-6 py-3 text-white bg-blue-500 rounded-md md:w-auto md:mx-2 focus:outline-none">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-6 h-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                    />
-                  </svg>
+              <button type="button" className="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2">
+               <ReactSVG src="cart.svg" className="w-6" />
+                В корзину
+               </button>
 
-                  <span className="mx-2">В корзину</span>
+               <button type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                  <ReactSVG src="favourite.svg" className="w-6" />
+                В избранное
                 </button>
 
-                <button className="flex justify-center w-full px-6 py-3 mt-4 text-blue-500 border border-blue-500 rounded-md md:mt-0 md:w-auto md:mx-2 focus:outline-none">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-6 h-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                    />
-                  </svg>
-
-                  <span className="mx-2">В избранное</span>
-                </button>
-
-                <button className="flex justify-center w-full px-6 py-3 mt-4 text-blue-500 border border-blue-500 rounded-md md:mt-0 md:w-auto md:mx-2 focus:outline-none">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-6 h-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                    />
-                  </svg>
-
-                  <span className="mx-2">В сравнение</span>
+                <button type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                 <ReactSVG src="sravnenie.svg" className="w-6" />
+                В сравнение
                 </button>
               </div>
             </div>
           </div>
         </div>
       </div>
-      // <div>
-      //     <h1>Название Товара</h1>
-      //     <div>
-      //         <div>
-      //             <img></img>
-      //         </div>
-      //         <div>
-      //             <p>Описание товара</p>
-      //             <p>Цена товара</p>
-      //             <a>Сравнить</a>
-      //             <a>Лайк!</a>
-      //             <a>В Корзину</a>
-      //         </div>
-      //     </div>
-      //     <div>
-      //         <h2>Характеристики</h2>
-      //         <p>Описание</p>
-      //     </div>
-      // </div>
     );
   }
 };
