@@ -2,10 +2,17 @@ import { ReactSVG } from "react-svg";
 import { Dropdown } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 
-export const CategoryConfigurator = ({ categoryTitle, categoryItems }) => {
+export const CategoryConfigurator = ({
+  categoryTitle,
+  categoryItems,
+  categoryId,
+  significance,
+  ChooseHandler,
+  setItemObj,
+}) => {
   const navigate = useNavigate();
   return (
-    <div className="mt-[30px] flex flex-col text-center">
+    <div className="mt-[30px] flex flex-col text-center w-full">
       <h1 className="text-center text-2xl font-semibold leading-7 text-gray-900">
         {categoryTitle}
       </h1>
@@ -51,14 +58,17 @@ export const CategoryConfigurator = ({ categoryTitle, categoryItems }) => {
           </Dropdown.Item>
         </Dropdown> */}
       </div>
-      <div className=" mx-auto max-w-screen-xl mt-10 grid  group bg-white shadow-xl shadow-neutral-100 border ">
-        <ul role="list" className="divide-y divide-gray-100">
+      <div className=" mt-10 bg-white shadow-xl shadow-neutral-100 border ">
+        <ul className="divide-y divide-gray-100 w-full">
           {categoryItems &&
             categoryItems.map((el) => (
-              <li key={el.id} className="flex justify-between gap-x-6 py-5">
+              <li
+                key={el.id}
+                className="flex justify-between gap-x-6 py-5 w-full"
+              >
                 <div
                   onClick={() => navigate(`/product/${el.id}`)}
-                  className="flex justify-between gap-x-6"
+                  className="flex justify-between gap-x-6 w-3/5"
                 >
                   <div className="flex-shrink-0">
                     <img
@@ -68,7 +78,7 @@ export const CategoryConfigurator = ({ categoryTitle, categoryItems }) => {
                     />
                   </div>
                   <div className="flex justify-left gap-x-4">
-                    <div className="min-w-0 flex-auto">
+                    <div className="min-w-0 flex-auto ">
                       <p className="text-sm text-center font-bold leading-6 text-gray-900">
                         {el.name}
                       </p>
@@ -82,22 +92,20 @@ export const CategoryConfigurator = ({ categoryTitle, categoryItems }) => {
                 </div>
                 <div className="sm:flex sm:items-end">
                   <button
+                    onClick={() =>
+                      ChooseHandler(
+                        categoryId,
+                        significance,
+                        el.id,
+                        el.name,
+                        el.price,
+                        setItemObj
+                      )
+                    }
                     type="button"
                     className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 "
                   >
-                    <ReactSVG src="cart.svg" className="w-6" />
-                  </button>
-                  <button
-                    type="button"
-                    className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                  >
-                    <ReactSVG src="sravnenie.svg" className="w-6" />
-                  </button>
-                  <button
-                    type="button"
-                    className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                  >
-                    <ReactSVG src="favourite.svg" className="w-6" />
+                    Добавить
                   </button>
                 </div>
               </li>
