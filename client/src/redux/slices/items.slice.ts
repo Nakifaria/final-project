@@ -8,6 +8,8 @@ export interface IItem {
   order_count: number;
   img: string;
   description: JSON;
+  createdAt: string;
+  id: number;
 }
 
 export interface ICategory {
