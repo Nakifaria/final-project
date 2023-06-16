@@ -1,7 +1,6 @@
 export const FavouriteItem = ({ id, src, price, name }) => {
     return (
         <>
-        <hr  className=""/>
         <div className="flex">
             <div>
             {name}<img src={src} />
@@ -13,6 +12,7 @@ export const FavouriteItem = ({ id, src, price, name }) => {
             <img src="https://s1.iconbird.com/ico/2013/9/452/w448h5121380477116trash.png" className="w-10 max-w-xs max-h-10" ></img>
             </div>
         </div>
+        <hr  className=""/>
         </>
     )
 }

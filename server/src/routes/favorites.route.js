@@ -7,27 +7,19 @@ const {
 
   router.get('/', async (req, res) => {
     try {
-      const favoritesData = await Item.findAll({
-        limit: 10
-    /*     where: { user: req.session.user.id }, */
-      });
-      const favorites = await favoritesData.map((el) =>
-        el.get({ plain: true })
-      );
-      res.json(favorites)
+      const items = (
+        await Favourite.findAll({
+          include: {
+            model: Item,
+          },
+          attributes: ['id'],
+        })
+      ).map((el) => el.get({ plain: true }));
+  
+      res.json([...items]);
     } catch (error) {
-      res.json(error.message);
+      res.json({ msg: error.toString() });
     }
   });
-
-  router.get('/favourites/:id', async (req, res) => {
-    try {
-        const productResult = await Item.findOne({ where: { id: req.params.id }, raw: true })
-        // console.log(productResult);
-        res.json(productResult)
-    } catch (error) {
-        console.log(error);
-    }
-})
 
   module.exports = router;
