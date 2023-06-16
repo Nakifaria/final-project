@@ -13,7 +13,8 @@ export type StateType = {
     id: number;
     name: string,
     price: number,
-    img: string
+    img: string,
+    order_count: number
   }
 
   export type ItemType = {

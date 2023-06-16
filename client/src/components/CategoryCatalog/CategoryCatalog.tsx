@@ -10,6 +10,7 @@ export const CategoryCatalog = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [priceData, setFormData] = useState({ low: '', high: '' });
   const [sortOption, setSortOption] = useState('')
+  const [dropdawnLabel, setDropdawnLabel] = useState('Сортировка')
 
 
   const navigate = useNavigate()
@@ -37,7 +38,7 @@ export const CategoryCatalog = () => {
     
   const categoryItems = useAppSelector(
     (state: RootState) => state.catalog.category)
-    // console.log(categoryItems);
+    console.log(categoryItems);
 
     const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setFormData({...priceData, [e.target.name]: e.target.value});
@@ -52,10 +53,55 @@ export const CategoryCatalog = () => {
     }}
 
     if (sortOption === 'popularity') {
-        const popularCatalog = categoryItems.order_count.sort((a,b) => (a-b))
-        console.log(popularCatalog);
-        
-    }
+         const newArr = JSON.parse(JSON.stringify(categoryItems))
+        const newCatalog = newArr.sort((a,b) => a.order_count - b.order_count)
+        dispatch(setCategory(newCatalog));
+        setSortOption('')
+        setDropdawnLabel('По популярности')
+    } else if (sortOption === 'priceLow') {
+       const newArr = JSON.parse(JSON.stringify(categoryItems))
+       const newCatalog = newArr.sort((a,b) => a.price - b.price)
+       dispatch(setCategory(newCatalog));
+       setSortOption('')
+       setDropdawnLabel('По цене (сначала дешевле)')
+   } else if (sortOption === 'priceHigh') {
+    const newArr = JSON.parse(JSON.stringify(categoryItems))
+    const newCatalog = newArr.sort((a,b) => b.price - a.price)
+    dispatch(setCategory(newCatalog));
+    setSortOption('')
+    setDropdawnLabel('По цене (сначала дороже)')
+} else if (sortOption === 'nameAsc') {
+    const newArr = JSON.parse(JSON.stringify(categoryItems))
+    const newCatalog = newArr.sort(( a, b ) => {
+        if ( a.name.toLowerCase() < b.name.toLowerCase() ){
+          return -1;
+        }
+        if ( a.name.toLowerCase() > b.name.toLowerCase() ){
+          return 1;
+        }
+        return 0;
+      }
+    )
+    console.log(newCatalog);
+    dispatch(setCategory(newCatalog));
+    setSortOption('')
+    setDropdawnLabel('По названию (A-Я)')
+} else if (sortOption === 'nameDesc') {
+    const newArr = JSON.parse(JSON.stringify(categoryItems))
+    const newCatalog = newArr.sort((a,b) => 
+    {
+        if ( a.name.toLowerCase() < b.name.toLowerCase() ){
+          return 1;
+        }
+        if ( a.name.toLowerCase() > b.name.toLowerCase() ){
+          return -1;
+        }
+        return 0;
+      })
+    dispatch(setCategory(newCatalog));
+    setSortOption('')
+    setDropdawnLabel('По названию (Я-А)')
+} 
     
 
     if (isLoading) {
@@ -82,7 +128,7 @@ export const CategoryCatalog = () => {
 </button>
 
 
-<Dropdown color="light" label="Сортировка">
+<Dropdown color="light" label={dropdawnLabel}>
             <Dropdown.Item onClick={() => setSortOption('popularity')}>
               По популярности
             </Dropdown.Item>
@@ -131,13 +177,13 @@ export const CategoryCatalog = () => {
                     type="button"
                     className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 "
                   >
-                    <ReactSVG src="cart.svg" className="w-6" />
+                    <ReactSVG src="/cart.svg" className="w-6" />
                   </button>
                   <button type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
-                  <ReactSVG src="sravnenie.svg" className="w-6" />
+                  <ReactSVG src="/sravnenie.svg" className="w-6" />
                     </button>
                   <button type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
-                  <ReactSVG src="favourite.svg" className="w-6" />
+                  <ReactSVG src="/favourite.svg" className="w-6" />
                     </button>
                 </div>
               </li>
