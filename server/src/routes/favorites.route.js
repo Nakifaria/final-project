@@ -20,4 +20,14 @@ const {
     }
   });
 
+  router.get('/favourites/:id', async (req, res) => {
+    try {
+        const productResult = await Item.findOne({ where: { id: req.params.id }, raw: true })
+        // console.log(productResult);
+        res.json(productResult)
+    } catch (error) {
+        console.log(error);
+    }
+})
+
   module.exports = router;
