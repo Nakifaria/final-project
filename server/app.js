@@ -52,9 +52,8 @@ app.use(dbCheck);
 
 app.use("/user", userRoute)
 app.use('/configurator', configuratorRoute);
-app.use('/catalog', catalogRoute)
 app.use('/favorites', favoritesRoute);
-
+app.use('/catalog', catalogRoute)
 
 app.listen(PORT, () => {
   console.log(`Server started at ${PORT}`);
