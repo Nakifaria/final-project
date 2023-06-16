@@ -5,7 +5,7 @@ import { RootState } from '../../redux/store/store';
 import { ReactSVG } from 'react-svg';
 import { useNavigate, useParams } from 'react-router';
 import { Dropdown } from 'flowbite-react';
-import { SVGComponent } from '../Svg/svgComponent';
+import { SVGComponent } from '../Svg/SVGComponent';
 
 export const CategoryCatalog = () => {
   const [isLoading, setIsLoading] = useState(false);

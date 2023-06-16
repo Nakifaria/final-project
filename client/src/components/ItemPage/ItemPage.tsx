@@ -3,8 +3,8 @@ import { useAppDispatch, useAppSelector } from '../../redux/hook';
 import { setItem } from '../../redux/slices/catalogSlice';
 import { RootState } from '../../redux/store/store';
 import { useParams } from 'react-router-dom';
-import { ReactSVG } from 'react-svg';
-import { SVGComponent } from '../Svg/svgComponent';
+import { SVGComponent } from '../Svg/SVGComponent';
+
 
 export const ItemPage = () => {
   const dispatch = useAppDispatch();

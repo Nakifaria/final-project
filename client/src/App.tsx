@@ -15,7 +15,6 @@ import { loadItems } from './redux/thunk/items.action';
 import { Modal } from './components/Modal/Modal';
 import PacmanLoader from 'react-spinners/PacmanLoader';
 function App() {
-  function App() {
     const dispatch = useDispatch();
   
     const loading = useSelector((state: RootState) => state.loaderSlice.load);
@@ -55,5 +54,4 @@ function App() {
   
     );
   }
-}
   export default App;
