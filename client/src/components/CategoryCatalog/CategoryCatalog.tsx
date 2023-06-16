@@ -16,7 +16,9 @@ export const CategoryCatalog = () => {
 
   const categoryData = async () => {
     try {
+
       const response = await fetch(`http://localhost:3000/catalog/category/${catId}`);
+
       const categoryData = await response.json();
     //   console.log(categoryData['Category.title']);
       dispatch(setCategory(categoryData));

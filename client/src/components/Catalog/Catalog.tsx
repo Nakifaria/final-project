@@ -1,16 +1,22 @@
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { setCatalog } from "../../redux/slices/catalogSlice";
-import { RootState } from "../../redux/store/store";
-import { useNavigate } from "react-router-dom";
+
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../redux/hook';
+import { setCatalog } from '../../redux/slices/catalogSlice';
+import { RootState } from '../../redux/store/store';
+import { useNavigate } from 'react-router';
+
 
 export const Catalog = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate()
 
+  const navigate = useNavigate();
+
   const catalogData = async () => {
     try {
-      const response = await fetch("http://localhost:3000/catalog");
+
+      const response = await fetch('http://localhost:3000/catalog');
+
       const catalogData = await response.json();
       // console.log(catalogData);
       dispatch(setCatalog(catalogData));
@@ -34,7 +40,12 @@ export const Catalog = () => {
         </h1>
 
         <div>
-          <button className=" mt-10 relative bg-blue-500 text-white p-6 rounded text-2xl font-bold overflow-hidden">
+          <button
+            onClick={() => {
+              navigate('/configurator');
+            }}
+            className=" mt-10 bg-blue-500 text-white p-6 rounded text-2xl font-bold overflow-hidden"
+          >
             Собрать ПК
           </button>
         </div>

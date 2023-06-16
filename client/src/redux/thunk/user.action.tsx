@@ -28,6 +28,7 @@ export const regUserThunk: ThunkActionCreater<Partial<IUserInfo>> =
             render: 'Успех!',
             type: 'success',
             isLoading: false,
+            autoClose: 2000,
           });
         } else {
           toast.update(loading, {
@@ -68,6 +69,12 @@ export const logUserThunk: ThunkActionCreater<Partial<IUserInfo>> =
               isAuth: true,
             })
           );
+          toast.update(loading, {
+            render: 'Успех!',
+            type: 'success',
+            isLoading: false,
+            autoClose: 2000,
+          });
         } else {
           toast.update(loading, {
             render: msg,
@@ -96,8 +103,12 @@ export const logoutUserThunk: ThunkActionCreater = () => (dispatch) => {
 };
 
 export const checkSessionThunk: ThunkActionCreater = () => (dispatch) => {
-  fetch('http://localhost:3000/user')
+  fetch('http://localhost:3000/user', {
+    credentials: 'include',
+  })
     .then((data) => data.json())
-    .then(({ session, user }) => session && dispatch(userAuth(user)))
-    .catch(console.log);
+    .then(
+      ({ session, user }) =>
+        session && dispatch(userAuth({ ...user, isAuth: true }))
+    );
 };

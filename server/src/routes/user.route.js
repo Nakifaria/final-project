@@ -2,13 +2,7 @@ const router = require('express').Router();
 
 const bcrypt = require('bcrypt');
 
-const {
-  User,
-  Comparison,
-  Configuration,
-  Favourite,
-  Cart,
-} = require('../../db/models');
+const { User } = require('../../db/models');
 
 router.get('/', (req, res) => {
   if (req.session.user) {
