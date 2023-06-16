@@ -12,11 +12,13 @@ const dbCheck = require('./src/middlewares/dbCheck');
 // Require routes
 
 const userRoute = require('./src/routes/user.route');
-const noteRoute = require('./src/routes/note.route');
-const nbRoute = require('./src/routes/nb.route');
+const catalogRoute = require('./src/routes/catalog.route');
+const configuratorRoute = require('./src/routes/configurator.route');
+const favoritesRoute = require('./src/routes/favorites.route');
+const itemRoute = require('./src/routes/items.route');
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3002;
 
 // Cookie
 const sessionConfig = {
@@ -34,7 +36,7 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(
   cors({
-    origin: ['http://localhost:3001'],
+    origin: ['http://localhost:5173'],
     credentials: true,
   })
 );
@@ -47,8 +49,10 @@ app.use(dbCheck);
 // Routes
 
 app.use('/user', userRoute);
-app.use('/note', noteRoute);
-app.use('/notebook', nbRoute);
+app.use('/configurator', configuratorRoute);
+app.use('/catalog', catalogRoute);
+app.use('/favorites', favoritesRoute);
+app.use('/items', itemRoute);
 
 app.listen(PORT, () => {
   console.log(`Server started at ${PORT}`);

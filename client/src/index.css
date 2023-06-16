@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.btn {
+  @apply px-2 py-2 border border-black rounded-xl hover:bg-black hover:text-white;
+}
+
+.catBtn {
+  @apply text-sm py-4 border-b border-white text-black focus:border-b focus:border-black hover:text-gray-400 focus:text-black focus:outline-none  whitespace-nowrap;
+}
+
+::-webkit-scrollbar {
+  height: 0;
+}

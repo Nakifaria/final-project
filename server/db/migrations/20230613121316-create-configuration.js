@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Configurations', {
+    await queryInterface.createTable("Configurations", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -12,27 +12,29 @@ module.exports = {
       user_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: { tableName: 'Users' },
-          key: 'id',
+          model: { tableName: "Users" },
+          key: "id",
         },
       },
-      items: {
-        type: Sequelize.ARRAY(Sequelize.INTEGER),
-        defaultValue: [],
+      saved: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+        allowNull: false,
       },
+
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn('NOW'),
+        defaultValue: Sequelize.fn("NOW"),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: Sequelize.fn('NOW'),
+        defaultValue: Sequelize.fn("NOW"),
       },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Configurations');
+    await queryInterface.dropTable("Configurations");
   },
 };

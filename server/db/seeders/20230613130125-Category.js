@@ -7,28 +7,54 @@ module.exports = {
       'Categories',
       [
         {
-          title: 'Процессоры',
+          title: 'Процессор',
+          significance: 4,
+          image: '',
         },
         {
-          title: 'Материнские платы',
+          title: 'Материнская плата',
+          significance: 3,
+          image: '',
         },
         {
           title: 'Оперативная память',
+          significance: 1,
+          image: '',
         },
         {
-          title: 'Накопители',
+          title: 'Хранение данных (SSD/HDD)',
+          significance: 1,
+          image: '',
         },
         {
-          title: 'Видеокарты',
+          title: 'Видеокарта',
+          significance: 0,
+          image: '',
         },
         {
-          title: 'Блоки питания',
+          title: 'Блок питания',
+          significance: 1,
+          image: '',
         },
         {
-          title: 'Корпуса',
+          title: 'Корпус',
+          significance: 2,
+          image: '',
         },
         {
-          title: 'Охлаждение',
+          title: 'Кулер',
+          significance: 0,
+          image: '',
+        },
+        {
+          title: 'Водяное охлаждение',
+          significance: 0,
+          image: '',
+        },
+        {
+          title: 'Звуковая карта',
+          significance: 0,
+          image: '',
         },
       ],
       {}
