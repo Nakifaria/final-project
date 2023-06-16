@@ -1,5 +1,6 @@
 import { modalConfiguratorProps } from "../../types/configurator.types";
 import { Button, Modal } from "flowbite-react";
+import { CategoryCatalog } from "../CategoryCatalog/CategoryCatalog";
 
 function ModalConfigurator({
   openModal,
@@ -77,7 +78,9 @@ function ModalConfigurator({
         </div>
 
         <Modal.Body>
-          <div className="space-y-6 p-6"></div>
+          <div className="space-y-6 p-6">
+            <CategoryCatalog />
+          </div>
         </Modal.Body>
         <Modal.Footer>
           <Button
