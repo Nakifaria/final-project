@@ -25,6 +25,8 @@ export const catalogSlice = createSlice({
             ...state,
             item: action.payload
            })
+           
+           
     }
 })
 

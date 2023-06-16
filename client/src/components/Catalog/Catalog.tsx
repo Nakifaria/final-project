@@ -1,21 +1,16 @@
-
-import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../redux/hook';
-import { setCatalog } from '../../redux/slices/catalogSlice';
-import { RootState } from '../../redux/store/store';
-import { useNavigate } from 'react-router';
-
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import { setCatalog } from "../../redux/slices/catalogSlice";
+import { RootState } from "../../redux/store/store";
+import { useNavigate } from "react-router";
 
 export const Catalog = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate()
-
   const navigate = useNavigate();
 
   const catalogData = async () => {
     try {
-
-      const response = await fetch('http://localhost:3000/catalog');
+      const response = await fetch("http://localhost:3000/catalog");
 
       const catalogData = await response.json();
       // console.log(catalogData);
@@ -42,7 +37,7 @@ export const Catalog = () => {
         <div>
           <button
             onClick={() => {
-              navigate('/configurator');
+              navigate("/configurator");
             }}
             className=" mt-10 bg-blue-500 text-white p-6 rounded text-2xl font-bold overflow-hidden"
           >
@@ -54,7 +49,7 @@ export const Catalog = () => {
           {catalog &&
             catalog.map((el) => (
               <div
-              onClick={() => navigate(`/category/${el.id}`)}
+                onClick={() => navigate(`/category/${el.id}`)}
                 key={el.id}
                 className="p-10 flex flex-col items-center text-center group md:lg:xl:border-r md:lg:xl:border-b hover:bg-slate-50 cursor-pointer"
               >
