@@ -1,6 +1,7 @@
 import { modalConfiguratorProps } from "../../types/configurator.types";
 import { Button, Modal } from "flowbite-react";
 import { CategoryConfigurator } from "../CategoryConfigurator/CategoryConfigurator";
+import { current } from "@reduxjs/toolkit";
 
 function ModalConfigurator({
   openModal,
@@ -16,8 +17,16 @@ function ModalConfigurator({
   categoryTitle,
   isLoading,
   categoryItems,
+  setItemObj,
 }: modalConfiguratorProps) {
-  function ChooseHandler(id: number, significance: number): void {
+  function ChooseHandler(
+    id: number,
+    significance: number,
+    currentItemId,
+    currentItemName,
+    currentItemPrice,
+    setItemObj
+  ): void {
     const currentCategoryIndex = choosenCategory.findIndex(
       (el) => el.id === id
     );
@@ -62,6 +71,13 @@ function ModalConfigurator({
         setChoosenCategory([...choosenCategory, { id, choosen: true }]);
       }
     }
+    console.log(currentItemId);
+
+    setItemObj({
+      id: currentItemId,
+      name: currentItemName,
+      price: currentItemPrice,
+    });
     setOpenModal(false);
   }
 
@@ -86,17 +102,21 @@ function ModalConfigurator({
               <CategoryConfigurator
                 categoryTitle={categoryTitle}
                 categoryItems={categoryItems}
+                categoryId={categoryId}
+                significance={significance}
+                ChooseHandler={ChooseHandler}
+                setItemObj={setItemObj}
               />
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button
+            {/* <Button
               onClick={() => ChooseHandler(categoryId, significance)}
               gradientDuoTone="tealToLime"
               outline
             >
               Добавить
-            </Button>
+            </Button> */}
           </Modal.Footer>
         </Modal>
       </>
