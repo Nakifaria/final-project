@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from "react";
 
 export interface ISvgProps {
   svgName: string;
@@ -9,8 +9,6 @@ export const SVGComponent: FC<ISvgProps> = ({ svgName, cartLength }) => {
   const [needsCounter, setNeedsCounter] = useState(false);
 
   useEffect(() => {
-    console.log(cartLength === 0);
-
     if (cartLength && cartLength > 0) {
       setNeedsCounter(true);
     } else if (cartLength === 0) {
@@ -19,9 +17,9 @@ export const SVGComponent: FC<ISvgProps> = ({ svgName, cartLength }) => {
   }, [cartLength]);
 
   switch (svgName) {
-    case 'cart':
+    case "cart":
       return (
-        <div className={`${needsCounter && 'relative'}`}>
+        <div className={`${needsCounter && "relative"}`}>
           <svg
             fill="none"
             stroke="currentColor"
@@ -41,7 +39,7 @@ export const SVGComponent: FC<ISvgProps> = ({ svgName, cartLength }) => {
           {needsCounter && <div className="counter">{cartLength}</div>}
         </div>
       );
-    case 'favourite':
+    case "favourite":
       return (
         <svg
           fill="none"
@@ -59,7 +57,7 @@ export const SVGComponent: FC<ISvgProps> = ({ svgName, cartLength }) => {
           ></path>
         </svg>
       );
-    case 'home':
+    case "home":
       return (
         <svg
           fill="none"
@@ -77,7 +75,7 @@ export const SVGComponent: FC<ISvgProps> = ({ svgName, cartLength }) => {
           ></path>
         </svg>
       );
-    case 'profile':
+    case "profile":
       return (
         <svg
           fill="none"
@@ -96,7 +94,7 @@ export const SVGComponent: FC<ISvgProps> = ({ svgName, cartLength }) => {
         </svg>
       );
 
-    case 'search':
+    case "search":
       return (
         <svg
           fill="none"
@@ -114,20 +112,20 @@ export const SVGComponent: FC<ISvgProps> = ({ svgName, cartLength }) => {
           ></path>
         </svg>
       );
-    case 'sravnenie':
+    case "sravnenie":
       return (
         <svg
           fill="none"
           stroke="currentColor"
-          stroke-width="1.5"
+          strokeWidth="1.5"
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
           aria-hidden="true"
           className="w-6"
         >
           <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
           ></path>
         </svg>
