@@ -1,4 +1,4 @@
-import { KeyboardEvent, MouseEvent, useRef, useState } from 'react';
+import { KeyboardEvent, MouseEvent, useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Modal } from '../Modal/Modal';
@@ -17,12 +17,13 @@ export const Searchbar = () => {
   const [dropButtons, setDropButtons] = useState(false);
 
   const dropDownBar = useRef<HTMLDivElement>(null);
-  console.log(dropDownBar);
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
   const isAuth = useSelector((state: RootState) => state.userSlice.isAuth);
+
+  const cart = useSelector((state: RootState) => state.cartSlise.items).length;
 
   const closeModal = (event: MouseEvent<HTMLDivElement>) => {
     if (!(event.target instanceof HTMLDivElement)) return;
@@ -105,11 +106,7 @@ export const Searchbar = () => {
             }}
             className="btn w-1/4 hidden md:flex lg:flex justify-center"
           >
-            <SVGComponent
-              needsCounter={true}
-              counterValue={20}
-              svgName="cart"
-            />
+            <SVGComponent cartLength={cart} svgName="cart" />
           </button>
           <button
             onClick={() => {
@@ -147,7 +144,7 @@ export const Searchbar = () => {
           }}
           className="btn w-full flex justify-center"
         >
-          <SVGComponent needsCounter={true} counterValue={20} svgName="cart" />
+          <SVGComponent svgName="cart" />
         </button>
       </div>
       {!isAuth && showModal && (

@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { iCart } from '../../components/Home/itemCard';
+import { ICart } from '../../components/Home/itemCard';
 
-const initialState: iCart = {
+const initialState: ICart = {
   items: [],
 };
 
@@ -18,12 +18,19 @@ export const cartSlice = createSlice({
       state.items.push(action.payload);
     },
 
+    deleteFromCart: (state, action: PayloadAction<number>) => {
+      const spliceIndex = state.items.indexOf(action.payload);
+
+      state.items.splice(spliceIndex, 1);
+    },
+
     clearCart: (state) => {
       state.items = initialState.items;
     },
   },
 });
 
-export const { addToCart, clearCart, initialCart } = cartSlice.actions;
+export const { addToCart, clearCart, initialCart, deleteFromCart } =
+  cartSlice.actions;
 
 export default cartSlice.reducer;

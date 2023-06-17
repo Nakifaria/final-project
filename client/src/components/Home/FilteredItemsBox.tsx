@@ -42,8 +42,6 @@ export const FilteredItemsBox: FC<IPropsBox> = ({
 
   const otherCategory = (cat: number) => {
     if (cat === 99 || cat === 55) {
-      console.log('do sorta', items);
-
       setItems(allItems.slice(0, 6));
     } else {
       setItems(allItems.filter((el) => el.category_id === cat).slice(0, 6));

@@ -1,9 +1,13 @@
-import { FC, MouseEvent, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { IItem } from '../../redux/slices/items.slice';
 import { SVGComponent } from '../Svg/SVGComponent';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store/store';
-import { addToCart, initialCart } from '../../redux/slices/cart.slise';
+import {
+  addToCart,
+  deleteFromCart,
+  initialCart,
+} from '../../redux/slices/cart.slise';
 
 export interface ICardItem {
   item: IItem;
@@ -37,7 +41,6 @@ export const ItemCard: FC<ICardItem> = ({ item }) => {
         );
 
         dispatch(addToCart(item.id));
-        setAddedToCart(true);
       } else {
         const updatedCart: ICart = JSON.parse(cart);
 
@@ -46,30 +49,45 @@ export const ItemCard: FC<ICardItem> = ({ item }) => {
         localStorage.setItem('cart', JSON.stringify(updatedCart));
 
         dispatch(initialCart(updatedCart.items));
-        setAddedToCart(true);
       }
+      setAddedToCart(true);
     }
 
     return;
   };
 
   const removeFromCartFn = () => {
+    const cart = localStorage.getItem('cart');
+
     if (!isAuth) {
-      
+      dispatch(deleteFromCart(item.id));
+
+      if (cart) {
+        const updatedCart: ICart = JSON.parse(cart);
+
+        const spliceIndex = updatedCart.items.indexOf(item.id);
+
+        updatedCart.items.splice(spliceIndex, 1);
+
+        localStorage.setItem('cart', JSON.stringify(updatedCart));
+      }
+
+      setAddedToCart(false);
     }
 
     return;
   };
 
   useEffect(() => {
-    const cart = localStorage.getItem('cart');
+    // const cart = localStorage.getItem('cart');
 
-    if (cart) {
-      const parsedCart: ICart = JSON.parse(cart);
+    // if (cart) {
+    //   const parsedCart: ICart = JSON.parse(cart);
 
-      if (parsedCart.items.includes(item.id)) {
-        setAddedToCart(true);
-      }
+    //   dispatch(initialCart(parsedCart.items));
+
+    if (cartFromRedux.includes(item.id)) {
+      setAddedToCart(true);
     }
   }, []);
 
@@ -96,7 +114,9 @@ export const ItemCard: FC<ICardItem> = ({ item }) => {
             <div className="flex border border-black border-t-0 rounded-b-lg">
               <button
                 id={`${item.id}`}
-                onClick={addToCartFn}
+                onClick={() =>
+                  !addedToCart ? addToCartFn() : removeFromCartFn()
+                }
                 className={`${addedToCart ? 'addedToCartBtn' : 'cartBtn'}`}
               >
                 <SVGComponent svgName="cart" />

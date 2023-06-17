@@ -1,16 +1,23 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 export interface ISvgProps {
   svgName: string;
-  needsCounter?: boolean;
-  counterValue?: number;
+  cartLength?: number;
 }
 
-export const SVGComponent: FC<ISvgProps> = ({
-  svgName,
-  counterValue,
-  needsCounter,
-}) => {
+export const SVGComponent: FC<ISvgProps> = ({ svgName, cartLength }) => {
+  const [needsCounter, setNeedsCounter] = useState(false);
+
+  useEffect(() => {
+    console.log(cartLength === 0);
+
+    if (cartLength && cartLength > 0) {
+      setNeedsCounter(true);
+    } else if (cartLength === 0) {
+      setNeedsCounter(false);
+    }
+  }, [cartLength]);
+
   switch (svgName) {
     case 'cart':
       return (
@@ -31,7 +38,7 @@ export const SVGComponent: FC<ISvgProps> = ({
             ></path>
           </svg>
           <span className="sr-only">Notifications</span>
-          {needsCounter && <div className="counter">{counterValue}</div>}
+          {needsCounter && <div className="counter">{cartLength}</div>}
         </div>
       );
     case 'favourite':

@@ -14,14 +14,28 @@ import { RootState } from './redux/store/store';
 import { loadItems } from './redux/thunk/items.action';
 import { Modal } from './components/Modal/Modal';
 import PacmanLoader from 'react-spinners/PacmanLoader';
+import { ICart } from './components/Home/itemCard';
+import { initialCart } from './redux/slices/cart.slise';
 function App() {
   const dispatch = useDispatch();
 
   const loading = useSelector((state: RootState) => state.loaderSlice.load);
 
+  const isAuth = useSelector((state: RootState) => state.userSlice.isAuth);
+
   useEffect(() => {
     dispatch(checkSessionThunk());
     dispatch(loadItems());
+
+    if (!isAuth) {
+      const cart = localStorage.getItem('cart');
+
+      if (cart) {
+        const parsedCart: ICart = JSON.parse(cart);
+
+        dispatch(initialCart(parsedCart.items));
+      }
+    }
   }, []);
 
   return (
