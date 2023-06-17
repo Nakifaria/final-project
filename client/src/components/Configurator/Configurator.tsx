@@ -1,5 +1,9 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { category, choosenCategory } from "../../types/configurator.types";
+import {
+  category,
+  choosenCategory,
+  choosenItemType,
+} from "../../types/configurator.types";
 import ModalConfigurator from "../ModalConfigurator/ModalConfigurator";
 import { Button } from "flowbite-react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
@@ -89,25 +93,8 @@ function Configurator() {
   // -----------------------------------
 
   const [isLoading, setIsLoading] = useState(false);
-  const [priceData, setFormData] = useState({ low: "", high: "" });
-  // const [sortOption, setSortOption] = useState("");
 
   const dispatch = useAppDispatch();
-
-  // const categoryData = async () => {
-  //   try {
-  //     const response = await fetch(
-  //       `http://localhost:3000/catalog/category/${catId}`
-  //     );
-
-  //     const categoryData = await response.json();
-  //     dispatch(setCategory(categoryData));
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //     setIsLoading(true);
-  //   }
-  // };
 
   useEffect(() => {
     dispatch(categoryFetch(categoryId, setIsLoading));
@@ -116,31 +103,9 @@ function Configurator() {
   const categoryItems = useAppSelector(
     (state: RootState) => state.catalog.category
   );
-  // console.log(categoryItems);
+  
 
-  const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...priceData, [e.target.name]: e.target.value });
-  };
-
-  // const submitHandler = () => {
-  //   // console.log(priceData);
-  //   if (priceData.low && priceData.high) {
-  //     const newCategoryItems = categoryItems.filter(
-  //       (item) => item.price >= priceData.low && item.price <= priceData.high
-  //     );
-  //     dispatch(setCategory(newCategoryItems));
-  //     // console.log(newCategoryItems);
-  //   }
-  // };
-
-  // if (sortOption === "popularity") {
-  //   const popularCatalog = categoryItems.order_count.sort((a, b) => a - b);
-  //   console.log(popularCatalog);
-  // }
-
-  // -----------------------------------------
-
-  const [itemObj, setItemObj] = useState<object>();
+  const [choosenItem, setChoosenItem] = useState<choosenItemType[]>([]);
 
   return (
     <>
@@ -157,7 +122,13 @@ function Configurator() {
                       <span className="w-1/12">{category.title}</span>
                     )}
 
-                    {itemObj && categoryId === category.id ? (
+                    {choosenCategory.findIndex(
+                      (el) => el.id === category.id && el.choosen === true
+                    ) === -1 ? (
+                      <span className="text-gray-500">
+                        {category.amountItems} шт.
+                      </span>
+                    ) : (
                       <div className="flex justify-between gap-x-6 w-3/5">
                         <div className="flex-shrink-0">
                           <img
@@ -169,23 +140,36 @@ function Configurator() {
                         <div className="flex justify-left gap-x-4">
                           <div className="min-w-0 flex-auto ">
                             <p
-                              onClick={() => navigate(`/product/${itemObj.id}`)}
+                              onClick={() =>
+                                navigate(
+                                  `/product/${
+                                    choosenItem.find(
+                                      (el) => el.categoryId === category.id
+                                    )?.id
+                                  }`
+                                )
+                              }
                               className="text-sm text-center font-bold leading-6 text-gray-900"
                             >
-                              {itemObj.name}
+                              {
+                                choosenItem.find(
+                                  (el) => el.categoryId === category.id
+                                )?.name
+                              }
                             </p>
                           </div>
                         </div>
                         <div className="ml-10 sm:flex sm:flex-col sm:items-end">
                           <p className="text-sm text-center leading-6 text-gray-900">
-                            {itemObj.price} ₽
+                            {
+                              choosenItem.find(
+                                (el) => el.categoryId === category.id
+                              )?.price
+                            }{" "}
+                            ₽
                           </p>
                         </div>
                       </div>
-                    ) : (
-                      <span className="text-gray-500">
-                        {category.amountItems} шт.
-                      </span>
                     )}
 
                     {choosenCategory.findIndex(
@@ -286,7 +270,7 @@ function Configurator() {
         categoryTitle={categoryTitle}
         isLoading={isLoading}
         categoryItems={categoryItems}
-        setItemObj={setItemObj}
+        setChoosenItem={setChoosenItem}
       />
     </>
   );
