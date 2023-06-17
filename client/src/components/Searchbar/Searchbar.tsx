@@ -17,7 +17,7 @@ export const Searchbar = () => {
   const [dropButtons, setDropButtons] = useState(false);
 
   const dropDownBar = useRef<HTMLDivElement>(null);
-  console.log(dropDownBar);
+  // console.log(dropDownBar);
 
   const navigate = useNavigate();
   const { pathname } = useLocation();

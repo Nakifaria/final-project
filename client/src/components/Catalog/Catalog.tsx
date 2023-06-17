@@ -10,11 +10,11 @@ export const Catalog = () => {
 
   const catalogData = async () => {
     try {
-      const response = await fetch("http://localhost:3000/catalog");
+      const response = await fetch("http://localhost:3000/configurator");
 
       const catalogData = await response.json();
-      // console.log(catalogData);
-      dispatch(setCatalog(catalogData));
+      console.log(catalogData.categoriesArr);
+      dispatch(setCatalog(catalogData.categoriesArr));
     } catch (error) {
       console.log(error);
     }
@@ -25,7 +25,7 @@ export const Catalog = () => {
   }, []);
 
   const catalog = useAppSelector((state: RootState) => state.catalog.catalog);
-  //   console.log(catalog);
+    console.log(catalog);
 
   return (
     <div>
@@ -54,12 +54,12 @@ export const Catalog = () => {
                 className="p-10 flex flex-col items-center text-center group md:lg:xl:border-r md:lg:xl:border-b hover:bg-slate-50 cursor-pointer"
               >
                 <span className="p-5 rounded-full bg-red-500 text-white shadow-lg shadow-red-200">
-                 <img className="w-14" src="block.png"/>
+                 <img className="w-14 h-14" src={el.image}/>
                 </span>
                 <p className="text-xl font-medium text-slate-700 mt-3">
                   {el.title}
                 </p>
-                <p className="mt-2 text-sm text-slate-500">Кол-во товаров</p>
+                <p className="mt-2 text-sm text-slate-500">Количество товаров: {el.amountItems} шт.</p>
               </div>
             ))}
         </div>
