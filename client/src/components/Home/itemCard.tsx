@@ -79,13 +79,6 @@ export const ItemCard: FC<ICardItem> = ({ item }) => {
   };
 
   useEffect(() => {
-    // const cart = localStorage.getItem('cart');
-
-    // if (cart) {
-    //   const parsedCart: ICart = JSON.parse(cart);
-
-    //   dispatch(initialCart(parsedCart.items));
-
     if (cartFromRedux.includes(item.id)) {
       setAddedToCart(true);
     }
@@ -93,8 +86,8 @@ export const ItemCard: FC<ICardItem> = ({ item }) => {
 
   return (
     <div className="w-[200px] h-[400px] flex flex-col justify-between">
-      <header className="cursor-pointer h-1/2 flex flex-col justify-center">
-        <img src={item.img} alt={item.name} />
+      <header className="cursor-pointer grow flex flex-col justify-center overflow-hidden">
+        <img src={item.img} alt={item.name} className="max-w-full" />
       </header>
       <main>
         <div className="flex flex-col gap-2">
