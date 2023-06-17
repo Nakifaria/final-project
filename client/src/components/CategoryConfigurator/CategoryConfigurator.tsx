@@ -8,7 +8,7 @@ export const CategoryConfigurator = ({
   categoryId,
   significance,
   ChooseHandler,
-  setItemObj,
+  setChoosenItem,
 }) => {
   const navigate = useNavigate();
   return (
@@ -16,48 +16,7 @@ export const CategoryConfigurator = ({
       <h1 className="text-center text-2xl font-semibold leading-7 text-gray-900">
         {categoryTitle}
       </h1>
-      <div className="mt-10">
-        {/* Цена от
-        <input
-          onChange={changeHandler}
-          value={priceData?.low}
-          name="low"
-          type="text"
-          className="border rounded border-black"
-        />
-        до
-        <input
-          onChange={changeHandler}
-          value={priceData?.high}
-          name="high"
-          type="text"
-          className="border rounded border-black"
-        />
-        <button
-          onClick={submitHandler}
-          type="button"
-          className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-        >
-          Применить
-        </button>
-        <Dropdown color="light" label="Сортировка">
-          <Dropdown.Item onClick={() => setSortOption("popularity")}>
-            По популярности
-          </Dropdown.Item>
-          <Dropdown.Item onClick={() => setSortOption("priceLow")}>
-            По цене (сначала дешевле)
-          </Dropdown.Item>
-          <Dropdown.Item onClick={() => setSortOption("priceHigh")}>
-            По цене (сначала дороже)
-          </Dropdown.Item>
-          <Dropdown.Item onClick={() => setSortOption("nameAsc")}>
-            По названию (А-Я)
-          </Dropdown.Item>
-          <Dropdown.Item onClick={() => setSortOption("nameDesc")}>
-            По названию (Я-А)
-          </Dropdown.Item>
-        </Dropdown> */}
-      </div>
+      <div className="mt-10">фильтр</div>
       <div className=" mt-10 bg-white shadow-xl shadow-neutral-100 border ">
         <ul className="divide-y divide-gray-100 w-full">
           {categoryItems &&
@@ -99,7 +58,7 @@ export const CategoryConfigurator = ({
                         el.id,
                         el.name,
                         el.price,
-                        setItemObj
+                        setChoosenItem
                       )
                     }
                     type="button"
