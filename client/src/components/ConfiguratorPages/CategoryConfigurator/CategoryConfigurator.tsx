@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 
 export const CategoryConfigurator = ({
@@ -7,7 +6,6 @@ export const CategoryConfigurator = ({
   categoryId,
   significance,
   ChooseHandler,
-  setChoosenItem,
 }) => {
   const navigate = useNavigate();
   return (
@@ -56,8 +54,7 @@ export const CategoryConfigurator = ({
                         significance,
                         el.id,
                         el.name,
-                        el.price,
-                        setChoosenItem
+                        el.price
                       )
                     }
                     type="button"

@@ -6,7 +6,7 @@ const initialState: configuratorSliceType = {
   primaryParts: 0,
   primaryPartsTotalAmount: 0,
   progressbarStyle: { width: "0" },
-  choosenCategoryArr: [],
+  choosenCategory: [],
   openModal: false,
   categoryId: 0,
   significance: 0,
@@ -46,12 +46,12 @@ export const configuratorSlice: Slice = createSlice({
       ...state,
       progressbarStyle: action.payload,
     }),
-    setChoosenCategoryArr: (
+    setChoosenCategory: (
       state,
       action: PayloadAction<Partial<configuratorSliceType>>
     ) => ({
       ...state,
-      choosenCategoryArr: action.payload,
+      choosenCategory: action.payload,
     }),
     setOpenModal: (
       state,
@@ -96,7 +96,7 @@ export const {
   setPrimaryParts,
   setPrimaryPartsTotalAmount,
   setProgressbarStyle,
-  setChoosenCategoryArr,
+  setChoosenCategory,
   setOpenModal,
   setCategoryId,
   setSignificance,
