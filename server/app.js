@@ -6,6 +6,7 @@ const FileStore = require('session-file-store')(session);
 
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 
 const dbCheck = require('./src/middlewares/dbCheck');
 
@@ -41,7 +42,7 @@ app.use(
   })
 );
 
-app.use(express.static('public'));
+app.use(express.static(path.join(process.cwd(), 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(dbCheck);

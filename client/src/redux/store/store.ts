@@ -6,6 +6,7 @@ import itemsSlice from "../slices/items.slice";
 import loaderSlice from "../slices/loader.slice";
 import favSlice from "../slices/favSlice";
 import configuratorSlice from "../slices/configuratorSlice";
+import cartSlise from '../slices/cart.slise';
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     catalog: catalogSlice,
     loaderSlice,
     favSlice,
+    cartSlise,
     configuratorSlice,
   },
 });
