@@ -1,3 +1,5 @@
+import { CategoryType } from "./catalogTypes";
+
 export type category = {
   id: number;
   title: string;
@@ -22,13 +24,13 @@ export type modalConfiguratorProps = {
   setPrimaryParts: React.Dispatch<React.SetStateAction<number>>;
   significance: number;
   categoryTitle: string;
+  isLoading: boolean;
+  categoryItems: CategoryType[];
+  setChoosenItem: React.Dispatch<React.SetStateAction<choosenItemType[]>>;
 };
 
-export interface IUser {
+export type choosenItemType = {
   id: number;
-  userName: string;
-  email: string;
-  password: string;
-  updatedAt: string;
-  createdAt: string;
-}
+  name: string;
+  price: string;
+};

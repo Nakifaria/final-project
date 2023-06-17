@@ -1,20 +1,20 @@
-import { FC, MouseEvent } from 'react';
+import { FC } from 'react';
 
 export interface IbuttonProps {
   title: string;
-  autofocus: boolean;
+
+  otherCategory: (cat: number) => void;
+  catNumber: number;
 }
 
-export const CatButton: FC<IbuttonProps> = ({ title, autofocus }) => {
+export const CatButton: FC<IbuttonProps> = ({
+  title,
+  otherCategory,
+  catNumber,
+}) => {
   return (
-    <>
-      {autofocus ? (
-        <button className="catBtn" autoFocus>
-          {title}
-        </button>
-      ) : (
-        <button className="catBtn">{title}</button>
-      )}
-    </>
+    <button className="catBtn" onClick={() => otherCategory(catNumber)}>
+      {title}
+    </button>
   );
 };

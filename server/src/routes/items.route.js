@@ -8,6 +8,7 @@ route.get('/', async (req, res) => {
       await Category.findAll({
         include: {
           model: Item,
+          order: [['createdAt', 'DESC']],
         },
         attributes: ['id', 'title'],
       })

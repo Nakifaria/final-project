@@ -10,11 +10,11 @@ export const Catalog = () => {
 
   const catalogData = async () => {
     try {
-      const response = await fetch("http://localhost:3000/catalog");
+      const response = await fetch("http://localhost:3000/configurator");
 
       const catalogData = await response.json();
-      // console.log(catalogData);
-      dispatch(setCatalog(catalogData));
+      console.log(catalogData.categoriesArr);
+      dispatch(setCatalog(catalogData.categoriesArr));
     } catch (error) {
       console.log(error);
     }
@@ -25,7 +25,7 @@ export const Catalog = () => {
   }, []);
 
   const catalog = useAppSelector((state: RootState) => state.catalog.catalog);
-  //   console.log(catalog);
+    console.log(catalog);
 
   return (
     <div>
@@ -39,7 +39,7 @@ export const Catalog = () => {
             onClick={() => {
               navigate("/configurator");
             }}
-            className=" mt-10 bg-blue-500 text-white p-6 rounded text-2xl font-bold overflow-hidden"
+            className="mt-10 bg-gray-800 hover:bg-gray-900 text-white p-6 rounded text-2xl font-bold overflow-hidden"
           >
             Собрать ПК
           </button>
@@ -54,25 +54,12 @@ export const Catalog = () => {
                 className="p-10 flex flex-col items-center text-center group md:lg:xl:border-r md:lg:xl:border-b hover:bg-slate-50 cursor-pointer"
               >
                 <span className="p-5 rounded-full bg-red-500 text-white shadow-lg shadow-red-200">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-10 w-10"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
-                    />
-                  </svg>
+                 <img className="w-14 h-14" src={el.image}/>
                 </span>
                 <p className="text-xl font-medium text-slate-700 mt-3">
                   {el.title}
                 </p>
-                <p className="mt-2 text-sm text-slate-500">Кол-во товаров</p>
+                <p className="mt-2 text-sm text-slate-500">Количество товаров: {el.amountItems} шт.</p>
               </div>
             ))}
         </div>

@@ -1,9 +1,18 @@
-import { useEffect, useState } from "react";
-import { category, choosenCategory } from "../../types/configurator.types";
+import { ChangeEvent, useEffect, useState } from "react";
+import {
+  category,
+  choosenCategory,
+  choosenItemType,
+} from "../../types/configurator.types";
 import ModalConfigurator from "../ModalConfigurator/ModalConfigurator";
 import { Button } from "flowbite-react";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import { RootState } from "../../redux/store/store";
+import { categoryFetch } from "../../redux/thunk/category.action";
+import { useNavigate } from "react-router-dom";
 
 function Configurator() {
+  const navigate = useNavigate();
   const [categoriesArr, setCategoriesArr] = useState<category[]>([]);
   const [primaryParts, setPrimaryParts] = useState<number>(0);
   const [primaryPartsTotalAmount, setPrimaryPartsTotalAmount] =
@@ -60,6 +69,7 @@ function Configurator() {
         });
       }
     }
+    setItemObj(undefined);
   }
 
   // ------------------------------
@@ -80,6 +90,23 @@ function Configurator() {
     setCategoryTitle(categoryTitle);
   }
 
+  // -----------------------------------
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(categoryFetch(categoryId, setIsLoading));
+  }, [categoryId]);
+
+  const categoryItems = useAppSelector(
+    (state: RootState) => state.catalog.category
+  );
+  
+
+  const [choosenItem, setChoosenItem] = useState<choosenItemType[]>([]);
+
   return (
     <>
       <div className="bg-gray-100 sm:grid grid-cols-5 grid-rows-2 px-4 py-6 min-h-full lg:min-h-screen space-y-6 sm:space-y-0 sm:gap-4">
@@ -94,9 +121,56 @@ function Configurator() {
                     ) : (
                       <span className="w-1/12">{category.title}</span>
                     )}
-                    <span className="text-gray-500">
-                      {category.amountItems} шт.
-                    </span>
+
+                    {choosenCategory.findIndex(
+                      (el) => el.id === category.id && el.choosen === true
+                    ) === -1 ? (
+                      <span className="text-gray-500">
+                        {category.amountItems} шт.
+                      </span>
+                    ) : (
+                      <div className="flex justify-between gap-x-6 w-3/5">
+                        <div className="flex-shrink-0">
+                          <img
+                            className="w-8 h-8"
+                            src="https://cdn1.ozone.ru/s3/multimedia-2/6368709194.jpg"
+                            alt="Neil image"
+                          />
+                        </div>
+                        <div className="flex justify-left gap-x-4">
+                          <div className="min-w-0 flex-auto ">
+                            <p
+                              onClick={() =>
+                                navigate(
+                                  `/product/${
+                                    choosenItem.find(
+                                      (el) => el.categoryId === category.id
+                                    )?.id
+                                  }`
+                                )
+                              }
+                              className="text-sm text-center font-bold leading-6 text-gray-900"
+                            >
+                              {
+                                choosenItem.find(
+                                  (el) => el.categoryId === category.id
+                                )?.name
+                              }
+                            </p>
+                          </div>
+                        </div>
+                        <div className="ml-10 sm:flex sm:flex-col sm:items-end">
+                          <p className="text-sm text-center leading-6 text-gray-900">
+                            {
+                              choosenItem.find(
+                                (el) => el.categoryId === category.id
+                              )?.price
+                            }{" "}
+                            ₽
+                          </p>
+                        </div>
+                      </div>
+                    )}
 
                     {choosenCategory.findIndex(
                       (el) => el.id === category.id && el.choosen === true
@@ -194,6 +268,9 @@ function Configurator() {
         primaryPartsTotalAmount={primaryPartsTotalAmount}
         significance={significance}
         categoryTitle={categoryTitle}
+        isLoading={isLoading}
+        categoryItems={categoryItems}
+        setChoosenItem={setChoosenItem}
       />
     </>
   );
