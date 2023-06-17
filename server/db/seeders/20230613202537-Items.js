@@ -1136,7 +1136,7 @@ module.exports = {
           category_id: 6,
           price: 8490,
           order_count: randomOrderCount(),
-          img: 'http://localhost:3000/images/bequietStraightPower11650W.jpg',
+          img: 'http://localhost:3000/images/bequiet!StraightPower11650W.jpg',
           description: JSON.stringify({
             Power: '650W',
             Modularity: 'Full Modular',
