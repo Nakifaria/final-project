@@ -1,4 +1,4 @@
-import { Link, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Configurator from './components/Configurator/Configurator';
 import { Catalog } from './components/Catalog/Catalog';
 import { CategoryCatalog } from './components/CategoryCatalog/CategoryCatalog';
@@ -14,8 +14,10 @@ import { RootState } from './redux/store/store';
 import { loadItems } from './redux/thunk/items.action';
 import { Modal } from './components/Modal/Modal';
 import PacmanLoader from 'react-spinners/PacmanLoader';
+import { Cart } from './components/Cart/Cart';
 import { ICart } from './components/Home/itemCard';
 import { initialCart } from './redux/slices/cart.slise';
+
 function App() {
   const dispatch = useDispatch();
 
@@ -47,6 +49,7 @@ function App() {
           </header>
           <main className="max-w-screen-xl mx-auto">
             <Routes>
+              <Route path="cart" element={<Cart />} />
               <Route path="catalog" element={<Catalog />} />
               <Route path="category/:catId" element={<CategoryCatalog />} />
               <Route path="product/:prodId" element={<ItemPage />} />
