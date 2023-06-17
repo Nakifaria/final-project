@@ -1,5 +1,4 @@
-import { ReactSVG } from "react-svg";
-import { Dropdown } from "flowbite-react";
+
 import { useNavigate } from "react-router-dom";
 
 export const CategoryConfigurator = ({

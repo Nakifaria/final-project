@@ -34,3 +34,16 @@ export type choosenItemType = {
   name: string;
   price: string;
 };
+
+export type configuratorSliceType = {
+  categoriesArr: category[];
+  primaryParts: number;
+  primaryPartsTotalAmount: number;
+  progressbarStyle: object;
+  choosenCategoryArr: choosenCategory[];
+  openModal: boolean;
+  categoryId: number;
+  significance: number;
+  categoryTitle: string;
+  choosenItem: choosenItemType[];
+};

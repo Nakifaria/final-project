@@ -1,10 +1,9 @@
 import {
   choosenItemType,
   modalConfiguratorProps,
-} from "../../types/configurator.types";
+} from "../../../types/configurator.types";
 import { Button, Modal } from "flowbite-react";
 import { CategoryConfigurator } from "../CategoryConfigurator/CategoryConfigurator";
-import { current } from "@reduxjs/toolkit";
 
 function ModalConfigurator({
   openModal,
