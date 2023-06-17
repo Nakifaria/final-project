@@ -9,8 +9,6 @@ export const SVGComponent: FC<ISvgProps> = ({ svgName, cartLength }) => {
   const [needsCounter, setNeedsCounter] = useState(false);
 
   useEffect(() => {
-    console.log(cartLength === 0);
-
     if (cartLength && cartLength > 0) {
       setNeedsCounter(true);
     } else if (cartLength === 0) {
