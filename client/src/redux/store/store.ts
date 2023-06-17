@@ -1,10 +1,11 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore } from "@reduxjs/toolkit";
 
-import userSlice from '../slices/user.slice';
-import catalogSlice from '../slices/catalogSlice';
-import itemsSlice from '../slices/items.slice';
-import loaderSlice from '../slices/loader.slice';
-import favSlice from '../slices/favSlice';
+import userSlice from "../slices/user.slice";
+import catalogSlice from "../slices/catalogSlice";
+import itemsSlice from "../slices/items.slice";
+import loaderSlice from "../slices/loader.slice";
+import favSlice from "../slices/favSlice";
+import configuratorSlice from "../slices/configuratorSlice";
 import cartSlise from '../slices/cart.slise';
 
 export const store = configureStore({
@@ -15,6 +16,7 @@ export const store = configureStore({
     loaderSlice,
     favSlice,
     cartSlise,
+    configuratorSlice,
   },
 });
 
