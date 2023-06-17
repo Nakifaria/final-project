@@ -470,7 +470,7 @@ module.exports = {
           category_id: 2,
           price: 5900,
           order_count: randomOrderCount(),
-          img: 'http://localhost:3000/images/6GIGABYTEB365MDS3H.jpg',
+          img: 'http://localhost:3000/images/GIGABYTEB365MDS3H.jpg',
           description: JSON.stringify({
             'Socket Type': 'LGA 1151',
             'Form Factor': 'Micro-ATX',
