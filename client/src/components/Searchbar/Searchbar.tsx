@@ -1,18 +1,23 @@
-import { KeyboardEvent, MouseEvent, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { KeyboardEvent, MouseEvent, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-import { Modal } from "../Modal/Modal";
-import { Auth } from "../Auth/Auth";
+import { Modal } from '../Modal/Modal';
+import { Auth } from '../Auth/Auth';
 
-import "react-toastify/dist/ReactToastify.css";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store/store";
-import { SVGComponent } from "../Svg/SVGComponent";
+import 'react-toastify/dist/ReactToastify.css';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store/store';
+import { SVGComponent } from '../Svg/SVGComponent';
 
 export const Searchbar = () => {
   const [showModal, setShowModal] = useState(false);
 
   const [disableTabFocus, setDisableTabFocus] = useState(false);
+
+  const [dropButtons, setDropButtons] = useState(false);
+
+  const dropDownBar = useRef<HTMLDivElement>(null);
+  console.log(dropDownBar);
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -24,28 +29,28 @@ export const Searchbar = () => {
 
     const { id } = event.target;
 
-    if (id === "colseModal") {
+    if (id === 'colseModal') {
       setShowModal(false);
     }
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === "Tab" && disableTabFocus) {
+    if (event.key === 'Tab' && disableTabFocus) {
       event.preventDefault();
     }
   };
 
   const backHome = () => {
-    if (pathname === "/") {
+    if (pathname === '/') {
       window.scroll(0, 0);
     } else {
-      navigate("/");
+      navigate('/');
     }
   };
 
   const profile = () => {
     if (isAuth) {
-      navigate("/profile");
+      navigate('/profile');
     } else {
       setShowModal(true);
     }
@@ -53,16 +58,16 @@ export const Searchbar = () => {
 
   return (
     <>
-      <div className="flex justify-between px-4 py-2 gap-1 bg-white">
+      <div className="flex justify-between px-4 py-2 gap-1 mb-4 bg-white shadow-xl rounded-xl">
         <div className="flex w-1/3 gap-1 md:gap-2 lg:gap-2">
           <button onClick={backHome} className="btn w-1/3 flex justify-center">
             <SVGComponent svgName="home" />
           </button>
           <button
             onClick={() => {
-              navigate("/catalog");
+              navigate('/catalog');
             }}
-            className="btn uppercase w-1/2 grow"
+            className="btn uppercase grow"
           >
             каталог
           </button>
@@ -89,23 +94,61 @@ export const Searchbar = () => {
           <button
             className="btn w-1/4 hidden md:flex lg:flex justify-center"
             onClick={() => {
-              navigate("/favorites");
+              navigate('/favorites');
             }}
           >
             <SVGComponent svgName="favourite" />
           </button>
           <button
             onClick={() => {
-              navigate("/cart");
+              navigate('/cart');
             }}
             className="btn w-1/4 hidden md:flex lg:flex justify-center"
           >
-            <SVGComponent svgName="cart" />
+            <SVGComponent
+              needsCounter={true}
+              counterValue={20}
+              svgName="cart"
+            />
           </button>
-          <button className="btn w-full flex md:hidden lg:hidden justify-center">
+          <button
+            onClick={() => {
+              setDropButtons(!dropButtons);
+            }}
+            className="btn w-full flex md:hidden lg:hidden justify-center"
+          >
             бутер
           </button>
         </div>
+      </div>
+      <div
+        ref={dropDownBar}
+        className={`${
+          dropButtons ? 'flex' : 'hidden'
+        }  flex-col md:hidden lg:hidden gap-2 px-4 mb-[10px]`}
+      >
+        <button className="btn w-full flex justify-center" onClick={profile}>
+          <SVGComponent svgName="profile" />
+        </button>
+        <button className="btn w-full flex justify-center">
+          <SVGComponent svgName="sravnenie" />
+        </button>
+        <button
+          className="btn w-full flex justify-center"
+          onClick={() => {
+            navigate('/favorites');
+          }}
+        >
+          <SVGComponent svgName="favourite" />
+        </button>
+        <button
+          onClick={() => {
+            navigate('/cart');
+          }}
+          className="btn w-full flex justify-center"
+        >
+          <SVGComponent needsCounter={true} counterValue={20} svgName="cart" />
+        </button>
       </div>
       {!isAuth && showModal && (
         <Modal

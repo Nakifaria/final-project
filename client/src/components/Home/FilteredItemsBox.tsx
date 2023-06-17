@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import { CatButton } from './CatButton';
 import { ItemCard } from './itemCard';
-import { ICategory, IItem } from '../../redux/slices/items.slice';
+import { IItem } from '../../redux/slices/items.slice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store/store';
 
@@ -52,11 +52,10 @@ export const FilteredItemsBox: FC<IPropsBox> = ({
   return (
     <div>
       <span className="text-2xl mb-4">{title}</span>
-      <div className="category-box flex border-b border-gray-400 justify-between overflow-y-auto mb-4">
+      <div className="category-box flex border-b border-gray-400 justify-between overflow-y-scroll mb-4">
         <div className="flex gap-4 me-4">
           <CatButton
             title={'Все категории'}
-            autofocus={true}
             otherCategory={otherCategory}
             catNumber={catNumber}
           />
@@ -66,7 +65,6 @@ export const FilteredItemsBox: FC<IPropsBox> = ({
               .map((el) => (
                 <CatButton
                   title={el.title}
-                  autofocus={false}
                   key={el.id}
                   otherCategory={otherCategory}
                   catNumber={el.id}
@@ -77,7 +75,7 @@ export const FilteredItemsBox: FC<IPropsBox> = ({
           {btnName}
         </button>
       </div>
-      <div className="card-box flex gap-2 overflow-y-auto">
+      <div className="card-box flex gap-2 overflow-y-scroll">
         {items && items.map((el) => <ItemCard item={el} key={el.id} />)}
       </div>
     </div>
