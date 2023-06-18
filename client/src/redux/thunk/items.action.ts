@@ -54,11 +54,43 @@ export const addToAction: ThunkActionCreater<IPackPayload> =
               })
             );
           } else {
-            const updatedCart: IPack = JSON.parse(cart);
+            const updated: IPack = JSON.parse(cart);
 
-            updatedCart.items.push(id);
+            updated.items.push(id);
 
-            localStorage.setItem('cart', JSON.stringify(updatedCart));
+            localStorage.setItem('cart', JSON.stringify(updated));
+          }
+          break;
+        case 'compare':
+          if (!compare) {
+            localStorage.setItem(
+              'compare',
+              JSON.stringify({
+                items: [id],
+              })
+            );
+          } else {
+            const updated: IPack = JSON.parse(compare);
+
+            updated.items.push(id);
+
+            localStorage.setItem('compare', JSON.stringify(updated));
+          }
+          break;
+        case 'favourite':
+          if (!favourite) {
+            localStorage.setItem(
+              'favourite',
+              JSON.stringify({
+                items: [id],
+              })
+            );
+          } else {
+            const updated: IPack = JSON.parse(favourite);
+
+            updated.items.push(id);
+
+            localStorage.setItem('favourite', JSON.stringify(updated));
           }
       }
 
@@ -77,33 +109,33 @@ export const removeFromAction: ThunkActionCreater<IPackPayload> =
       dispatch(deleteFrom({ itemId: id, packName }));
 
       if (cart && packName === 'cart') {
-        const updatedCart: IPack = JSON.parse(cart);
+        const updated: IPack = JSON.parse(cart);
 
-        const spliceIndex = updatedCart.items.indexOf(id);
+        const spliceIndex = updated.items.indexOf(id);
 
-        updatedCart.items.splice(spliceIndex, 1);
+        updated.items.splice(spliceIndex, 1);
 
-        localStorage.setItem('cart', JSON.stringify(updatedCart));
+        localStorage.setItem('cart', JSON.stringify(updated));
       }
 
       if (compare && packName === 'compare') {
-        const updatedCompare: IPack = JSON.parse(compare);
+        const updated: IPack = JSON.parse(compare);
 
-        const spliceIndex = updatedCompare.items.indexOf(id);
+        const spliceIndex = updated.items.indexOf(id);
 
-        updatedCompare.items.splice(spliceIndex, 1);
+        updated.items.splice(spliceIndex, 1);
 
-        localStorage.setItem('compare', JSON.stringify(updatedCompare));
+        localStorage.setItem('compare', JSON.stringify(updated));
       }
 
       if (favourite && packName === 'favourite') {
-        const updatedFavourite: IPack = JSON.parse(favourite);
+        const updated: IPack = JSON.parse(favourite);
 
-        const spliceIndex = updatedFavourite.items.indexOf(id);
+        const spliceIndex = updated.items.indexOf(id);
 
-        updatedFavourite.items.splice(spliceIndex, 1);
+        updated.items.splice(spliceIndex, 1);
 
-        localStorage.setItem('compare', JSON.stringify(updatedFavourite));
+        localStorage.setItem('compare', JSON.stringify(updated));
       }
     }
   };
