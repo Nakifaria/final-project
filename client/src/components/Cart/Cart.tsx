@@ -13,14 +13,14 @@ export const Cart = () => {
   const allCategoryItems = useSelector((state: RootState) => state.itemsSlice.items);
   const allItems = []
   allCategoryItems.map(el => allItems.push(...el.Items))
-  // console.log(allItems);
+  console.log(allItems);
 
   const filteredItems = []
   cartItems.map(item => {
     const result = allItems.filter(el => el.id === item)
     filteredItems.push(...result)
   })
-    // console.log(filteredItems);
+    console.log(filteredItems);
 
     const totalPrice = () => {
     const sum = filteredItems.reduce(
