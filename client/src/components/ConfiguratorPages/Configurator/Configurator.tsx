@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { choosenItemType } from "../../../types/configurator.types";
 import ModalConfigurator from "../ModalConfigurator/ModalConfigurator";
 import { Button } from "flowbite-react";
 import { useAppDispatch, useAppSelector } from "../../../redux/hook";
@@ -7,14 +6,13 @@ import { RootState } from "../../../redux/store/store";
 import { categoryFetch } from "../../../redux/thunk/category.action";
 import { useNavigate } from "react-router-dom";
 import {
-  setCategoriesArr,
+  allCategoriesFetch,
+  removeItemHandlerFetch,
+} from "../../../redux/thunk/configurator.action";
+import {
   setCategoryId,
   setCategoryTitle,
-  setChoosenCategory,
   setOpenModal,
-  setPrimaryParts,
-  setPrimaryPartsTotalAmount,
-  setProgressbarStyle,
   setSignificance,
 } from "../../../redux/slices/configuratorSlice";
 
@@ -26,6 +24,10 @@ function Configurator() {
     (state: RootState) => state.configuratorSlice.categoriesArr
   );
 
+  const choosenCategory = useAppSelector(
+    (state: RootState) => state.configuratorSlice.choosenCategory
+  );
+
   const primaryParts = useAppSelector(
     (state: RootState) => state.configuratorSlice.primaryParts
   );
@@ -34,9 +36,6 @@ function Configurator() {
   );
   const progressbarStyle = useAppSelector(
     (state: RootState) => state.configuratorSlice.progressbarStyle
-  );
-  const choosenCategory = useAppSelector(
-    (state: RootState) => state.configuratorSlice.choosenCategory
   );
   const openModal = useAppSelector(
     (state: RootState) => state.configuratorSlice.openModal
@@ -59,54 +58,8 @@ function Configurator() {
   );
 
   useEffect(() => {
-    (async function () {
-      try {
-        const response = await fetch("http://localhost:3000/configurator", {
-          credentials: "include",
-        });
-        const result = await response.json();
-        dispatch(setCategoriesArr(result.categoriesArr));
-        dispatch(setPrimaryPartsTotalAmount(result.primaryPartsTotalAmount));
-      } catch (error) {
-        console.log(error);
-      }
-    })();
+    dispatch(allCategoriesFetch());
   }, []);
-
-  function removeItemHandler(id: number, significance: number): void {
-    const currentCategoryIndex = choosenCategory.findIndex(
-      (el) => el.id === id
-    );
-    if (significance !== 0) {
-      if (choosenCategory[currentCategoryIndex].choosen) {
-        dispatch(setPrimaryParts(primaryParts - 1));
-        dispatch(
-          setProgressbarStyle({
-            width: `${Math.floor(
-              ((primaryParts - 1) / primaryPartsTotalAmount) * 100
-            )}%`,
-          })
-        );
-      }
-      const added = !choosenCategory[currentCategoryIndex].choosen;
-      dispatch(
-        setChoosenCategory([
-          ...choosenCategory.filter((el) => el.id !== id),
-          { id, choosen: added },
-        ])
-      );
-    } else {
-      if (currentCategoryIndex !== -1) {
-        const added = !choosenCategory[currentCategoryIndex].choosen;
-        dispatch(
-          setChoosenCategory([
-            ...choosenCategory.filter((el) => el.id !== id),
-            { id, choosen: added },
-          ])
-        );
-      }
-    }
-  }
 
   function openModalHandler(
     id: number,
@@ -119,8 +72,19 @@ function Configurator() {
     dispatch(setCategoryTitle(categoryTitle));
   }
 
-
   const [isLoading, setIsLoading] = useState(false);
+
+  function removeItemHandler(id, significance) {
+    dispatch(
+      removeItemHandlerFetch(
+        id,
+        significance,
+        choosenCategory,
+        primaryParts,
+        primaryPartsTotalAmount
+      )
+    );
+  }
 
   useEffect(() => {
     dispatch(categoryFetch(categoryId, setIsLoading));
