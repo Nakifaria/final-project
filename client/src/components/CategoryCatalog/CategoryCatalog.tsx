@@ -1,10 +1,10 @@
-import { ChangeEvent, useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../redux/hook';
-import { setCategory } from '../../redux/slices/catalogSlice';
-import { RootState } from '../../redux/store/store';
-import { ReactSVG } from 'react-svg';
-import { useNavigate, useParams } from 'react-router';
-import { Dropdown } from 'flowbite-react';
+import { ChangeEvent, useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import { setCategory } from "../../redux/slices/catalogSlice";
+import { RootState } from "../../redux/store/store";
+import { useNavigate, useParams } from "react-router";
+import { Dropdown } from "flowbite-react";
+import { categoryFetch } from "../../redux/thunk/category.action";
 import { SVGComponent } from '../Svg/SVGComponent';
 
 export const CategoryCatalog = () => {
@@ -116,13 +116,19 @@ export const CategoryCatalog = () => {
    <input onChange={changeHandler}
             value={priceData?.low}
             name="low"
-            type="text"
-            className="border rounded border-black"/> 
-   до
-    <input onChange={changeHandler}
+
+            type="number"
+            min="1"
+            className="border rounded border-black"
+          />
+          до
+          <input
+            onChange={changeHandler}
             value={priceData?.high}
             name="high"
-            type="text"
+            type="number"
+            min="1"
+
             className="border rounded border-black"/>
 <button onClick={submitHandler} type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
     Применить
