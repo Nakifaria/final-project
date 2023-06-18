@@ -36,106 +36,53 @@ export const loadItems: ThunkActionCreater = () => (dispatch) => {
     });
 };
 
+const addToLocalStorage = (id: number, packName: string) => {
+  const pack = localStorage.getItem(packName);
+
+  if (!pack) {
+    localStorage.setItem(
+      packName,
+      JSON.stringify({
+        items: [id],
+      })
+    );
+  } else {
+    const updated: IPack = JSON.parse(pack);
+
+    updated.items.push(id);
+
+    localStorage.setItem(packName, JSON.stringify(updated));
+  }
+};
+
 export const addToAction: ThunkActionCreater<IPackPayload> =
   ({ id, isAuth, packName }) =>
   (dispatch) => {
-    const cart = localStorage.getItem('cart');
-    const compare = localStorage.getItem('compare');
-    const favourite = localStorage.getItem('favourite');
-
     if (!isAuth) {
-      switch (packName) {
-        case 'cart':
-          if (!cart) {
-            localStorage.setItem(
-              'cart',
-              JSON.stringify({
-                items: [id],
-              })
-            );
-          } else {
-            const updated: IPack = JSON.parse(cart);
-
-            updated.items.push(id);
-
-            localStorage.setItem('cart', JSON.stringify(updated));
-          }
-          break;
-        case 'compare':
-          if (!compare) {
-            localStorage.setItem(
-              'compare',
-              JSON.stringify({
-                items: [id],
-              })
-            );
-          } else {
-            const updated: IPack = JSON.parse(compare);
-
-            updated.items.push(id);
-
-            localStorage.setItem('compare', JSON.stringify(updated));
-          }
-          break;
-        case 'favourite':
-          if (!favourite) {
-            localStorage.setItem(
-              'favourite',
-              JSON.stringify({
-                items: [id],
-              })
-            );
-          } else {
-            const updated: IPack = JSON.parse(favourite);
-
-            updated.items.push(id);
-
-            localStorage.setItem('favourite', JSON.stringify(updated));
-          }
-      }
+      addToLocalStorage(id, packName);
 
       dispatch(addTo({ itemId: id, packName }));
     }
   };
 
+const removeFromLocalStorage = (id: number, packName: string) => {
+  const pack = localStorage.getItem(packName);
+
+  const updated: IPack = pack && JSON.parse(pack);
+
+  const spliceIndex = updated.items.indexOf(id);
+
+  updated.items.splice(spliceIndex, 1);
+
+  localStorage.setItem(packName, JSON.stringify(updated));
+};
+
 export const removeFromAction: ThunkActionCreater<IPackPayload> =
   ({ id, isAuth, packName }) =>
   (dispatch) => {
-    const cart = localStorage.getItem('cart');
-    const compare = localStorage.getItem('compare');
-    const favourite = localStorage.getItem('favourite');
-
     if (!isAuth) {
       dispatch(deleteFrom({ itemId: id, packName }));
 
-      if (cart && packName === 'cart') {
-        const updated: IPack = JSON.parse(cart);
-
-        const spliceIndex = updated.items.indexOf(id);
-
-        updated.items.splice(spliceIndex, 1);
-
-        localStorage.setItem('cart', JSON.stringify(updated));
-      }
-
-      if (compare && packName === 'compare') {
-        const updated: IPack = JSON.parse(compare);
-
-        const spliceIndex = updated.items.indexOf(id);
-
-        updated.items.splice(spliceIndex, 1);
-
-        localStorage.setItem('compare', JSON.stringify(updated));
-      }
-
-      if (favourite && packName === 'favourite') {
-        const updated: IPack = JSON.parse(favourite);
-
-        const spliceIndex = updated.items.indexOf(id);
-
-        updated.items.splice(spliceIndex, 1);
-
-        localStorage.setItem('compare', JSON.stringify(updated));
-      }
+      removeFromLocalStorage(id, packName);
     }
   };

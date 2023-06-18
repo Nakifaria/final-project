@@ -21,6 +21,8 @@ export const addToCartAction: ThunkActionCreater<ICartPayload> =
           })
         );
       } else {
+        console.log(typeof cart);
+
         const updatedCart: IPack = JSON.parse(cart);
 
         updatedCart.items.push(id);

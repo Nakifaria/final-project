@@ -61,10 +61,13 @@ export const PackItemsSlice = createSlice({
           state.cart.splice(state.cart.indexOf(action.payload.itemId), 1);
           break;
         case 'compare':
-          state.compare.splice(state.cart.indexOf(action.payload.itemId), 1);
+          state.compare.splice(state.compare.indexOf(action.payload.itemId), 1);
           break;
         case 'favourite':
-          state.compare.splice(state.cart.indexOf(action.payload.itemId), 1);
+          state.favourite.splice(
+            state.favourite.indexOf(action.payload.itemId),
+            1
+          );
           break;
       }
     },
