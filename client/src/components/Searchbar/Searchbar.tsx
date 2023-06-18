@@ -95,7 +95,7 @@ export const Searchbar = () => {
           <button
             className="btn w-1/4 hidden md:flex lg:flex justify-center"
             onClick={() => {
-              navigate('/favorites');
+              navigate('/favourites');
             }}
           >
             <SVGComponent svgName="favourite" />

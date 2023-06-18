@@ -1,6 +1,5 @@
 const router = require('express').Router();
 
-const { where } = require('sequelize');
 const {
     Favourite,
     Item,
@@ -11,14 +10,11 @@ const {
   router.get('/', async (req, res) => {
     try {
       const items = (
-        await Favourite.findAll({
-          include: {
-            model: Item,
-          },
+        await Favourite.findAll( {
+          include: {model: Item},
           attributes: ['id'],
         })
       ).map((el) => el.get({ plain: true }));
-  
       res.json([...items]);
     } catch (error) {
       res.json({ msg: error.toString() });
