@@ -1,9 +1,9 @@
-export const FavouriteItem = ({ id, src, price, name, handlerDelete, addItem }) => {
+export const FavouriteItem = ({ id, source, price, name, handlerDelete, addItem }) => {
     return (
         <>
         <div className="flex">
             <div>
-            {name}<img src={src} />
+            {name}<img src={source} className="w-80 h-60" />
             </div>
             <div className="flex items-end space-x-2 justify-items-end">
              <span>Цена {price} р.</span>

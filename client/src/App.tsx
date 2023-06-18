@@ -54,7 +54,7 @@ function App() {
               <Route path="category/:catId" element={<CategoryCatalog />} />
               <Route path="product/:prodId" element={<ItemPage />} />
               <Route path="configurator" element={<Configurator />} />
-              <Route path="favorites" element={<Favorites />} />
+              <Route path="favourites" element={<Favorites />} />
               <Route path="" element={<Home />} />
             </Routes>
           </main>
