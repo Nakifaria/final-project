@@ -1,10 +1,11 @@
-import { FC } from 'react';
+import { Dispatch, FC, useRef } from 'react';
 import { IItem } from '../../redux/slices/items.slice';
 import { SVGComponent } from '../Svg/SVGComponent';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store/store';
 import { addToAction, removeFromAction } from '../../redux/thunk/items.action';
 import { ItemButton, packNames } from './ItemButton';
+import { useNavigate } from 'react-router';
 
 export interface ICardItem {
   item: IItem;
@@ -17,6 +18,8 @@ export interface IPack {
 export const ItemCard: FC<ICardItem> = ({ item }) => {
   const dispatch = useDispatch();
 
+  const navigate = useNavigate();
+
   const isAuth = useSelector((state: RootState) => state.userSlice.isAuth);
 
   const changePackFn = (packName: packNames, action: 'remove' | 'add') => {
@@ -28,13 +31,19 @@ export const ItemCard: FC<ICardItem> = ({ item }) => {
   };
 
   return (
-    <div className="w-[200px] h-[400px] flex flex-col justify-between">
-      <header className="cursor-pointer grow flex flex-col justify-center overflow-hidden">
+    <div className="item-card w-[200px] h-[400px] flex flex-col justify-between">
+      <header
+        onClick={() => navigate(`/product/${item.id}`)}
+        className="cursor-pointer grow flex flex-col justify-center overflow-hidden"
+      >
         <img src={item.img} alt={item.name} className="max-w-full" />
       </header>
       <main>
         <div className="flex flex-col gap-2">
-          <span className="text-xs text-center cursor-pointer hover:text-red-500 h-8 ">
+          <span
+            onClick={() => navigate(`/product/${item.id}`)}
+            className="text-xs text-center cursor-pointer hover:text-red-500 h-8 "
+          >
             {item.name}
           </span>
           <span className="text-lg text-center ">{item.price} ₽</span>

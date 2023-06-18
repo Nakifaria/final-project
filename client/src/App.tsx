@@ -18,6 +18,8 @@ import { Cart } from './components/Cart/Cart';
 import { IPack } from './components/Home/itemCard';
 import { initialCart } from './redux/slices/cart.slise';
 import { initial } from './redux/slices/addItemsTo.slice';
+import { packNames } from './components/Home/ItemButton';
+import { Compare } from './components/Compare/Compare';
 
 function App() {
   const dispatch = useDispatch();
@@ -37,7 +39,7 @@ function App() {
     }
   }, []);
 
-  const initialPack = (packName: 'cart' | 'compare' | 'favourite') => {
+  const initialPack = (packName: packNames) => {
     const pack = localStorage.getItem(packName);
 
     if (pack) {
@@ -62,6 +64,7 @@ function App() {
               <Route path="product/:prodId" element={<ItemPage />} />
               <Route path="configurator" element={<Configurator />} />
               <Route path="favorites" element={<Favorites />} />
+              <Route path="compare" element={<Compare />} />
               <Route path="" element={<Home />} />
             </Routes>
           </main>

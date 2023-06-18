@@ -31,7 +31,11 @@
 }
 
 .catBtn {
-  @apply text-sm py-4 border-b border-white text-black focus:border-b focus:border-black hover:text-gray-400 focus:text-black focus:outline-none  whitespace-nowrap;
+  @apply text-sm py-4 border-b border-white text-black hover:text-gray-400 whitespace-nowrap;
+}
+
+.currentCatBtn {
+  @apply text-sm py-4 border-b border-black text-black hover:text-gray-400 whitespace-nowrap;
 }
 
 .counter {

@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { packNames } from '../../components/Home/ItemButton';
 
 export interface IPackItems {
   cart: number[];
@@ -9,12 +10,12 @@ export interface IPackItems {
 
 export interface IHowToPack {
   items: number[];
-  packName: 'cart' | 'compare' | 'favourite';
+  packName: packNames;
 }
 
 export interface IItemToPack {
   itemId: number;
-  packName: 'cart' | 'compare' | 'favourite';
+  packName: packNames;
 }
 
 const initialState: IPackItems = {

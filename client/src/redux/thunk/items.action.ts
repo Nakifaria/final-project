@@ -4,11 +4,12 @@ import { startLoad } from '../slices/loader.slice';
 import { setItems } from '../slices/items.slice';
 import { IPack } from '../../components/Home/itemCard';
 import { addTo, deleteFrom } from '../slices/addItemsTo.slice';
+import { packNames } from '../../components/Home/ItemButton';
 
 interface IPackPayload {
   id: number;
   isAuth: boolean;
-  packName: 'cart' | 'compare' | 'favourite';
+  packName: packNames;
 }
 
 export const loadItems: ThunkActionCreater = () => (dispatch) => {

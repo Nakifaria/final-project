@@ -99,7 +99,12 @@ export const Searchbar = () => {
           >
             <SVGComponent svgName="profile" />
           </button>
-          <button className="btn w-1/4 hidden md:flex lg:flex justify-center">
+          <button
+            onClick={() => {
+              navigate('/compare');
+            }}
+            className="btn w-1/4 hidden md:flex lg:flex justify-center"
+          >
             <SVGComponent counter={compareLength} svgName="compare" />
           </button>
           <button
