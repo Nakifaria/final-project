@@ -32,15 +32,12 @@ export const removeItemHandlerFetch =
     significance,
     choosenCategory,
     primaryParts,
-    primaryPartsTotalAmount
+    primaryPartsTotalAmount,
+    choosenItem
   ): void =>
   (dispatch) => {
     try {
-      const currentCategoryIndex = choosenCategory.findIndex((el) => el === id);
       if (significance !== 0) {
-        dispatch(
-          setChoosenCategory([...choosenCategory.filter((el) => el !== id)])
-        );
         dispatch(setPrimaryParts(primaryParts - 1));
         dispatch(
           setProgressbarStyle({
@@ -49,11 +46,12 @@ export const removeItemHandlerFetch =
             )}%`,
           })
         );
-      } else {
-        dispatch(
-          setChoosenCategory([...choosenCategory.filter((el) => el !== id)])
-        );
       }
+      dispatch(setChoosenCategory(choosenCategory.filter((el) => el !== id)));
+      dispatch(
+        setChoosenItem(choosenItem.filter((el) => el.categoryId !== id))
+      );
+      removeConfiguratorItemsFromLocalStorage(id);
     } catch (error) {
       toast.error("Непредусмотренная ошибка", { autoClose: 2000 });
       console.log(error);
@@ -75,9 +73,7 @@ export const ChooseHandlerFetch =
     choosenItem
   ): void =>
   (dispatch) => {
-    const currentCategoryIndex = choosenCategory.findIndex((el) => el === id);
     if (significance !== 0) {
-      // console.log("Условие 1");
       dispatch(setChoosenCategory([...choosenCategory, id]));
       dispatch(setPrimaryParts(primaryParts + 1));
       dispatch(
@@ -87,52 +83,82 @@ export const ChooseHandlerFetch =
           )}%`,
         })
       );
-      dispatch(
-        setChoosenItem([
-          ...choosenItem,
-          {
-            id: currentItemId,
-            name: currentItemName,
-            price: currentItemPrice,
-            categoryId: id,
-            img: currentItemImg,
-          },
-        ])
-      );
-    } else {
-      // console.log("Условие 2");
-      dispatch(setChoosenCategory([...choosenCategory, id]));
-      dispatch(
-        setChoosenItem([
-          ...choosenItem,
-          {
-            id: currentItemId,
-            name: currentItemName,
-            price: currentItemPrice,
-            categoryId: id,
-            img: currentItemImg,
-          },
-        ])
-      );
     }
+    dispatch(setChoosenCategory([...choosenCategory, id]));
+    dispatch(
+      setChoosenItem([
+        ...choosenItem,
+        {
+          id: currentItemId,
+          name: currentItemName,
+          price: currentItemPrice,
+          categoryId: id,
+          img: currentItemImg,
+        },
+      ])
+    );
+    addConfiguratorItemsToLocalStorage(
+      id,
+      currentItemId,
+      currentItemName,
+      currentItemPrice,
+      currentItemImg
+    );
+
     dispatch(setOpenModal(false));
   };
 
-// const addToLocalStorage = (id: number, packName: string) => {
-//   const pack = localStorage.getItem(packName);
+const addConfiguratorItemsToLocalStorage = (
+  id,
+  currentItemId,
+  currentItemName,
+  currentItemPrice,
+  currentItemImg
+) => {
+  const pack = localStorage.getItem("configurator");
 
-//   if (!pack) {
-//     localStorage.setItem(
-//       packName,
-//       JSON.stringify({
-//         items: [id],
-//       })
-//     );
-//   } else {
-//     const updated: IPack = JSON.parse(pack);
+  if (!pack) {
+    localStorage.setItem(
+      "configurator",
+      JSON.stringify({
+        categories: [id],
+        items: [
+          {
+            id: currentItemId,
+            name: currentItemName,
+            price: currentItemPrice,
+            categoryId: id,
+            img: currentItemImg,
+          },
+        ],
+      })
+    );
+  } else {
+    const updated = JSON.parse(pack);
 
-//     updated.items.push(id);
+    updated.categories.push(id);
+    updated.items.push({
+      id: currentItemId,
+      name: currentItemName,
+      price: currentItemPrice,
+      categoryId: id,
+      img: currentItemImg,
+    });
 
-//     localStorage.setItem(packName, JSON.stringify(updated));
-//   }
-// };
+    localStorage.setItem("configurator", JSON.stringify(updated));
+  }
+};
+
+const removeConfiguratorItemsFromLocalStorage = (id: number) => {
+  const pack = localStorage.getItem("configurator");
+
+  const updated = pack && JSON.parse(pack);
+
+  const spliceIndex = updated.categories.indexOf(id);
+
+  updated.categories.splice(spliceIndex, 1);
+
+  updated.items = updated.items.filter((el) => el.categoryId !== id);
+
+  localStorage.setItem("configurator", JSON.stringify(updated));
+};

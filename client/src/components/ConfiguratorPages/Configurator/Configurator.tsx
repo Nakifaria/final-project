@@ -13,6 +13,8 @@ import {
 import {
   setCategoryId,
   setCategoryTitle,
+  setChoosenCategory,
+  setChoosenItem,
   setOpenModal,
   setSignificance,
 } from "../../../redux/slices/configuratorSlice";
@@ -61,8 +63,18 @@ function Configurator() {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  function starterPack(): void {
+    const pack = localStorage.getItem("configurator");
+    if (pack) {
+      const parsed = JSON.parse(pack);
+      // console.log("parsed", parsed.items[0]);
+      dispatch(setChoosenCategory(parsed.categories));
+      dispatch(setChoosenItem(parsed.items));
+    }
+  }
+
   useEffect(() => {
-    dispatch(allCategoriesFetch());
+    dispatch(allCategoriesFetch(), starterPack());
   }, []);
 
   function openModalHandler(
@@ -107,7 +119,8 @@ function Configurator() {
         significance,
         choosenCategory,
         primaryParts,
-        primaryPartsTotalAmount
+        primaryPartsTotalAmount,
+        choosenItem
       )
     );
   }
@@ -156,7 +169,7 @@ function Configurator() {
                         <div className="flex-shrink-0">
                           <img
                             className="w-8 h-8"
-                            src={getChoosenItem(category.id).img}
+                            src={getChoosenItem(category.id)?.img}
                             alt="Neil image"
                           />
                         </div>
