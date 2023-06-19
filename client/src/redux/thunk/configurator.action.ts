@@ -36,16 +36,10 @@ export const removeItemHandlerFetch =
   ): void =>
   (dispatch) => {
     try {
-      const currentCategoryIndex = choosenCategory.findIndex(
-        (el) => el.id === id
-      );
+      const currentCategoryIndex = choosenCategory.findIndex((el) => el === id);
       if (significance !== 0) {
-        const added = !choosenCategory[currentCategoryIndex].choosen;
         dispatch(
-          setChoosenCategory([
-            ...choosenCategory.filter((el) => el.id !== id),
-            { id, choosen: added },
-          ])
+          setChoosenCategory([...choosenCategory.filter((el) => el !== id)])
         );
         dispatch(setPrimaryParts(primaryParts - 1));
         dispatch(
@@ -56,12 +50,8 @@ export const removeItemHandlerFetch =
           })
         );
       } else {
-        const added = !choosenCategory[currentCategoryIndex].choosen;
         dispatch(
-          setChoosenCategory([
-            ...choosenCategory.filter((el) => el.id !== id),
-            { id, choosen: added },
-          ])
+          setChoosenCategory([...choosenCategory.filter((el) => el !== id)])
         );
       }
     } catch (error) {
@@ -85,12 +75,10 @@ export const ChooseHandlerFetch =
     choosenItem
   ): void =>
   (dispatch) => {
-    const currentCategoryIndex = choosenCategory.findIndex(
-      (el) => el.id === id
-    );
+    const currentCategoryIndex = choosenCategory.findIndex((el) => el === id);
     if (significance !== 0) {
       // console.log("Условие 1");
-      dispatch(setChoosenCategory([...choosenCategory, { id, choosen: true }]));
+      dispatch(setChoosenCategory([...choosenCategory, id]));
       dispatch(setPrimaryParts(primaryParts + 1));
       dispatch(
         setProgressbarStyle({
@@ -113,7 +101,7 @@ export const ChooseHandlerFetch =
       );
     } else {
       // console.log("Условие 2");
-      dispatch(setChoosenCategory([...choosenCategory, { id, choosen: true }]));
+      dispatch(setChoosenCategory([...choosenCategory, id]));
       dispatch(
         setChoosenItem([
           ...choosenItem,
@@ -130,21 +118,21 @@ export const ChooseHandlerFetch =
     dispatch(setOpenModal(false));
   };
 
-const addToLocalStorage = (id: number, packName: string) => {
-  const pack = localStorage.getItem(packName);
+// const addToLocalStorage = (id: number, packName: string) => {
+//   const pack = localStorage.getItem(packName);
 
-  if (!pack) {
-    localStorage.setItem(
-      packName,
-      JSON.stringify({
-        items: [id],
-      })
-    );
-  } else {
-    const updated: IPack = JSON.parse(pack);
+//   if (!pack) {
+//     localStorage.setItem(
+//       packName,
+//       JSON.stringify({
+//         items: [id],
+//       })
+//     );
+//   } else {
+//     const updated: IPack = JSON.parse(pack);
 
-    updated.items.push(id);
+//     updated.items.push(id);
 
-    localStorage.setItem(packName, JSON.stringify(updated));
-  }
-};
+//     localStorage.setItem(packName, JSON.stringify(updated));
+//   }
+// };

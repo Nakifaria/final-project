@@ -117,11 +117,7 @@ function Configurator() {
   }, [categoryId]);
 
   function isCategoryChoosen(currentCategoryId) {
-    return (
-      choosenCategory.findIndex(
-        (el) => el.id === currentCategoryId && el.choosen === true
-      ) === -1
-    );
+    return choosenCategory.findIndex((el) => el === currentCategoryId) === -1;
   }
 
   function getChoosenItem(currentCategoryId) {

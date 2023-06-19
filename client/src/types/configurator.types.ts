@@ -7,11 +7,6 @@ export type category = {
   significance: number;
 };
 
-export type choosenCategory = {
-  id: number;
-  choosen: boolean;
-};
-
 export type ChooseHandlerType = {
   (
     id: number,
@@ -26,7 +21,7 @@ export type ChooseHandlerType = {
 export type modalConfiguratorProps = {
   openModal: boolean;
   categoryId: number;
-  choosenCategory: choosenCategory[];
+  choosenCategory: number[];
   primaryParts: number;
   primaryPartsTotalAmount: number;
   significance: number;
@@ -48,7 +43,7 @@ export type configuratorSliceType = {
   primaryParts: number;
   primaryPartsTotalAmount: number;
   progressbarStyle: object;
-  choosenCategory: choosenCategory[];
+  choosenCategory: number[];
   openModal: boolean;
   categoryId: number;
   significance: number;
