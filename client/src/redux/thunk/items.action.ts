@@ -2,6 +2,7 @@ import { toast } from 'react-toastify';
 import { ThunkActionCreater } from '../Types/thunk.type';
 import { startLoad } from '../slices/loader.slice';
 import { setItems } from '../slices/items.slice';
+
 import { IPack } from '../../components/Home/itemCard';
 import { addTo, deleteFrom } from '../slices/addItemsTo.slice';
 import { packNames } from '../../components/Home/ItemButton';
@@ -11,6 +12,7 @@ interface IPackPayload {
   isAuth: boolean;
   packName: packNames;
 }
+
 
 export const loadItems: ThunkActionCreater = () => (dispatch) => {
   dispatch(startLoad(true));
