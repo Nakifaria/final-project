@@ -1,11 +1,3 @@
-import { useSelector } from 'react-redux';
-
-import { RootState } from '../../redux/store/store';
-
-import { CatButton } from './CatButton';
-import { ItemCard } from './itemCard';
-import { useEffect, useState } from 'react';
-import { IItem } from '../../redux/slices/items.slice';
 import { FilteredItemsBox } from './FilteredItemsBox';
 
 export const Home = () => {
@@ -22,7 +14,7 @@ export const Home = () => {
         title="Новинки"
         btnName="Все новинки"
         sortBy={'createdAt'}
-        catNumber={55}
+        catNumber={99}
       />
     </div>
   );

@@ -36,12 +36,14 @@ export const FilteredItemsBox: FC<IPropsBox> = ({
 
   const [items, setItems] = useState<IItem[]>([]);
 
+  const [currentCategory, setCurrentCategory] = useState(99);
+
   useEffect(() => {
     setItems(allItems.slice(0, 6));
   }, []);
 
   const otherCategory = (cat: number) => {
-    if (cat === 99 || cat === 55) {
+    if (cat === 99) {
       setItems(allItems.slice(0, 6));
     } else {
       setItems(allItems.filter((el) => el.category_id === cat).slice(0, 6));
@@ -56,6 +58,8 @@ export const FilteredItemsBox: FC<IPropsBox> = ({
             title={'Все категории'}
             otherCategory={otherCategory}
             catNumber={catNumber}
+            currentCategory={currentCategory}
+            setCurrentCategory={setCurrentCategory}
           />
           {aboutItems &&
             aboutItems
@@ -66,6 +70,8 @@ export const FilteredItemsBox: FC<IPropsBox> = ({
                   key={el.id}
                   otherCategory={otherCategory}
                   catNumber={el.id}
+                  currentCategory={currentCategory}
+                  setCurrentCategory={setCurrentCategory}
                 />
               ))}
         </div>
