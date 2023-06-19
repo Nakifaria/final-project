@@ -81,7 +81,8 @@ function Configurator() {
     significance,
     currentItemId,
     currentItemName,
-    currentItemPrice
+    currentItemPrice,
+    currentItemImg
   ): ChooseHandlerType {
     dispatch(
       ChooseHandlerFetch(
@@ -90,6 +91,7 @@ function Configurator() {
         currentItemId,
         currentItemName,
         currentItemPrice,
+        currentItemImg,
         choosenCategory,
         primaryParts,
         primaryPartsTotalAmount,
@@ -140,7 +142,11 @@ function Configurator() {
                         <div className="flex-shrink-0">
                           <img
                             className="w-8 h-8"
-                            src="https://cdn1.ozone.ru/s3/multimedia-2/6368709194.jpg"
+                            src={
+                              choosenItem.find(
+                                (el) => el.categoryId === category.id
+                              )?.img
+                            }
                             alt="Neil image"
                           />
                         </div>

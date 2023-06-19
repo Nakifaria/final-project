@@ -6,7 +6,6 @@ import { Button, Modal } from "flowbite-react";
 import { CategoryConfigurator } from "../CategoryConfigurator/CategoryConfigurator";
 import { useAppDispatch } from "../../../redux/hook";
 import { setOpenModal } from "../../../redux/slices/configuratorSlice";
-import { ChooseHandlerFetch } from "../../../redux/thunk/configurator.action";
 
 function ModalConfigurator({
   openModal,

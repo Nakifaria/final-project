@@ -16,10 +16,11 @@ module.exports = {
           key: "id",
         },
       },
-      saved: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false,
-        allowNull: false,
+      title: {
+        type: Sequelize.STRING,
+      },
+      description: {
+        type: Sequelize.STRING,
       },
 
       createdAt: {

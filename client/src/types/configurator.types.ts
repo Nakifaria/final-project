@@ -18,7 +18,8 @@ export type ChooseHandlerType = {
     significance: number,
     currentItemId: number,
     currentItemName: string,
-    currentItemPrice: number
+    currentItemPrice: number,
+    currentItemImg: string
   ): void;
 };
 

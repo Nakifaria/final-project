@@ -71,11 +71,12 @@ export const removeItemHandlerFetch =
 
 export const ChooseHandlerFetch =
   (
-    id: number,
-    significance: number,
-    currentItemId: number,
-    currentItemName: string,
-    currentItemPrice: number,
+    id,
+    significance,
+    currentItemId,
+    currentItemName,
+    currentItemPrice,
+    currentItemImg,
     choosenCategory,
     primaryParts,
     primaryPartsTotalAmount,
@@ -112,6 +113,7 @@ export const ChooseHandlerFetch =
               name: currentItemName,
               price: currentItemPrice,
               categoryId: id,
+              img: currentItemImg,
             },
           ])
         );
@@ -136,6 +138,7 @@ export const ChooseHandlerFetch =
               name: currentItemName,
               price: currentItemPrice,
               categoryId: id,
+              img: currentItemImg,
             },
           ])
         );
@@ -157,6 +160,7 @@ export const ChooseHandlerFetch =
               name: currentItemName,
               price: currentItemPrice,
               categoryId: id,
+              img: currentItemImg,
             },
           ])
         );
@@ -173,11 +177,11 @@ export const ChooseHandlerFetch =
               name: currentItemName,
               price: currentItemPrice,
               categoryId: id,
+              img: currentItemImg,
             },
           ])
         );
       }
     }
-    console.log(currentItemId);
     dispatch(setOpenModal(false));
   };
