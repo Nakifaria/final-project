@@ -1,4 +1,5 @@
 import { Dispatch, FC, useEffect, useRef } from 'react';
+import { IItem } from '../../redux/slices/items.slice';
 
 export interface IbuttonProps {
   title: string;
@@ -6,6 +7,7 @@ export interface IbuttonProps {
   catNumber: number;
   currentCategory: number;
   setCurrentCategory: Dispatch<React.SetStateAction<number>>;
+  currentItems?: IItem[];
 }
 
 export const CatButton: FC<IbuttonProps> = ({

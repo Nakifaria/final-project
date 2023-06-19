@@ -16,10 +16,10 @@ import { Modal } from './components/Modal/Modal';
 import PacmanLoader from 'react-spinners/PacmanLoader';
 import { Cart } from './components/Cart/Cart';
 import { IPack } from './components/Home/itemCard';
-import { initialCart } from './redux/slices/cart.slise';
 import { initial } from './redux/slices/addItemsTo.slice';
 import { packNames } from './components/Home/ItemButton';
 import { Compare } from './components/Compare/Compare';
+import { Favourite } from './components/newFav/Favourite';
 
 function App() {
   const dispatch = useDispatch();
@@ -36,6 +36,7 @@ function App() {
       initialPack('cart');
       initialPack('compare');
       initialPack('favourite');
+			
     }
   }, []);
 
@@ -64,7 +65,7 @@ function App() {
               <Route path="product/:prodId" element={<ItemPage />} />
               <Route path="configurator" element={<Configurator />} />
 
-              <Route path="favourites" element={<Favorites />} />
+              <Route path="favourite" element={<Favourite />} />
               <Route path="compare" element={<Compare />} />
 
               <Route path="" element={<Home />} />
