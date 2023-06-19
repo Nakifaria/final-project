@@ -116,6 +116,7 @@ function Configurator() {
     dispatch(categoryFetch(categoryId, setIsLoading));
   }, [categoryId]);
 
+  console.log(categoriesArr);
   return (
     <>
       <div className="bg-gray-100 sm:grid grid-cols-5 grid-rows-2 px-4 py-6 min-h-full lg:min-h-screen space-y-6 sm:space-y-0 sm:gap-4">
@@ -125,12 +126,20 @@ function Configurator() {
               categoriesArr.map((category) => (
                 <li key={category.id}>
                   <div className="bg-white py-3 px-4 rounded-lg my-3 mx-3 flex justify-between items-center">
-                    {category.significance ? (
-                      <span className="w-1/12">{category.title}*</span>
-                    ) : (
-                      <span className="w-1/12">{category.title}</span>
-                    )}
-
+                    <div className="w-1/4 items-center flex-row flex">
+                      <div className=" bg-purple-500 text-white shadow-lg shadow-purple-200 w-12 h-12 mr-2 relative">
+                        <img
+                          className="h-10 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"
+                          src={`${category.image}`}
+                          alt="category image"
+                        />
+                      </div>
+                      {category.significance ? (
+                        <span>{category.title}*</span>
+                      ) : (
+                        <span>{category.title}</span>
+                      )}
+                    </div>
                     {choosenCategory.findIndex(
                       (el) => el.id === category.id && el.choosen === true
                     ) === -1 ? (
@@ -138,7 +147,7 @@ function Configurator() {
                         {category.amountItems} шт.
                       </span>
                     ) : (
-                      <div className="flex justify-between gap-x-6 w-3/5">
+                      <div className="flex justify-between gap-x-6 w-1/2">
                         <div className="flex-shrink-0">
                           <img
                             className="w-8 h-8"
@@ -172,13 +181,13 @@ function Configurator() {
                             </p>
                           </div>
                         </div>
-                        <div className="ml-10 sm:flex sm:flex-col sm:items-end">
+                        <div className="ml-10 sm:flex sm:flex-col sm:items-end w-1/4">
                           <p className="text-sm text-center leading-6 text-gray-900">
                             {
                               choosenItem.find(
                                 (el) => el.categoryId === category.id
                               )?.price
-                            }{" "}
+                            }
                             ₽
                           </p>
                         </div>
