@@ -5,6 +5,7 @@ const {
     Item,
     Cart,
     CartItem,
+    Comparison
   } = require('../../db/models');
 
   router.get('/', async (req, res) => {
@@ -36,6 +37,18 @@ const {
       const realItem = await Item.findOne({ where: { id: item.item_id} })
       /* await CartItem.create({where: { user: req.session.user}}) */
       await CartItem.create({card_id: 1, item_id: item.item_id, count: 1})
+      res.json(200)
+    } catch (error) {
+      console.log(error);
+    }
+  })
+
+  router.patch('/:id', async (req, res) => {
+    try {
+      const item = await Favourite.findOne({ where: { id: req.params.id }});
+      const realItem = await Item.findOne({ where: { id: item.item_id} })
+      await Comparison.create({user_id: req.session.user.id, item_id: item.item_id})
+      res.json(200)
     } catch (error) {
       console.log(error);
     }
