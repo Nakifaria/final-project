@@ -28,8 +28,8 @@ export const allCategoriesFetch = () => async (dispatch) => {
 
 export const removeItemHandlerFetch =
   (
-    id: number,
-    significance: number,
+    id,
+    significance,
     choosenCategory,
     primaryParts,
     primaryPartsTotalAmount
@@ -40,6 +40,13 @@ export const removeItemHandlerFetch =
         (el) => el.id === id
       );
       if (significance !== 0) {
+        const added = !choosenCategory[currentCategoryIndex].choosen;
+        dispatch(
+          setChoosenCategory([
+            ...choosenCategory.filter((el) => el.id !== id),
+            { id, choosen: added },
+          ])
+        );
         dispatch(setPrimaryParts(primaryParts - 1));
         dispatch(
           setProgressbarStyle({
@@ -47,13 +54,6 @@ export const removeItemHandlerFetch =
               ((primaryParts - 1) / primaryPartsTotalAmount) * 100
             )}%`,
           })
-        );
-        const added = !choosenCategory[currentCategoryIndex].choosen;
-        dispatch(
-          setChoosenCategory([
-            ...choosenCategory.filter((el) => el.id !== id),
-            { id, choosen: added },
-          ])
         );
       } else {
         const added = !choosenCategory[currentCategoryIndex].choosen;
@@ -89,109 +89,43 @@ export const ChooseHandlerFetch =
       (el) => el.id === id
     );
     if (significance !== 0) {
-      console.log("Условие 1");
-      if (currentCategoryIndex !== -1) {
-        console.log("Условие 1.1");
-        if (choosenCategory[currentCategoryIndex].choosen === false) {
-          console.log("Условие 1.1.1");
-          dispatch(setPrimaryParts(primaryParts + 1));
-          dispatch(
-            setProgressbarStyle({
-              width: `${Math.floor(
-                ((primaryParts + 1) / primaryPartsTotalAmount) * 100
-              )}%`,
-            })
-          );
-        }
-        console.log("Условие 1.1.2");
-        const added = !choosenCategory[currentCategoryIndex].choosen;
-        dispatch(
-          setChoosenCategory([
-            ...choosenCategory.filter((el) => el.id !== id),
-            { id, choosen: added },
-          ])
-        );
-        dispatch(
-          setChoosenItem([
-            ...choosenItem.filter((el) => el.categoryId !== id),
-            {
-              id: currentItemId,
-              name: currentItemName,
-              price: currentItemPrice,
-              categoryId: id,
-              img: currentItemImg,
-            },
-          ])
-        );
-      }
-      if (currentCategoryIndex === -1) {
-        console.log("Условие 1.2");
-        dispatch(
-          setChoosenCategory([...choosenCategory, { id, choosen: true }])
-        );
-        dispatch(setPrimaryParts(primaryParts + 1));
-        dispatch(
-          setProgressbarStyle({
-            width: `${Math.floor(
-              ((primaryParts + 1) / primaryPartsTotalAmount) * 100
-            )}%`,
-          })
-        );
-        dispatch(
-          setChoosenItem([
-            ...choosenItem,
-            {
-              id: currentItemId,
-              name: currentItemName,
-              price: currentItemPrice,
-              categoryId: id,
-              img: currentItemImg,
-            },
-          ])
-        );
-      }
+      // console.log("Условие 1");
+      dispatch(setChoosenCategory([...choosenCategory, { id, choosen: true }]));
+      dispatch(setPrimaryParts(primaryParts + 1));
+      dispatch(
+        setProgressbarStyle({
+          width: `${Math.floor(
+            ((primaryParts + 1) / primaryPartsTotalAmount) * 100
+          )}%`,
+        })
+      );
+      dispatch(
+        setChoosenItem([
+          ...choosenItem,
+          {
+            id: currentItemId,
+            name: currentItemName,
+            price: currentItemPrice,
+            categoryId: id,
+            img: currentItemImg,
+          },
+        ])
+      );
     } else {
-      console.log("Условие 2");
-      if (currentCategoryIndex !== -1) {
-        console.log("Условие 2.1");
-        const added = !choosenCategory[currentCategoryIndex].choosen;
-        dispatch(
-          setChoosenCategory([
-            ...choosenCategory.filter((el) => el.id !== id),
-            { id, choosen: added },
-          ])
-        );
-        dispatch(
-          setChoosenItem([
-            ...choosenItem.filter((el) => el.categoryId !== id),
-            {
-              id: currentItemId,
-              name: currentItemName,
-              price: currentItemPrice,
-              categoryId: id,
-              img: currentItemImg,
-            },
-          ])
-        );
-      }
-      if (currentCategoryIndex === -1) {
-        console.log("Условие 2.2");
-        dispatch(
-          setChoosenCategory([...choosenCategory, { id, choosen: true }])
-        );
-        dispatch(
-          setChoosenItem([
-            ...choosenItem,
-            {
-              id: currentItemId,
-              name: currentItemName,
-              price: currentItemPrice,
-              categoryId: id,
-              img: currentItemImg,
-            },
-          ])
-        );
-      }
+      // console.log("Условие 2");
+      dispatch(setChoosenCategory([...choosenCategory, { id, choosen: true }]));
+      dispatch(
+        setChoosenItem([
+          ...choosenItem,
+          {
+            id: currentItemId,
+            name: currentItemName,
+            price: currentItemPrice,
+            categoryId: id,
+            img: currentItemImg,
+          },
+        ])
+      );
     }
     dispatch(setOpenModal(false));
   };
