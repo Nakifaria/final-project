@@ -38,7 +38,9 @@ export const removeItemHandlerFetch =
     const currentCategoryIndex = choosenCategory.findIndex(
       (el) => el.id === id
     );
+    console.log("Условие 1");
     if (significance !== 0) {
+      console.log("Условие 2");
       if (choosenCategory[currentCategoryIndex].choosen) {
         dispatch(setPrimaryParts(primaryParts - 1));
         dispatch(
@@ -49,6 +51,7 @@ export const removeItemHandlerFetch =
           })
         );
       }
+      console.log("Условие 3");
       const added = !choosenCategory[currentCategoryIndex].choosen;
       dispatch(
         setChoosenCategory([
@@ -57,7 +60,9 @@ export const removeItemHandlerFetch =
         ])
       );
     } else {
+      console.log("Условие 4");
       if (currentCategoryIndex !== -1) {
+        console.log("Условие 5");
         const added = !choosenCategory[currentCategoryIndex].choosen;
         dispatch(
           setChoosenCategory([
@@ -66,6 +71,7 @@ export const removeItemHandlerFetch =
           ])
         );
       }
+      console.log("Условие 6");
     }
   };
 
@@ -185,3 +191,22 @@ export const ChooseHandlerFetch =
     }
     dispatch(setOpenModal(false));
   };
+
+const addToLocalStorage = (id: number, packName: string) => {
+  const pack = localStorage.getItem(packName);
+
+  if (!pack) {
+    localStorage.setItem(
+      packName,
+      JSON.stringify({
+        items: [id],
+      })
+    );
+  } else {
+    const updated: IPack = JSON.parse(pack);
+
+    updated.items.push(id);
+
+    localStorage.setItem(packName, JSON.stringify(updated));
+  }
+};

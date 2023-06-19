@@ -116,7 +116,18 @@ function Configurator() {
     dispatch(categoryFetch(categoryId, setIsLoading));
   }, [categoryId]);
 
-  console.log(categoriesArr);
+  function isCategoryChoosen(currentCategoryId) {
+    return (
+      choosenCategory.findIndex(
+        (el) => el.id === currentCategoryId && el.choosen === true
+      ) === -1
+    );
+  }
+
+  function getChoosenItem(currentCategoryId) {
+    return choosenItem.find((el) => el.categoryId === currentCategoryId);
+  }
+
   return (
     <>
       <div className="bg-gray-100 sm:grid grid-cols-5 grid-rows-2 px-4 py-6 min-h-full lg:min-h-screen space-y-6 sm:space-y-0 sm:gap-4">
@@ -140,9 +151,7 @@ function Configurator() {
                         <span>{category.title}</span>
                       )}
                     </div>
-                    {choosenCategory.findIndex(
-                      (el) => el.id === category.id && el.choosen === true
-                    ) === -1 ? (
+                    {isCategoryChoosen(category.id) ? (
                       <span className="text-gray-500">
                         {category.amountItems} шт.
                       </span>
@@ -151,11 +160,7 @@ function Configurator() {
                         <div className="flex-shrink-0">
                           <img
                             className="w-8 h-8"
-                            src={
-                              choosenItem.find(
-                                (el) => el.categoryId === category.id
-                              )?.img
-                            }
+                            src={getChoosenItem(category.id).img}
                             alt="Neil image"
                           />
                         </div>
@@ -164,11 +169,7 @@ function Configurator() {
                             <p
                               onClick={() =>
                                 navigate(
-                                  `/product/${
-                                    choosenItem.find(
-                                      (el) => el.categoryId === category.id
-                                    )?.id
-                                  }`
+                                  `/product/${getChoosenItem(category.id)?.id}`
                                 )
                               }
                               className="text-sm text-center font-bold leading-6 text-gray-900"
@@ -183,20 +184,13 @@ function Configurator() {
                         </div>
                         <div className="ml-10 sm:flex sm:flex-col sm:items-end w-1/4">
                           <p className="text-sm text-center leading-6 text-gray-900">
-                            {
-                              choosenItem.find(
-                                (el) => el.categoryId === category.id
-                              )?.price
-                            }
-                            ₽
+                            {getChoosenItem(category.id)?.price}₽
                           </p>
                         </div>
                       </div>
                     )}
 
-                    {choosenCategory.findIndex(
-                      (el) => el.id === category.id && el.choosen === true
-                    ) === -1 ? (
+                    {isCategoryChoosen(category.id) ? (
                       <Button
                         onClick={() =>
                           openModalHandler(
