@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { IItem } from '../../redux/slices/items.slice';
 import { ItemCard } from '../Home/itemCard';
 import { useNavigate } from 'react-router';
+import { Empty } from '../Empty/Empty';
 
 export const Compare = () => {
   const idsToCompare = useSelector(
@@ -47,14 +48,7 @@ export const Compare = () => {
 
   return (
     <div className="flex flex-col py-10 px-4">
-      {itemsToCompare.length === 0 && (
-        <div className="flex flex-col w-full items-center gap-5">
-          <span>в сравнении пока ничего нет</span>
-          <button onClick={() => navigate('/catalog')} className="btn w-1/4">
-            перейти в каталог
-          </button>
-        </div>
-      )}
+      {itemsToCompare.length === 0 && <Empty title="сравнении" />}
 
       {itemsToCompare.length > 0 && (
         <>
