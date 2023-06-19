@@ -8,9 +8,10 @@ export type packNames = 'cart' | 'compare' | 'favourite';
 export type addedBtnNames =
   | 'addedToCartBtn'
   | 'addedToCompareBtn'
-  | 'addedToFavouriteBtn';
+  | 'addedToFavouriteBtn'
+  | 'addedToBtnFromItem';
 
-export type btnNames = 'cartBtn' | 'compareBtn' | 'favouriteBtn';
+export type btnNames = 'cartBtn' | 'compareBtn' | 'favouriteBtn' | 'btnInItems';
 
 export interface IItemBtn {
   children: JSX.Element;
