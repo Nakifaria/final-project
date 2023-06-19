@@ -35,13 +35,11 @@ export const removeItemHandlerFetch =
     primaryPartsTotalAmount
   ): void =>
   (dispatch) => {
-    const currentCategoryIndex = choosenCategory.findIndex(
-      (el) => el.id === id
-    );
-    console.log("Условие 1");
-    if (significance !== 0) {
-      console.log("Условие 2");
-      if (choosenCategory[currentCategoryIndex].choosen) {
+    try {
+      const currentCategoryIndex = choosenCategory.findIndex(
+        (el) => el.id === id
+      );
+      if (significance !== 0) {
         dispatch(setPrimaryParts(primaryParts - 1));
         dispatch(
           setProgressbarStyle({
@@ -50,19 +48,14 @@ export const removeItemHandlerFetch =
             )}%`,
           })
         );
-      }
-      console.log("Условие 3");
-      const added = !choosenCategory[currentCategoryIndex].choosen;
-      dispatch(
-        setChoosenCategory([
-          ...choosenCategory.filter((el) => el.id !== id),
-          { id, choosen: added },
-        ])
-      );
-    } else {
-      console.log("Условие 4");
-      if (currentCategoryIndex !== -1) {
-        console.log("Условие 5");
+        const added = !choosenCategory[currentCategoryIndex].choosen;
+        dispatch(
+          setChoosenCategory([
+            ...choosenCategory.filter((el) => el.id !== id),
+            { id, choosen: added },
+          ])
+        );
+      } else {
         const added = !choosenCategory[currentCategoryIndex].choosen;
         dispatch(
           setChoosenCategory([
@@ -71,7 +64,10 @@ export const removeItemHandlerFetch =
           ])
         );
       }
-      console.log("Условие 6");
+    } catch (error) {
+      toast.error("Непредусмотренная ошибка", { autoClose: 2000 });
+      console.log(error);
+      dispatch(startLoad(false));
     }
   };
 
@@ -93,8 +89,11 @@ export const ChooseHandlerFetch =
       (el) => el.id === id
     );
     if (significance !== 0) {
+      console.log("Условие 1");
       if (currentCategoryIndex !== -1) {
+        console.log("Условие 1.1");
         if (choosenCategory[currentCategoryIndex].choosen === false) {
+          console.log("Условие 1.1.1");
           dispatch(setPrimaryParts(primaryParts + 1));
           dispatch(
             setProgressbarStyle({
@@ -104,6 +103,7 @@ export const ChooseHandlerFetch =
             })
           );
         }
+        console.log("Условие 1.1.2");
         const added = !choosenCategory[currentCategoryIndex].choosen;
         dispatch(
           setChoosenCategory([
@@ -125,6 +125,7 @@ export const ChooseHandlerFetch =
         );
       }
       if (currentCategoryIndex === -1) {
+        console.log("Условие 1.2");
         dispatch(
           setChoosenCategory([...choosenCategory, { id, choosen: true }])
         );
@@ -150,7 +151,9 @@ export const ChooseHandlerFetch =
         );
       }
     } else {
+      console.log("Условие 2");
       if (currentCategoryIndex !== -1) {
+        console.log("Условие 2.1");
         const added = !choosenCategory[currentCategoryIndex].choosen;
         dispatch(
           setChoosenCategory([
@@ -172,6 +175,7 @@ export const ChooseHandlerFetch =
         );
       }
       if (currentCategoryIndex === -1) {
+        console.log("Условие 2.2");
         dispatch(
           setChoosenCategory([...choosenCategory, { id, choosen: true }])
         );
