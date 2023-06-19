@@ -38,8 +38,6 @@ export const Compare = () => {
     itemsToCompare.filter((el) => el.category_id === currentCategory)
   );
 
-  const navigate = useNavigate();
-
   const changeCategory = (categoryId: number) => {
     setCurrentItems(
       itemsToCompare.filter((el) => el.category_id === categoryId)
