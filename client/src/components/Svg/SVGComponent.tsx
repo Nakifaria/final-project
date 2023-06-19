@@ -1,25 +1,25 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from 'react';
 
 export interface ISvgProps {
   svgName: string;
-  cartLength?: number;
+  counter?: number;
 }
 
-export const SVGComponent: FC<ISvgProps> = ({ svgName, cartLength }) => {
+export const SVGComponent: FC<ISvgProps> = ({ svgName, counter }) => {
   const [needsCounter, setNeedsCounter] = useState(false);
 
   useEffect(() => {
-    if (cartLength && cartLength > 0) {
+    if (counter && counter > 0) {
       setNeedsCounter(true);
-    } else if (cartLength === 0) {
+    } else if (counter === 0) {
       setNeedsCounter(false);
     }
-  }, [cartLength]);
+  }, [counter]);
 
   switch (svgName) {
-    case "cart":
+    case 'cart':
       return (
-        <div className={`${needsCounter && "relative"}`}>
+        <div className={`${needsCounter && 'relative'}`}>
           <svg
             fill="none"
             stroke="currentColor"
@@ -36,28 +36,32 @@ export const SVGComponent: FC<ISvgProps> = ({ svgName, cartLength }) => {
             ></path>
           </svg>
           <span className="sr-only">Notifications</span>
-          {needsCounter && <div className="counter">{cartLength}</div>}
+          {needsCounter && <div className="counter">{counter}</div>}
         </div>
       );
-    case "favourite":
+    case 'favourite':
       return (
-        <svg
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-          className="w-6"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-          ></path>
-        </svg>
+        <div className={`${needsCounter && 'relative'}`}>
+          <svg
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            className="w-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+            ></path>
+          </svg>
+          <span className="sr-only">Notifications</span>
+          {needsCounter && <div className="counter">{counter}</div>}
+        </div>
       );
-    case "home":
+    case 'home':
       return (
         <svg
           fill="none"
@@ -75,7 +79,7 @@ export const SVGComponent: FC<ISvgProps> = ({ svgName, cartLength }) => {
           ></path>
         </svg>
       );
-    case "profile":
+    case 'profile':
       return (
         <svg
           fill="none"
@@ -94,7 +98,7 @@ export const SVGComponent: FC<ISvgProps> = ({ svgName, cartLength }) => {
         </svg>
       );
 
-    case "search":
+    case 'search':
       return (
         <svg
           fill="none"
@@ -112,23 +116,27 @@ export const SVGComponent: FC<ISvgProps> = ({ svgName, cartLength }) => {
           ></path>
         </svg>
       );
-    case "sravnenie":
+    case 'compare':
       return (
-        <svg
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-          className="w-6"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
-          ></path>
-        </svg>
+        <div className={`${needsCounter && 'relative'}`}>
+          <svg
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            className="w-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
+            ></path>
+          </svg>
+          <span className="sr-only">Notifications</span>
+          {needsCounter && <div className="counter">{counter}</div>}
+        </div>
       );
       case "delete":
         return(

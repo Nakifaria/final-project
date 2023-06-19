@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { ICart } from '../../components/Home/itemCard';
+import { IPack } from '../../components/Home/itemCard';
 
-const initialState: ICart = {
+const initialState: IPack = {
   items: [],
 };
 
