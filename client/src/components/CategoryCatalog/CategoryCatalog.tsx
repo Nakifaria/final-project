@@ -14,25 +14,40 @@ export const CategoryCatalog = () => {
   const [sortOption, setSortOption] = useState('')
   const [dropdawnLabel, setDropdawnLabel] = useState('Сортировка')
 
-  const navigate = useNavigate();
+
+  const navigate = useNavigate()
   const dispatch = useAppDispatch();
-  const { catId } = useParams();
+  const {catId} = useParams()  
+
+  const categoryData = async () => {
+    try {
+
+      const response = await fetch(`http://localhost:3000/catalog/category/${catId}`);
+
+      const categoryData = await response.json();
+      dispatch(setCategory(categoryData));
+    } catch (error) {
+      console.log(error);
+    } finally {
+        setIsLoading(true);
+      }
+  };
 
   useEffect(() => {
-    dispatch(categoryFetch(catId, setIsLoading));
+    categoryData();
   }, []);
 
-
+    
   const categoryItems = useAppSelector(
     (state: RootState) => state.catalog.category)
     console.log(categoryItems);
 
-  const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...priceData, [e.target.name]: e.target.value });
-  };
+    const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setFormData({...priceData, [e.target.name]: e.target.value});
+    }
 
-  const submitHandler = () => {
-    // console.log(priceData);
+    const submitHandler = () => {
+        // console.log(priceData);
     if (priceData.low && priceData.high) {
     const newCategoryItems = categoryItems.filter((item) => (item.price >= priceData.low && item.price <= priceData.high));
     dispatch(setCategory(newCategoryItems));
@@ -91,18 +106,18 @@ export const CategoryCatalog = () => {
 } 
     
 
-  if (isLoading) {
-    return (
-      <div className="mt-[30px] flex flex-col text-center">
-        <h1 className="text-center text-2xl font-semibold leading-7 text-gray-900">
-          {categoryItems && categoryItems[0].category}
-        </h1>
-        <div className="mt-10">
-          Цена от
-          <input
-            onChange={changeHandler}
+    if (isLoading) {
+  return (
+    <div className="mt-[30px] flex flex-col text-center">
+      <h1 className="text-center text-2xl font-semibold leading-7 text-gray-900">
+         {categoryItems && categoryItems[0].category}
+      </h1>
+<div className="mt-10">
+   Цена от
+   <input onChange={changeHandler}
             value={priceData?.low}
             name="low"
+
             type="number"
             className="border rounded border-black"
           />
@@ -112,6 +127,7 @@ export const CategoryCatalog = () => {
             value={priceData?.high}
             name="high"
             type="number"
+            min="1"
             className="border rounded border-black"/>
 <button onClick={submitHandler} type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
     Применить
@@ -122,16 +138,16 @@ export const CategoryCatalog = () => {
             <Dropdown.Item onClick={() => setSortOption('popularity')}>
               По популярности
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => setSortOption("priceLow")}>
+            <Dropdown.Item onClick={() => setSortOption('priceLow')}>
               По цене (сначала дешевле)
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => setSortOption("priceHigh")}>
+            <Dropdown.Item onClick={() => setSortOption('priceHigh')}>
               По цене (сначала дороже)
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => setSortOption("nameAsc")}>
+            <Dropdown.Item onClick={() => setSortOption('nameAsc')}>
               По названию (А-Я)
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => setSortOption("nameDesc")}>
+            <Dropdown.Item onClick={() => setSortOption('nameDesc')}>
               По названию (Я-А)
             </Dropdown.Item>
           </Dropdown>
@@ -175,12 +191,11 @@ export const CategoryCatalog = () => {
                   <button type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
                   <SVGComponent svgName="favourite"/>
                     </button>
-                  </div>
-                </li>
-              ))}
-          </ul>
-        </div>
+                </div>
+              </li>
+            ))}
+        </ul>
       </div>
-    );
-  }
-};
+    </div>
+  )
+}}

@@ -23,7 +23,17 @@ export const Searchbar = () => {
 
   const isAuth = useSelector((state: RootState) => state.userSlice.isAuth);
 
-  const cart = useSelector((state: RootState) => state.cartSlise.items).length;
+  const cartLength = useSelector(
+    (state: RootState) => state.PackItemsSlice.cart
+  ).length;
+
+  const compareLength = useSelector(
+    (state: RootState) => state.PackItemsSlice.compare
+  ).length;
+
+  const favouriteLength = useSelector(
+    (state: RootState) => state.PackItemsSlice.favourite
+  ).length;
 
   const closeModal = (event: MouseEvent<HTMLDivElement>) => {
     if (!(event.target instanceof HTMLDivElement)) return;
@@ -89,16 +99,21 @@ export const Searchbar = () => {
           >
             <SVGComponent svgName="profile" />
           </button>
-          <button className="btn w-1/4 hidden md:flex lg:flex justify-center">
-            <SVGComponent svgName="sravnenie" />
+          <button
+            onClick={() => {
+              navigate('/compare');
+            }}
+            className="btn w-1/4 hidden md:flex lg:flex justify-center"
+          >
+            <SVGComponent counter={compareLength} svgName="compare" />
           </button>
           <button
             className="btn w-1/4 hidden md:flex lg:flex justify-center"
             onClick={() => {
-              navigate('/favorites');
+              navigate('/favourites');
             }}
           >
-            <SVGComponent svgName="favourite" />
+            <SVGComponent counter={favouriteLength} svgName="favourite" />
           </button>
           <button
             onClick={() => {
@@ -106,7 +121,7 @@ export const Searchbar = () => {
             }}
             className="btn w-1/4 hidden md:flex lg:flex justify-center"
           >
-            <SVGComponent cartLength={cart} svgName="cart" />
+            <SVGComponent counter={cartLength} svgName="cart" />
           </button>
           <button
             onClick={() => {

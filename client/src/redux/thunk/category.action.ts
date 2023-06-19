@@ -1,5 +1,7 @@
 import { toast } from "react-toastify";
+
 import { ThunkActionCreater } from "../Types/thunk.type";
+
 import { setCategory } from "../slices/catalogSlice";
 import { startLoad } from "../slices/loader.slice";
 

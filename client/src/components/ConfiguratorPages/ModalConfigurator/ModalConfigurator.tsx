@@ -5,13 +5,8 @@ import {
 import { Button, Modal } from "flowbite-react";
 import { CategoryConfigurator } from "../CategoryConfigurator/CategoryConfigurator";
 import { useAppDispatch } from "../../../redux/hook";
-import {
-  setChoosenCategory,
-  setChoosenItem,
-  setOpenModal,
-  setPrimaryParts,
-  setProgressbarStyle,
-} from "../../../redux/slices/configuratorSlice";
+import { setOpenModal } from "../../../redux/slices/configuratorSlice";
+import { ChooseHandlerFetch } from "../../../redux/thunk/configurator.action";
 
 function ModalConfigurator({
   openModal,
@@ -34,104 +29,19 @@ function ModalConfigurator({
     currentItemName: string,
     currentItemPrice: number
   ): void {
-    const currentCategoryIndex = choosenCategory.findIndex(
-      (el) => el.id === id
+    dispatch(
+      ChooseHandlerFetch(
+        id,
+        significance,
+        currentItemId,
+        currentItemName,
+        currentItemPrice,
+        choosenCategory,
+        primaryParts,
+        primaryPartsTotalAmount,
+        choosenItem
+      )
     );
-    if (significance !== 0) {
-      if (currentCategoryIndex !== -1) {
-        if (choosenCategory[currentCategoryIndex].choosen === false) {
-          dispatch(setPrimaryParts(primaryParts + 1));
-          dispatch(
-            setProgressbarStyle({
-              width: `${Math.floor(
-                ((primaryParts + 1) / primaryPartsTotalAmount) * 100
-              )}%`,
-            })
-          );
-        }
-        const added = !choosenCategory[currentCategoryIndex].choosen;
-        dispatch(
-          setChoosenCategory([
-            ...choosenCategory.filter((el) => el.id !== id),
-            { id, choosen: added },
-          ])
-        );
-        dispatch(
-          setChoosenItem([
-            ...choosenItem.filter((el) => el.categoryId !== id),
-            {
-              id: currentItemId,
-              name: currentItemName,
-              price: currentItemPrice,
-              categoryId: id,
-            },
-          ])
-        );
-      }
-      if (currentCategoryIndex === -1) {
-        dispatch(
-          setChoosenCategory([...choosenCategory, { id, choosen: true }])
-        );
-        dispatch(setPrimaryParts(primaryParts + 1));
-        dispatch(
-          setProgressbarStyle({
-            width: `${Math.floor(
-              ((primaryParts + 1) / primaryPartsTotalAmount) * 100
-            )}%`,
-          })
-        );
-        dispatch(
-          setChoosenItem([
-            ...choosenItem,
-            {
-              id: currentItemId,
-              name: currentItemName,
-              price: currentItemPrice,
-              categoryId: id,
-            },
-          ])
-        );
-      }
-    } else {
-      if (currentCategoryIndex !== -1) {
-        const added = !choosenCategory[currentCategoryIndex].choosen;
-        dispatch(
-          setChoosenCategory([
-            ...choosenCategory.filter((el) => el.id !== id),
-            { id, choosen: added },
-          ])
-        );
-        dispatch(
-          setChoosenItem([
-            ...choosenItem.filter((el) => el.categoryId !== id),
-            {
-              id: currentItemId,
-              name: currentItemName,
-              price: currentItemPrice,
-              categoryId: id,
-            },
-          ])
-        );
-      }
-      if (currentCategoryIndex === -1) {
-        dispatch(
-          setChoosenCategory([...choosenCategory, { id, choosen: true }])
-        );
-        dispatch(
-          setChoosenItem([
-            ...choosenItem,
-            {
-              id: currentItemId,
-              name: currentItemName,
-              price: currentItemPrice,
-              categoryId: id,
-            },
-          ])
-        );
-      }
-    }
-    console.log(currentItemId);
-    dispatch(setOpenModal(false));
   }
 
   if (isLoading) {
