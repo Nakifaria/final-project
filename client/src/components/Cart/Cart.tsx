@@ -44,12 +44,8 @@ export const Cart = () => {
     dispatch(removeFromAction({ id, isAuth, packName: 'cart' }));
   };
 
-export const Cart = () => {
-
-
   return (
     <>
-
       {filteredItems.length === 0 && <Empty title="корзине" />}
       {filteredItems.length > 0 && (
         <div>
@@ -131,9 +127,7 @@ export const Cart = () => {
             </div>
           </div>
         </div>
-
       )}
     </>
   );
 };
-
