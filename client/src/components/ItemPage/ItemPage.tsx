@@ -31,15 +31,24 @@ export const ItemPage = () => {
   }, []);
 
   const item = useAppSelector((state: RootState) => state.catalog.item);
+// console.log(item);
+
+
   if (isLoading) {
     const description = item.description;
     const result = Object.entries(description);
-    //   console.log(result);
+    result.map((el) => {
+      if (el.includes("Dimensions")) 
+     { const dimensions = Object.entries(el[1])
+      const newEl = dimensions.map((item) => item.join(": ")).join(" ")
+     el[1] = newEl}
+    })
+      // console.log(result);
 
     return (
       <div className="mt-10 flex justify-center min-h-screen">
         <div className="hidden bg-cover lg:block lg:w-2/5">
-          <img src="https://cdn1.ozone.ru/s3/multimedia-2/6368709194.jpg" />
+          <img src={item.img} />
         </div>
 
         <div className="flex items-center w-full max-w-3xl p-8 mx-auto lg:px-12 lg:w-3/5">
