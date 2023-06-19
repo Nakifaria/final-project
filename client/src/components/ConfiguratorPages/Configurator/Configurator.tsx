@@ -6,6 +6,7 @@ import { RootState } from "../../../redux/store/store";
 import { categoryFetch } from "../../../redux/thunk/category.action";
 import { useNavigate } from "react-router-dom";
 import {
+  ChooseHandlerFetch,
   allCategoriesFetch,
   removeItemHandlerFetch,
 } from "../../../redux/thunk/configurator.action";
@@ -15,6 +16,7 @@ import {
   setOpenModal,
   setSignificance,
 } from "../../../redux/slices/configuratorSlice";
+import { ChooseHandlerType } from "../../../types/configurator.types";
 
 function Configurator() {
   const navigate = useNavigate();
@@ -57,6 +59,8 @@ function Configurator() {
     (state: RootState) => state.catalog.category
   );
 
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     dispatch(allCategoriesFetch());
   }, []);
@@ -72,7 +76,27 @@ function Configurator() {
     dispatch(setCategoryTitle(categoryTitle));
   }
 
-  const [isLoading, setIsLoading] = useState(false);
+  function ChooseHandler(
+    id,
+    significance,
+    currentItemId,
+    currentItemName,
+    currentItemPrice
+  ): ChooseHandlerType {
+    dispatch(
+      ChooseHandlerFetch(
+        id,
+        significance,
+        currentItemId,
+        currentItemName,
+        currentItemPrice,
+        choosenCategory,
+        primaryParts,
+        primaryPartsTotalAmount,
+        choosenItem
+      )
+    );
+  }
 
   function removeItemHandler(id, significance) {
     dispatch(
@@ -250,6 +274,7 @@ function Configurator() {
         isLoading={isLoading}
         categoryItems={categoryItems}
         choosenItem={choosenItem}
+        ChooseHandler={ChooseHandler}
       />
     </>
   );

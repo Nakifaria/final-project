@@ -12,6 +12,16 @@ export type choosenCategory = {
   choosen: boolean;
 };
 
+export type ChooseHandlerType = {
+  (
+    id: number,
+    significance: number,
+    currentItemId: number,
+    currentItemName: string,
+    currentItemPrice: number
+  ): void;
+};
+
 export type modalConfiguratorProps = {
   openModal: boolean;
   categoryId: number;
@@ -23,6 +33,7 @@ export type modalConfiguratorProps = {
   isLoading: boolean;
   categoryItems: CategoryType[];
   choosenItem: choosenItemType[];
+  ChooseHandler: ChooseHandlerType;
 };
 
 export type choosenItemType = {
