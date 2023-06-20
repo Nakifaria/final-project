@@ -6,28 +6,34 @@ import { SVGComponent } from '../Svg/SVGComponent';
 import { useAppDispatch, useAppSelector } from '../../redux/hook';
 import { removeFromAction } from '../../redux/thunk/items.action';
 import { Empty } from '../Empty/Empty';
+import { deleteFromCart, initialCart } from '../../redux/slices/cart.slice';
 
 export const Cart = () => {
   const dispatch = useAppDispatch();
 
-  const cartItems = useAppSelector(
+  const cartItemsId = useAppSelector(
     (state: RootState) => state.PackItemsSlice.cart
   );
+
   const allCategoryItems = useAppSelector(
     (state: RootState) => state.itemsSlice.items
   );
   const isAuth = useAppSelector((state: RootState) => state.userSlice.isAuth);
 
-  const allItems = [];
-  allCategoryItems.map((el) => allItems.push(...el.Items));
-  // console.log(allItems);
+  const filteredItems = allCategoryItems.map((el) => el.Items).flat().filter((el) => cartItemsId.includes(el.id))
 
-  const filteredItems = [];
-  cartItems.map((item) => {
-    const result = allItems.filter((el) => el.id === item);
-    filteredItems.push(...result);
-  });
-  // console.log(filteredItems);
+  // const filteredItems: [] = cartItemsId.map((item) => {
+  //   return allItems.filter((el) => el.id === item);
+  // });
+  console.log(filteredItems);
+  
+  // dispatch(initialCart(filteredItems))
+
+  // const cartItems = useAppSelector (
+  //   (state: RootState) => state.cartSlice.items
+  // )
+  // console.log(cartItems);
+  
 
   const totalPrice = () => {
     const sum = filteredItems.reduce((acc, val) => acc + val.price, 0);
@@ -92,7 +98,6 @@ export const Cart = () => {
                           </div>
                           <div className="flex items-center space-x-4">
                             <p className="text-sm">{el.price} ₽</p>
-                            {/* <button> */}
                             <button onClick={() => deleteItem(el.id)}>
                               <SVGComponent svgName="delete" />
                             </button>
