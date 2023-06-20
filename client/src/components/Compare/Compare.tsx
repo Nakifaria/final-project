@@ -1,25 +1,24 @@
-import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store/store';
 import { CatButton } from '../Home/CatButton';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { IItem } from '../../redux/slices/items.slice';
 import { ItemCard } from '../Home/itemCard';
-import { useNavigate } from 'react-router';
 import { Empty } from '../Empty/Empty';
+import { useAppSelector } from '../../redux/hook';
 
 export const Compare = () => {
-  const idsToCompare = useSelector(
+  const idsToCompare = useAppSelector(
     (state: RootState) => state.PackItemsSlice.compare
   );
 
-  const itemsToCompare = useSelector(
+  const itemsToCompare = useAppSelector(
     (state: RootState) => state.itemsSlice.items
   )
     .map((el) => el.Items)
     .flat()
     .filter((el) => idsToCompare.includes(el.id));
 
-  const categoriesToCompare = useSelector(
+  const categoriesToCompare = useAppSelector(
     (state: RootState) => state.itemsSlice.items
   )
     .map((el) => {
@@ -69,7 +68,7 @@ export const Compare = () => {
               currentItems.map((itemEl) => (
                 <div key={itemEl.id} className="items-info flex flex-col">
                   <ItemCard item={itemEl} />
-                  {/* <div className="gap-4 mt-5 max-w-[200px]">
+                  <div className="gap-4 mt-5 max-w-[200px]">
                     {Object.entries(itemEl.description).map(
                       (el, index, array) => {
                         if (el.includes('Dimensions')) {
@@ -106,7 +105,7 @@ export const Compare = () => {
                         );
                       }
                     )}
-                  </div> */}
+                  </div>
                 </div>
               ))}
           </div>

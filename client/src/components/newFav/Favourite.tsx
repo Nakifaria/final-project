@@ -1,14 +1,14 @@
-import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store/store';
 import { Empty } from '../Empty/Empty';
 import { ItemCard } from '../Home/itemCard';
+import { useAppSelector } from '../../redux/hook';
 
 export const Favourite = () => {
-  const favIds = useSelector(
+  const favIds = useAppSelector(
     (state: RootState) => state.PackItemsSlice.favourite
   );
 
-  const favItems = useSelector((state: RootState) => state.itemsSlice.items)
+  const favItems = useAppSelector((state: RootState) => state.itemsSlice.items)
     .map((el) => el.Items)
     .flat()
     .filter((el) => favIds.includes(el.id));
