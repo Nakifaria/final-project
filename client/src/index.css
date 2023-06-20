@@ -11,11 +11,11 @@
 }
 
 .addedToBtnFromItem {
-  @apply w-1/4 px-2 py-2 flex justify-center text-white bg-black border border-gray-300 rounded-lg;
+  @apply w-full px-2 py-2 flex justify-center text-white bg-black border border-gray-300 rounded-lg;
 }
 
 .btnInItems {
-  @apply w-1/4 px-2 py-2 flex justify-center bg-white border border-gray-300 rounded-lg;
+  @apply w-full px-2 py-2 flex justify-center bg-white border border-gray-300 rounded-lg;
 }
 
 .cartBtn {

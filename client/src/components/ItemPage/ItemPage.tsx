@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/hook';
 import { setItem } from '../../redux/slices/catalogSlice';
 import { RootState } from '../../redux/store/store';
