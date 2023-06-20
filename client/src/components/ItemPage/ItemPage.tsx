@@ -7,12 +7,11 @@ import { SVGComponent } from '../Svg/SVGComponent';
 import { addToAction, removeFromAction } from '../../redux/thunk/items.action';
 import { ItemButton } from '../Home/ItemButton';
 
-
 export const ItemPage = () => {
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
- 
-  const {prodId} = useParams()
+
+  const { prodId } = useParams();
 
   const categoryData = async () => {
     try {
@@ -36,11 +35,17 @@ export const ItemPage = () => {
   const item = useAppSelector((state: RootState) => state.catalog.item);
   const isAuth = useAppSelector((state: RootState) => state.userSlice.isAuth);
 
-    const changePackFn = (packName, action: 'remove' | 'add') => {
+  const cartId = useAppSelector((state: RootState) => state.userSlice.cartId);
+
+  const userId = useAppSelector((state: RootState) => state.userSlice.id);
+
+  const changePackFn = (packName, action: 'remove' | 'add') => {
     if (action === 'add') {
-      dispatch(addToAction({ id: item.id, isAuth, packName }));
+      dispatch(addToAction({ id: item.id, isAuth, packName, cartId, userId }));
     } else if (action === 'remove') {
-      dispatch(removeFromAction({ id: item.id, isAuth, packName }));
+      dispatch(
+        removeFromAction({ id: item.id, isAuth, packName, cartId, userId })
+      );
     }
   };
 
@@ -48,11 +53,12 @@ export const ItemPage = () => {
     const description = item.description;
     const result = Object.entries(description);
     result.map((el) => {
-      if (el.includes("Dimensions")) 
-     { const dimensions = Object.entries(el[1])
-      const newEl = dimensions.map((item) => item.join(": ")).join(" ")
-     el[1] = newEl}
-    })
+      if (el.includes('Dimensions')) {
+        const dimensions = Object.entries(el[1]);
+        const newEl = dimensions.map((item) => item.join(': ')).join(' ');
+        el[1] = newEl;
+      }
+    });
 
     return (
       <div className="mt-10 flex justify-center min-h-screen">
@@ -80,36 +86,35 @@ export const ItemPage = () => {
               <h1 className="text-black-500 ">Цена: {item.price} ₽</h1>
 
               <div className="mt-3 md:flex md:items-center md:-mx-2">
-              <ItemButton
-                packName="cart"
-                changePackFn={changePackFn}
-                addedBtnName="addedToBtnFromItem"
-                btnName="btnInItems"
-                itemId={item.id}
-              >
-                <SVGComponent svgName="cart" />
-              </ItemButton>
+                <ItemButton
+                  packName="cart"
+                  changePackFn={changePackFn}
+                  addedBtnName="addedToBtnFromItem"
+                  btnName="btnInItems"
+                  itemId={item.id}
+                >
+                  <SVGComponent svgName="cart" />
+                </ItemButton>
 
-              <ItemButton
-                packName="favourite"
-                changePackFn={changePackFn}
-                addedBtnName="addedToBtnFromItem"
-                btnName="btnInItems"
-                itemId={item.id}
-              >
-                <SVGComponent svgName="favourite"/>
-              </ItemButton>
+                <ItemButton
+                  packName="favourite"
+                  changePackFn={changePackFn}
+                  addedBtnName="addedToBtnFromItem"
+                  btnName="btnInItems"
+                  itemId={item.id}
+                >
+                  <SVGComponent svgName="favourite" />
+                </ItemButton>
 
-              <ItemButton
-                packName="compare"
-                changePackFn={changePackFn}
-                addedBtnName="addedToBtnFromItem"
-                btnName="btnInItems"
-                itemId={item.id}
-              >
-                <SVGComponent svgName="compare"/>
-              </ItemButton>
-
+                <ItemButton
+                  packName="compare"
+                  changePackFn={changePackFn}
+                  addedBtnName="addedToBtnFromItem"
+                  btnName="btnInItems"
+                  itemId={item.id}
+                >
+                  <SVGComponent svgName="compare" />
+                </ItemButton>
               </div>
             </div>
           </div>

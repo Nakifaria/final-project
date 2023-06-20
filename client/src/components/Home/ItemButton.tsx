@@ -1,7 +1,8 @@
 import { FC, useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+
 import { RootState } from '../../redux/store/store';
 import { useLocation } from 'react-router';
+import { useAppSelector } from '../../redux/hook';
 
 export type packNames = 'cart' | 'compare' | 'favourite';
 
@@ -30,7 +31,7 @@ export const ItemButton: FC<IItemBtn> = ({
   btnName,
   itemId,
 }) => {
-  const pack = useSelector(
+  const pack = useAppSelector(
     (state: RootState) => state.PackItemsSlice[packName]
   );
 

@@ -2,21 +2,21 @@ import './Cart.css';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store/store';
 import { SVGComponent } from '../Svg/SVGComponent';
-import { deleteFromCart } from '../../redux/slices/cart.slise';
-import { useAppDispatch } from '../../redux/hook';
+
+import { useAppDispatch, useAppSelector } from '../../redux/hook';
 import { removeFromAction } from '../../redux/thunk/items.action';
 import { Empty } from '../Empty/Empty';
 
 export const Cart = () => {
   const dispatch = useAppDispatch();
 
-  const cartItems = useSelector(
+  const cartItems = useAppSelector(
     (state: RootState) => state.PackItemsSlice.cart
   );
-  const allCategoryItems = useSelector(
+  const allCategoryItems = useAppSelector(
     (state: RootState) => state.itemsSlice.items
   );
-  const isAuth = useSelector((state: RootState) => state.userSlice.isAuth);
+  const isAuth = useAppSelector((state: RootState) => state.userSlice.isAuth);
 
   const allItems = [];
   allCategoryItems.map((el) => allItems.push(...el.Items));

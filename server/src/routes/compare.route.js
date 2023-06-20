@@ -23,6 +23,8 @@ router.get('/:userId', async (req, res) => {
 router.post('/', async (req, res) => {
   const { userId, itemId } = req.body;
 
+  console.log('-------compare>>>>', req.body);
+
   try {
     await Comparison.create({ user_id: userId, item_id: itemId });
 
@@ -34,6 +36,8 @@ router.post('/', async (req, res) => {
 
 router.delete('/', async (req, res) => {
   const { userId, itemId } = req.body;
+
+  console.log('-------compare>>>>', req.body);
 
   try {
     await Comparison.destroy({ where: { user_id: userId, item_id: itemId } });

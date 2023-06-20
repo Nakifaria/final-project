@@ -6,6 +6,7 @@ import { RootState } from '../../redux/store/store';
 import { addToAction, removeFromAction } from '../../redux/thunk/items.action';
 import { ItemButton, packNames } from './ItemButton';
 import { useNavigate } from 'react-router';
+import { useAppSelector } from '../../redux/hook';
 
 export interface ICardItem {
   item: IItem;
@@ -20,9 +21,7 @@ export const ItemCard: FC<ICardItem> = ({ item }) => {
 
   const navigate = useNavigate();
 
-  const userStatus = useSelector((state: RootState) => state.userSlice);
-
-  console.log(userStatus.cartId);
+  const userStatus = useAppSelector((state: RootState) => state.userSlice);
 
   const changePackFn = (packName: packNames, action: 'remove' | 'add') => {
     if (action === 'add') {

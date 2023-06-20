@@ -5,9 +5,10 @@ import { Modal } from '../Modal/Modal';
 import { Auth } from '../Auth/Auth';
 
 import 'react-toastify/dist/ReactToastify.css';
-import { useSelector } from 'react-redux';
+
 import { RootState } from '../../redux/store/store';
 import { SVGComponent } from '../Svg/SVGComponent';
+import { useAppSelector } from '../../redux/hook';
 
 export const Searchbar = () => {
   const [showModal, setShowModal] = useState(false);
@@ -21,17 +22,17 @@ export const Searchbar = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const isAuth = useSelector((state: RootState) => state.userSlice.isAuth);
+  const isAuth = useAppSelector((state: RootState) => state.userSlice.isAuth);
 
-  const cartLength = useSelector(
+  const cartLength = useAppSelector(
     (state: RootState) => state.PackItemsSlice.cart
   ).length;
 
-  const compareLength = useSelector(
+  const compareLength = useAppSelector(
     (state: RootState) => state.PackItemsSlice.compare
   ).length;
 
-  const favouriteLength = useSelector(
+  const favouriteLength = useAppSelector(
     (state: RootState) => state.PackItemsSlice.favourite
   ).length;
 
