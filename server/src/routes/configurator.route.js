@@ -26,7 +26,9 @@ router.get("/", async (req, res) => {
     ).length;
 
     res.json({ categoriesArr, primaryPartsTotalAmount });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 router.post("/", async (req, res) => {
@@ -41,18 +43,17 @@ router.post("/", async (req, res) => {
       })
     ).get({ plain: true });
 
-    await Promise.all(
-      itemIdArr.forEach(async (el) => {
-        await ItemsToConfiguration.create({
-          configuration_id: newConfiguration.id,
-          item_id: el,
-        });
-      })
-    );
+    itemIdArr.forEach(async (el) => {
+      await ItemsToConfiguration.create({
+        configuration_id: newConfiguration.id,
+        item_id: el,
+      });
+    });
 
-    console.log(newConfiguration);
-    // res.json({});
-  } catch (error) {}
+    res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 module.exports = router;

@@ -157,12 +157,7 @@ function Configurator() {
       return;
     }
     const info = JSON.parse(pack);
-    console.log({
-      title: info.title,
-      description: info.description,
-      itemIdArr: info.items.map((el) => el.id),
-    });
-    await fetch("http://localhost:3000/configurator", {
+    const response = await fetch("http://localhost:3000/configurator", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -172,7 +167,10 @@ function Configurator() {
         itemIdArr: info.items.map((el) => el.id),
       }),
     });
-    localStorage.removeItem("configurator");
+
+    if (response.ok) {
+      localStorage.removeItem("configurator");
+    }
   }
 
   function ChooseHandler(
