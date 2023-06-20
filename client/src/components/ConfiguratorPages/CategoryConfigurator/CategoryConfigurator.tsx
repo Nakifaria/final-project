@@ -6,7 +6,6 @@ export const CategoryConfigurator = ({
   categoryId,
   significance,
   ChooseHandler,
-  progressbarStyle,
 }) => {
   const navigate = useNavigate();
   return (

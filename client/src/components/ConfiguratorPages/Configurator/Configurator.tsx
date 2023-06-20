@@ -15,12 +15,15 @@ import {
   setCategoryTitle,
   setChoosenCategory,
   setChoosenItem,
+  setDescription,
   setOpenModal,
   setPrimaryParts,
   setProgressbarStyle,
   setSignificance,
+  setTitle,
 } from "../../../redux/slices/configuratorSlice";
 import { ChooseHandlerType } from "../../../types/configurator.types";
+import { toast } from "react-toastify";
 
 function Configurator() {
   const navigate = useNavigate();
@@ -28,6 +31,14 @@ function Configurator() {
 
   const categoriesArr = useAppSelector(
     (state: RootState) => state.configuratorSlice.categoriesArr
+  );
+
+  const title = useAppSelector(
+    (state: RootState) => state.configuratorSlice.title
+  );
+
+  const description = useAppSelector(
+    (state: RootState) => state.configuratorSlice.description
   );
 
   const choosenCategory = useAppSelector(
@@ -74,8 +85,44 @@ function Configurator() {
       dispatch(setChoosenItem(parsed.items));
       dispatch(setProgressbarStyle(parsed.progress));
       dispatch(setPrimaryParts(parsed.primaries));
+      dispatch(setTitle(parsed.title));
+      dispatch(setDescription(parsed.description));
     }
   }
+
+  const titleInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setTitle(e.target.value));
+    const pack = localStorage.getItem("configurator");
+    if (!pack) {
+      localStorage.setItem(
+        "configurator",
+        JSON.stringify({
+          title: e.target.value,
+        })
+      );
+    } else {
+      const updated = JSON.parse(pack);
+      updated.title = e.target.value;
+      localStorage.setItem("configurator", JSON.stringify(updated));
+    }
+  };
+
+  const descriptionInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setDescription(e.target.value));
+    const pack = localStorage.getItem("configurator");
+    if (!pack) {
+      localStorage.setItem(
+        "configurator",
+        JSON.stringify({
+          description: e.target.value,
+        })
+      );
+    } else {
+      const updated = JSON.parse(pack);
+      updated.description = e.target.value;
+      localStorage.setItem("configurator", JSON.stringify(updated));
+    }
+  };
 
   useEffect(() => {
     dispatch(allCategoriesFetch(), starterPack());
@@ -90,6 +137,44 @@ function Configurator() {
     dispatch(setCategoryId(id));
     dispatch(setSignificance(significance));
     dispatch(setCategoryTitle(categoryTitle));
+  }
+
+  async function saveBtnHandler() {
+    const pack = localStorage.getItem("configurator");
+    if (!pack) {
+      return;
+    }
+    if (primaryParts < primaryPartsTotalAmount) {
+      toast.error("Выберите все обязательные комплектующие ПК ", {
+        autoClose: 2000,
+      });
+      if (title === "") {
+        toast.error("Введите название сборки", {
+          autoClose: 2000,
+        });
+        return;
+      }
+      return;
+    }
+    const info = JSON.parse(pack);
+    console.log(
+      JSON.stringify({
+        title: info.title,
+        description: info.description,
+        itemIdArr: info.items.map((el) => el.id),
+      })
+    );
+    await fetch("http://localhost:3000/configurator", {
+      method: "POST",
+      headers: { ContentType: "application/json" },
+      credentials: "include",
+      body: JSON.stringify({
+        title: info.title,
+        description: info.description,
+        itemIdArr: info.items.map((el) => el.id),
+      }),
+    });
+    // localStorage.removeItem("configurator");
   }
 
   function ChooseHandler(
@@ -253,6 +338,8 @@ function Configurator() {
           <div className="bg-white  rounded-md">
             <div className="bg-white py-3 px-4 rounded-lg flex justify-around items-center ">
               <input
+                value={title}
+                onChange={titleInputHandler}
                 type="text"
                 placeholder="Введите название сборки"
                 className=" bg-gray-100 rounded-md  outline-none pl-2 ring-indigo-700 w-full mr-2 p-2"
@@ -261,6 +348,8 @@ function Configurator() {
 
             <div className="bg-white py-3 px-4 rounded-lg flex justify-around items-center ">
               <input
+                value={description}
+                onChange={descriptionInputHandler}
                 type="text"
                 placeholder="Введите описание сборки (необязательно)"
                 className=" bg-gray-100 rounded-md  outline-none pl-2 ring-indigo-700 w-full mr-2 p-2 h-64"
@@ -268,6 +357,7 @@ function Configurator() {
             </div>
             <div className="bg-white py-3 px-4 rounded-lg flex justify-around items-center ">
               <button
+                onClick={saveBtnHandler}
                 type="button"
                 className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
               >
@@ -298,7 +388,6 @@ function Configurator() {
         categoryItems={categoryItems}
         choosenItem={choosenItem}
         ChooseHandler={ChooseHandler}
-        progressbarStyle={progressbarStyle}
       />
     </>
   );

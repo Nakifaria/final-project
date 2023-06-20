@@ -15,7 +15,6 @@ function ModalConfigurator({
   isLoading,
   categoryItems,
   ChooseHandler,
-  progressbarStyle,
 }: modalConfiguratorProps) {
   const dispatch = useAppDispatch();
 
@@ -43,7 +42,6 @@ function ModalConfigurator({
                 categoryId={categoryId}
                 significance={significance}
                 ChooseHandler={ChooseHandler}
-                progressbarStyle={progressbarStyle}
               />
             </div>
           </Modal.Body>

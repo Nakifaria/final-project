@@ -24,4 +24,14 @@ router.get("/", async (req, res) => {
   } catch (error) {}
 });
 
+router.post("/", async (req, res) => {
+  try {
+    console.log(req.body);
+
+    const { title, description, itemIdArr } = req.body;
+    console.log(title, description, itemIdArr);
+    // res.json({});
+  } catch (error) {}
+});
+
 module.exports = router;
