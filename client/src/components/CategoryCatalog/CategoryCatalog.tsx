@@ -1,3 +1,4 @@
+import './Category.css';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/hook';
 import { setCategory } from '../../redux/slices/catalogSlice';
@@ -23,10 +24,14 @@ export const CategoryCatalog = () => {
   const categoryItems = useAppSelector(
     (state: RootState) => state.catalog.category
   );
-  console.log(categoryItems);
+  // console.log(categoryItems);
 
   const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...priceData, [e.target.name]: e.target.value });
+    if (+e.target.value === 0) {
+      setFormData({ ...priceData, [e.target.name]: 1 })
+   } else {
+    setFormData({ ...priceData, [e.target.name]: e.target.value }) 
+  }
   };
 
   const submitHandler = () => {
@@ -51,6 +56,7 @@ export const CategoryCatalog = () => {
             value={priceData?.low}
             name="low"
             type="number"
+            min="1"
             className="border rounded border-black"
           />
           до
@@ -70,19 +76,19 @@ export const CategoryCatalog = () => {
             Применить
           </button>
           <Dropdown color="light" label={dropdawnLabel}>
-            <Dropdown.Item onClick={() => {dispatch(sortThunk('popularity', setSortOption, setDropdawnLabel, categoryItems))}}>
+            <Dropdown.Item onClick={() => {setSortOption('popularity'), dispatch(sortThunk('popularity', setSortOption, setDropdawnLabel, categoryItems))}}>
               По популярности
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => {dispatch(sortThunk('priceLow', setSortOption, setDropdawnLabel, categoryItems))}}>
+            <Dropdown.Item onClick={() => {setSortOption('priceLow'), dispatch(sortThunk('priceLow', setSortOption, setDropdawnLabel, categoryItems))}}>
               По цене (сначала дешевле)
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => {dispatch(sortThunk('priceHigh', setSortOption, setDropdawnLabel, categoryItems))}}>
+            <Dropdown.Item onClick={() => {setSortOption('priceHigh'), dispatch(sortThunk('priceHigh', setSortOption, setDropdawnLabel, categoryItems))}}>
               По цене (сначала дороже)
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => {dispatch(sortThunk('nameAsc', setSortOption, setDropdawnLabel, categoryItems))}}>
+            <Dropdown.Item onClick={() => {setSortOption('nameAsc'), dispatch(sortThunk('nameAsc', setSortOption, setDropdawnLabel, categoryItems))}}>
               По названию (А-Я)
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => {dispatch(sortThunk('nameDesc', setSortOption, setDropdawnLabel, categoryItems))}}>
+            <Dropdown.Item onClick={() => {setSortOption('nameDesc'), dispatch(sortThunk('nameDesc', setSortOption, setDropdawnLabel, categoryItems))}}>
               По названию (Я-А)
             </Dropdown.Item>
           </Dropdown>
