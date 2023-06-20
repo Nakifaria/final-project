@@ -157,16 +157,14 @@ function Configurator() {
       return;
     }
     const info = JSON.parse(pack);
-    console.log(
-      JSON.stringify({
-        title: info.title,
-        description: info.description,
-        itemIdArr: info.items.map((el) => el.id),
-      })
-    );
+    console.log({
+      title: info.title,
+      description: info.description,
+      itemIdArr: info.items.map((el) => el.id),
+    });
     await fetch("http://localhost:3000/configurator", {
       method: "POST",
-      headers: { ContentType: "application/json" },
+      headers: { "Content-Type": "application/json" },
       credentials: "include",
       body: JSON.stringify({
         title: info.title,
@@ -174,7 +172,7 @@ function Configurator() {
         itemIdArr: info.items.map((el) => el.id),
       }),
     });
-    // localStorage.removeItem("configurator");
+    localStorage.removeItem("configurator");
   }
 
   function ChooseHandler(
@@ -357,7 +355,7 @@ function Configurator() {
             </div>
             <div className="bg-white py-3 px-4 rounded-lg flex justify-around items-center ">
               <button
-                onClick={saveBtnHandler}
+                onClick={() => saveBtnHandler()}
                 type="button"
                 className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
               >

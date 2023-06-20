@@ -1,6 +1,11 @@
 const router = require("express").Router();
 
-const { Category, Item } = require("../../db/models");
+const {
+  Category,
+  Item,
+  Configuration,
+  ItemsToConfiguration,
+} = require("../../db/models");
 
 router.get("/", async (req, res) => {
   try {
@@ -26,10 +31,26 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    console.log(req.body);
-
     const { title, description, itemIdArr } = req.body;
-    console.log(title, description, itemIdArr);
+    const { user } = req.session;
+    const newConfiguration = (
+      await Configuration.create({
+        title,
+        description,
+        user_id: user.id,
+      })
+    ).get({ plain: true });
+
+    await Promise.all(
+      itemIdArr.forEach(async (el) => {
+        await ItemsToConfiguration.create({
+          configuration_id: newConfiguration.id,
+          item_id: el,
+        });
+      })
+    );
+
+    console.log(newConfiguration);
     // res.json({});
   } catch (error) {}
 });

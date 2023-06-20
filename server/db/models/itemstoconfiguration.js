@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   ItemsToConfiguration.init(
     {
-      cart_id: DataTypes.INTEGER,
+      configuration_id: DataTypes.INTEGER,
       item_id: DataTypes.INTEGER,
     },
     {
