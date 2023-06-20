@@ -16,6 +16,8 @@ import {
   setChoosenCategory,
   setChoosenItem,
   setOpenModal,
+  setPrimaryParts,
+  setProgressbarStyle,
   setSignificance,
 } from "../../../redux/slices/configuratorSlice";
 import { ChooseHandlerType } from "../../../types/configurator.types";
@@ -70,6 +72,8 @@ function Configurator() {
       // console.log("parsed", parsed.items[0]);
       dispatch(setChoosenCategory(parsed.categories));
       dispatch(setChoosenItem(parsed.items));
+      dispatch(setProgressbarStyle(parsed.progress));
+      dispatch(setPrimaryParts(parsed.primaries));
     }
   }
 
@@ -120,7 +124,8 @@ function Configurator() {
         choosenCategory,
         primaryParts,
         primaryPartsTotalAmount,
-        choosenItem
+        choosenItem,
+        progressbarStyle
       )
     );
   }
@@ -293,6 +298,7 @@ function Configurator() {
         categoryItems={categoryItems}
         choosenItem={choosenItem}
         ChooseHandler={ChooseHandler}
+        progressbarStyle={progressbarStyle}
       />
     </>
   );

@@ -51,7 +51,11 @@ export const removeItemHandlerFetch =
       dispatch(
         setChoosenItem(choosenItem.filter((el) => el.categoryId !== id))
       );
-      removeConfiguratorItemsFromLocalStorage(id);
+      removeConfiguratorItemsFromLocalStorage(
+        id,
+        primaryParts,
+        primaryPartsTotalAmount
+      );
     } catch (error) {
       toast.error("Непредусмотренная ошибка", { autoClose: 2000 });
       console.log(error);
@@ -102,7 +106,9 @@ export const ChooseHandlerFetch =
       currentItemId,
       currentItemName,
       currentItemPrice,
-      currentItemImg
+      currentItemImg,
+      primaryParts,
+      primaryPartsTotalAmount
     );
 
     dispatch(setOpenModal(false));
@@ -113,7 +119,9 @@ const addConfiguratorItemsToLocalStorage = (
   currentItemId,
   currentItemName,
   currentItemPrice,
-  currentItemImg
+  currentItemImg,
+  primaryParts,
+  primaryPartsTotalAmount
 ) => {
   const pack = localStorage.getItem("configurator");
 
@@ -131,6 +139,12 @@ const addConfiguratorItemsToLocalStorage = (
             img: currentItemImg,
           },
         ],
+        primaries: primaryParts + 1,
+        progress: {
+          width: `${Math.floor(
+            ((primaryParts + 1) / primaryPartsTotalAmount) * 100
+          )}%`,
+        },
       })
     );
   } else {
@@ -144,12 +158,22 @@ const addConfiguratorItemsToLocalStorage = (
       categoryId: id,
       img: currentItemImg,
     });
+    updated.primaries = primaryParts + 1;
+    updated.progress = {
+      width: `${Math.floor(
+        ((primaryParts + 1) / primaryPartsTotalAmount) * 100
+      )}%`,
+    };
 
     localStorage.setItem("configurator", JSON.stringify(updated));
   }
 };
 
-const removeConfiguratorItemsFromLocalStorage = (id: number) => {
+const removeConfiguratorItemsFromLocalStorage = (
+  id: number,
+  primaryParts,
+  primaryPartsTotalAmount
+) => {
   const pack = localStorage.getItem("configurator");
 
   const updated = pack && JSON.parse(pack);
@@ -159,6 +183,12 @@ const removeConfiguratorItemsFromLocalStorage = (id: number) => {
   updated.categories.splice(spliceIndex, 1);
 
   updated.items = updated.items.filter((el) => el.categoryId !== id);
+  updated.primaries = primaryParts - 1;
+  updated.progress = {
+    width: `${Math.floor(
+      ((primaryParts - 1) / primaryPartsTotalAmount) * 100
+    )}%`,
+  };
 
   localStorage.setItem("configurator", JSON.stringify(updated));
 };
