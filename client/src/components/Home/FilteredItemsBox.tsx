@@ -2,8 +2,8 @@ import { FC, useEffect, useState } from 'react';
 import { CatButton } from './CatButton';
 import { ItemCard } from './itemCard';
 import { IItem } from '../../redux/slices/items.slice';
-import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store/store';
+import { useAppSelector } from '../../redux/hook';
 
 export interface IPropsBox {
   title: string;
@@ -18,7 +18,9 @@ export const FilteredItemsBox: FC<IPropsBox> = ({
   sortBy,
   catNumber,
 }) => {
-  const aboutItems = useSelector((state: RootState) => state.itemsSlice.items);
+  const aboutItems = useAppSelector(
+    (state: RootState) => state.itemsSlice.items
+  );
 
   const allItems = aboutItems
     .map((el) => el.Items)
@@ -79,7 +81,7 @@ export const FilteredItemsBox: FC<IPropsBox> = ({
           {btnName}
         </button>
       </div>
-      <div className="card-box flex gap-2 overflow-y-scroll">
+      <div className="card-box flex gap-x-16 md:gap-x-12 lg:gap-x-2 flex-wrap">
         {items && items.map((el) => <ItemCard item={el} key={el.id} />)}
       </div>
     </div>

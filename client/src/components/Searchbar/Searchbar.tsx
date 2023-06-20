@@ -5,9 +5,10 @@ import { Modal } from '../Modal/Modal';
 import { Auth } from '../Auth/Auth';
 
 import 'react-toastify/dist/ReactToastify.css';
-import { useSelector } from 'react-redux';
+
 import { RootState } from '../../redux/store/store';
 import { SVGComponent } from '../Svg/SVGComponent';
+import { useAppSelector } from '../../redux/hook';
 
 export const Searchbar = () => {
   const [showModal, setShowModal] = useState(false);
@@ -21,17 +22,17 @@ export const Searchbar = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const isAuth = useSelector((state: RootState) => state.userSlice.isAuth);
+  const isAuth = useAppSelector((state: RootState) => state.userSlice.isAuth);
 
-  const cartLength = useSelector(
+  const cartLength = useAppSelector(
     (state: RootState) => state.PackItemsSlice.cart
   ).length;
 
-  const compareLength = useSelector(
+  const compareLength = useAppSelector(
     (state: RootState) => state.PackItemsSlice.compare
   ).length;
 
-  const favouriteLength = useSelector(
+  const favouriteLength = useAppSelector(
     (state: RootState) => state.PackItemsSlice.favourite
   ).length;
 
@@ -69,7 +70,11 @@ export const Searchbar = () => {
 
   return (
     <>
-      <div className="flex justify-between px-4 py-2 gap-1 mb-4 bg-white shadow-xl rounded-xl">
+      <div
+        className={`flex justify-between px-4 py-2 gap-1 bg-white shadow-xl ${
+          dropButtons ? '' : 'rounded-b-xl'
+        } `}
+      >
         <div className="flex w-1/3 gap-1 md:gap-2 lg:gap-2">
           <button onClick={backHome} className="btn w-1/3 flex justify-center">
             <SVGComponent svgName="home" />
@@ -110,7 +115,7 @@ export const Searchbar = () => {
           <button
             className="btn w-1/4 hidden md:flex lg:flex justify-center"
             onClick={() => {
-              navigate('/favourites');
+              navigate('/favourite');
             }}
           >
             <SVGComponent counter={favouriteLength} svgName="favourite" />
@@ -137,29 +142,37 @@ export const Searchbar = () => {
         ref={dropDownBar}
         className={`${
           dropButtons ? 'flex' : 'hidden'
-        }  flex-col md:hidden lg:hidden gap-2 px-4 mb-[10px]`}
+        }  flex-col md:hidden lg:hidden gap-2 px-4 mb-[10px] rounded-md shadow-xl bg-white py-4`}
       >
         <button className="btn w-full flex justify-center" onClick={profile}>
           <SVGComponent svgName="profile" />
         </button>
-        <button className="btn w-full flex justify-center">
-          <SVGComponent svgName="sravnenie" />
+        <button
+          className="btn w-full flex justify-center"
+          onClick={() => {
+            navigate('/compare');
+            setDropButtons(false);
+          }}
+        >
+          <SVGComponent counter={compareLength} svgName="compare" />
         </button>
         <button
           className="btn w-full flex justify-center"
           onClick={() => {
-            navigate('/favorites');
+            navigate('/favourite');
+            setDropButtons(false);
           }}
         >
-          <SVGComponent svgName="favourite" />
+          <SVGComponent counter={favouriteLength} svgName="favourite" />
         </button>
         <button
           onClick={() => {
             navigate('/cart');
+            setDropButtons(false);
           }}
           className="btn w-full flex justify-center"
         >
-          <SVGComponent svgName="cart" />
+          <SVGComponent counter={cartLength} svgName="cart" />
         </button>
       </div>
       {!isAuth && showModal && (

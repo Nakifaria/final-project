@@ -1,5 +1,5 @@
-import { ChangeEvent, KeyboardEvent, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { ChangeEvent, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { logUserThunk, regUserThunk } from '../../redux/thunk/user.action';
 import { toast } from 'react-toastify';
 

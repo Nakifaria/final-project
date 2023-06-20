@@ -18,7 +18,8 @@ module.exports = (sequelize, DataTypes) => {
   Configuration.init(
     {
       user_id: DataTypes.INTEGER,
-      saved: DataTypes.BOOLEAN,
+      title: DataTypes.STRING,
+      description: DataTypes.STRING,
     },
     {
       sequelize,

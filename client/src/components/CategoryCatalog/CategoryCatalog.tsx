@@ -2,11 +2,11 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/hook';
 import { setCategory } from '../../redux/slices/catalogSlice';
 import { RootState } from '../../redux/store/store';
-import { ReactSVG } from 'react-svg';
 import { useNavigate, useParams } from 'react-router';
 import { Dropdown } from 'flowbite-react';
-import { categoryFetch } from '../../redux/thunk/category.action';
 import { SVGComponent } from '../Svg/SVGComponent';
+import { ItemButton } from '../Home/ItemButton';
+import { addToAction, removeFromAction } from '../../redux/thunk/items.action';
 
 export const CategoryCatalog = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -106,6 +106,19 @@ export const CategoryCatalog = () => {
     setDropdawnLabel('По названию (Я-А)');
   }
 
+  const item = useAppSelector((state: RootState) => state.catalog.item);
+  const isAuth = useAppSelector((state: RootState) => state.userSlice.isAuth);
+  console.log(item);
+  
+
+  const changePackFn = (packName, action: 'remove' | 'add') => {
+    if (action === 'add') {
+      dispatch(addToAction({ id: item.id, isAuth, packName }));
+    } else if (action === 'remove') {
+      dispatch(removeFromAction({ id: item.id, isAuth, packName }));
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="mt-[30px] flex flex-col text-center">
@@ -167,7 +180,7 @@ export const CategoryCatalog = () => {
                     <div className="flex-shrink-0">
                       <img
                         className="w-8 h-8"
-                        src="https://cdn1.ozone.ru/s3/multimedia-2/6368709194.jpg"
+                        src={el.img}
                         alt="Neil image"
                       />
                     </div>
@@ -185,24 +198,35 @@ export const CategoryCatalog = () => {
                     </div>
                   </div>
                   <div className="sm:flex sm:items-end">
-                    <button
-                      type="button"
-                      className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 "
-                    >
-                      <SVGComponent svgName="cart" />
-                    </button>
-                    <button
-                      type="button"
-                      className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                    >
-                      <SVGComponent svgName="compare" />
-                    </button>
-                    <button
-                      type="button"
-                      className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-                    >
-                      <SVGComponent svgName="favourite" />
-                    </button>
+                  <ItemButton
+                packName="cart"
+                changePackFn={changePackFn}
+                addedBtnName="addedToBtnFromItem"
+                btnName="btnInItems"
+                itemId={el.id}
+              >
+                <SVGComponent svgName="cart" />
+              </ItemButton>
+
+              <ItemButton
+                packName="favourite"
+                changePackFn={changePackFn}
+                addedBtnName="addedToBtnFromItem"
+                btnName="btnInItems"
+                itemId={el.id}
+              >
+                <SVGComponent svgName="favourite"/>
+              </ItemButton>
+
+              <ItemButton
+                packName="compare"
+                changePackFn={changePackFn}
+                addedBtnName="addedToBtnFromItem"
+                btnName="btnInItems"
+                itemId={el.id}
+              >
+                <SVGComponent svgName="compare"/>
+              </ItemButton>
                   </div>
                 </li>
               ))}

@@ -7,15 +7,21 @@ export type category = {
   significance: number;
 };
 
-export type choosenCategory = {
-  id: number;
-  choosen: boolean;
+export type ChooseHandlerType = {
+  (
+    id: number,
+    significance: number,
+    currentItemId: number,
+    currentItemName: string,
+    currentItemPrice: number,
+    currentItemImg: string
+  ): void;
 };
 
 export type modalConfiguratorProps = {
   openModal: boolean;
   categoryId: number;
-  choosenCategory: choosenCategory[];
+  choosenCategory: number[];
   primaryParts: number;
   primaryPartsTotalAmount: number;
   significance: number;
@@ -23,6 +29,7 @@ export type modalConfiguratorProps = {
   isLoading: boolean;
   categoryItems: CategoryType[];
   choosenItem: choosenItemType[];
+  ChooseHandler: ChooseHandlerType;
 };
 
 export type choosenItemType = {
@@ -36,7 +43,7 @@ export type configuratorSliceType = {
   primaryParts: number;
   primaryPartsTotalAmount: number;
   progressbarStyle: object;
-  choosenCategory: choosenCategory[];
+  choosenCategory: number[];
   openModal: boolean;
   categoryId: number;
   significance: number;

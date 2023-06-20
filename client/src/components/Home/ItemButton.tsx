@@ -1,16 +1,18 @@
-import { Dispatch, FC, useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { FC, useEffect, useRef, useState } from 'react';
+
 import { RootState } from '../../redux/store/store';
 import { useLocation } from 'react-router';
+import { useAppSelector } from '../../redux/hook';
 
 export type packNames = 'cart' | 'compare' | 'favourite';
 
 export type addedBtnNames =
   | 'addedToCartBtn'
   | 'addedToCompareBtn'
-  | 'addedToFavouriteBtn';
+  | 'addedToFavouriteBtn'
+  | 'addedToBtnFromItem';
 
-export type btnNames = 'cartBtn' | 'compareBtn' | 'favouriteBtn';
+export type btnNames = 'cartBtn' | 'compareBtn' | 'favouriteBtn' | 'btnInItems';
 
 export interface IItemBtn {
   children: JSX.Element;
@@ -29,7 +31,7 @@ export const ItemButton: FC<IItemBtn> = ({
   btnName,
   itemId,
 }) => {
-  const pack = useSelector(
+  const pack = useAppSelector(
     (state: RootState) => state.PackItemsSlice[packName]
   );
 
@@ -40,8 +42,6 @@ export const ItemButton: FC<IItemBtn> = ({
   const currBtn = useRef<HTMLButtonElement>(null);
 
   const checkAdded = (added: boolean) => {
-    console.log(pack.length);
-
     if (!added) {
       changePackFn(packName, 'add');
       setAdded(true);
@@ -50,7 +50,7 @@ export const ItemButton: FC<IItemBtn> = ({
       setAdded(false);
 
       if (pathname === '/compare' && packName === 'compare') {
-        currBtn.current?.closest('.item-card')?.remove();
+        currBtn.current?.closest('.items-info')?.remove();
       }
     }
   };
@@ -59,7 +59,7 @@ export const ItemButton: FC<IItemBtn> = ({
     if (pack.includes(itemId)) {
       setAdded(true);
     }
-  }, []);
+  }, [pack, itemId]);
 
   return (
     <button

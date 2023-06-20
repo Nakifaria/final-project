@@ -6,15 +6,19 @@ import { RootState } from "../../../redux/store/store";
 import { categoryFetch } from "../../../redux/thunk/category.action";
 import { useNavigate } from "react-router-dom";
 import {
+  ChooseHandlerFetch,
   allCategoriesFetch,
   removeItemHandlerFetch,
 } from "../../../redux/thunk/configurator.action";
 import {
   setCategoryId,
   setCategoryTitle,
+  setChoosenCategory,
+  setChoosenItem,
   setOpenModal,
   setSignificance,
 } from "../../../redux/slices/configuratorSlice";
+import { ChooseHandlerType } from "../../../types/configurator.types";
 
 function Configurator() {
   const navigate = useNavigate();
@@ -57,8 +61,20 @@ function Configurator() {
     (state: RootState) => state.catalog.category
   );
 
+  const [isLoading, setIsLoading] = useState(false);
+
+  function starterPack(): void {
+    const pack = localStorage.getItem("configurator");
+    if (pack) {
+      const parsed = JSON.parse(pack);
+      // console.log("parsed", parsed.items[0]);
+      dispatch(setChoosenCategory(parsed.categories));
+      dispatch(setChoosenItem(parsed.items));
+    }
+  }
+
   useEffect(() => {
-    dispatch(allCategoriesFetch());
+    dispatch(allCategoriesFetch(), starterPack());
   }, []);
 
   function openModalHandler(
@@ -72,7 +88,29 @@ function Configurator() {
     dispatch(setCategoryTitle(categoryTitle));
   }
 
-  const [isLoading, setIsLoading] = useState(false);
+  function ChooseHandler(
+    id,
+    significance,
+    currentItemId,
+    currentItemName,
+    currentItemPrice,
+    currentItemImg
+  ): ChooseHandlerType {
+    dispatch(
+      ChooseHandlerFetch(
+        id,
+        significance,
+        currentItemId,
+        currentItemName,
+        currentItemPrice,
+        currentItemImg,
+        choosenCategory,
+        primaryParts,
+        primaryPartsTotalAmount,
+        choosenItem
+      )
+    );
+  }
 
   function removeItemHandler(id, significance) {
     dispatch(
@@ -81,7 +119,8 @@ function Configurator() {
         significance,
         choosenCategory,
         primaryParts,
-        primaryPartsTotalAmount
+        primaryPartsTotalAmount,
+        choosenItem
       )
     );
   }
@@ -89,6 +128,14 @@ function Configurator() {
   useEffect(() => {
     dispatch(categoryFetch(categoryId, setIsLoading));
   }, [categoryId]);
+
+  function isCategoryChoosen(currentCategoryId) {
+    return choosenCategory.findIndex((el) => el === currentCategoryId) === -1;
+  }
+
+  function getChoosenItem(currentCategoryId) {
+    return choosenItem.find((el) => el.categoryId === currentCategoryId);
+  }
 
   return (
     <>
@@ -99,24 +146,30 @@ function Configurator() {
               categoriesArr.map((category) => (
                 <li key={category.id}>
                   <div className="bg-white py-3 px-4 rounded-lg my-3 mx-3 flex justify-between items-center">
-                    {category.significance ? (
-                      <span className="w-1/12">{category.title}*</span>
-                    ) : (
-                      <span className="w-1/12">{category.title}</span>
-                    )}
-
-                    {choosenCategory.findIndex(
-                      (el) => el.id === category.id && el.choosen === true
-                    ) === -1 ? (
+                    <div className="w-1/4 items-center flex-row flex">
+                      <div className=" bg-purple-500 text-white shadow-lg shadow-purple-200 w-12 h-12 mr-2 relative">
+                        <img
+                          className="h-10 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"
+                          src={`${category.image}`}
+                          alt="category image"
+                        />
+                      </div>
+                      {category.significance ? (
+                        <span>{category.title}*</span>
+                      ) : (
+                        <span>{category.title}</span>
+                      )}
+                    </div>
+                    {isCategoryChoosen(category.id) ? (
                       <span className="text-gray-500">
                         {category.amountItems} шт.
                       </span>
                     ) : (
-                      <div className="flex justify-between gap-x-6 w-3/5">
+                      <div className="flex justify-between gap-x-6 w-1/2">
                         <div className="flex-shrink-0">
                           <img
                             className="w-8 h-8"
-                            src="https://cdn1.ozone.ru/s3/multimedia-2/6368709194.jpg"
+                            src={getChoosenItem(category.id)?.img}
                             alt="Neil image"
                           />
                         </div>
@@ -125,11 +178,7 @@ function Configurator() {
                             <p
                               onClick={() =>
                                 navigate(
-                                  `/product/${
-                                    choosenItem.find(
-                                      (el) => el.categoryId === category.id
-                                    )?.id
-                                  }`
+                                  `/product/${getChoosenItem(category.id)?.id}`
                                 )
                               }
                               className="text-sm text-center font-bold leading-6 text-gray-900"
@@ -142,22 +191,15 @@ function Configurator() {
                             </p>
                           </div>
                         </div>
-                        <div className="ml-10 sm:flex sm:flex-col sm:items-end">
+                        <div className="ml-10 sm:flex sm:flex-col sm:items-end w-1/4">
                           <p className="text-sm text-center leading-6 text-gray-900">
-                            {
-                              choosenItem.find(
-                                (el) => el.categoryId === category.id
-                              )?.price
-                            }{" "}
-                            ₽
+                            {getChoosenItem(category.id)?.price}₽
                           </p>
                         </div>
                       </div>
                     )}
 
-                    {choosenCategory.findIndex(
-                      (el) => el.id === category.id && el.choosen === true
-                    ) === -1 ? (
+                    {isCategoryChoosen(category.id) ? (
                       <Button
                         onClick={() =>
                           openModalHandler(
@@ -250,6 +292,7 @@ function Configurator() {
         isLoading={isLoading}
         categoryItems={categoryItems}
         choosenItem={choosenItem}
+        ChooseHandler={ChooseHandler}
       />
     </>
   );
