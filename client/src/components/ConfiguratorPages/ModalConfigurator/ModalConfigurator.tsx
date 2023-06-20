@@ -6,43 +6,17 @@ import { Button, Modal } from "flowbite-react";
 import { CategoryConfigurator } from "../CategoryConfigurator/CategoryConfigurator";
 import { useAppDispatch } from "../../../redux/hook";
 import { setOpenModal } from "../../../redux/slices/configuratorSlice";
-import { ChooseHandlerFetch } from "../../../redux/thunk/configurator.action";
 
 function ModalConfigurator({
   openModal,
   categoryId,
-  choosenCategory,
-  primaryParts,
-  primaryPartsTotalAmount,
   significance,
   categoryTitle,
   isLoading,
   categoryItems,
-  choosenItem,
+  ChooseHandler,
 }: modalConfiguratorProps) {
   const dispatch = useAppDispatch();
-
-  function ChooseHandler(
-    id: number,
-    significance: number,
-    currentItemId: number,
-    currentItemName: string,
-    currentItemPrice: number
-  ): void {
-    dispatch(
-      ChooseHandlerFetch(
-        id,
-        significance,
-        currentItemId,
-        currentItemName,
-        currentItemPrice,
-        choosenCategory,
-        primaryParts,
-        primaryPartsTotalAmount,
-        choosenItem
-      )
-    );
-  }
 
   if (isLoading) {
     return (

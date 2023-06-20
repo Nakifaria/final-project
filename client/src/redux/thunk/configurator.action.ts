@@ -28,18 +28,16 @@ export const allCategoriesFetch = () => async (dispatch) => {
 
 export const removeItemHandlerFetch =
   (
-    id: number,
-    significance: number,
+    id,
+    significance,
     choosenCategory,
     primaryParts,
-    primaryPartsTotalAmount
+    primaryPartsTotalAmount,
+    choosenItem
   ): void =>
   (dispatch) => {
-    const currentCategoryIndex = choosenCategory.findIndex(
-      (el) => el.id === id
-    );
-    if (significance !== 0) {
-      if (choosenCategory[currentCategoryIndex].choosen) {
+    try {
+      if (significance !== 0) {
         dispatch(setPrimaryParts(primaryParts - 1));
         dispatch(
           setProgressbarStyle({
@@ -49,135 +47,118 @@ export const removeItemHandlerFetch =
           })
         );
       }
-      const added = !choosenCategory[currentCategoryIndex].choosen;
+      dispatch(setChoosenCategory(choosenCategory.filter((el) => el !== id)));
       dispatch(
-        setChoosenCategory([
-          ...choosenCategory.filter((el) => el.id !== id),
-          { id, choosen: added },
-        ])
+        setChoosenItem(choosenItem.filter((el) => el.categoryId !== id))
       );
-    } else {
-      if (currentCategoryIndex !== -1) {
-        const added = !choosenCategory[currentCategoryIndex].choosen;
-        dispatch(
-          setChoosenCategory([
-            ...choosenCategory.filter((el) => el.id !== id),
-            { id, choosen: added },
-          ])
-        );
-      }
+      removeConfiguratorItemsFromLocalStorage(id);
+    } catch (error) {
+      toast.error("Непредусмотренная ошибка", { autoClose: 2000 });
+      console.log(error);
+      dispatch(startLoad(false));
     }
   };
 
 export const ChooseHandlerFetch =
   (
-    id: number,
-    significance: number,
-    currentItemId: number,
-    currentItemName: string,
-    currentItemPrice: number,
+    id,
+    significance,
+    currentItemId,
+    currentItemName,
+    currentItemPrice,
+    currentItemImg,
     choosenCategory,
     primaryParts,
     primaryPartsTotalAmount,
     choosenItem
   ): void =>
   (dispatch) => {
-    const currentCategoryIndex = choosenCategory.findIndex(
-      (el) => el.id === id
-    );
     if (significance !== 0) {
-      if (currentCategoryIndex !== -1) {
-        if (choosenCategory[currentCategoryIndex].choosen === false) {
-          dispatch(setPrimaryParts(primaryParts + 1));
-          dispatch(
-            setProgressbarStyle({
-              width: `${Math.floor(
-                ((primaryParts + 1) / primaryPartsTotalAmount) * 100
-              )}%`,
-            })
-          );
-        }
-        const added = !choosenCategory[currentCategoryIndex].choosen;
-        dispatch(
-          setChoosenCategory([
-            ...choosenCategory.filter((el) => el.id !== id),
-            { id, choosen: added },
-          ])
-        );
-        dispatch(
-          setChoosenItem([
-            ...choosenItem.filter((el) => el.categoryId !== id),
-            {
-              id: currentItemId,
-              name: currentItemName,
-              price: currentItemPrice,
-              categoryId: id,
-            },
-          ])
-        );
-      }
-      if (currentCategoryIndex === -1) {
-        dispatch(
-          setChoosenCategory([...choosenCategory, { id, choosen: true }])
-        );
-        dispatch(setPrimaryParts(primaryParts + 1));
-        dispatch(
-          setProgressbarStyle({
-            width: `${Math.floor(
-              ((primaryParts + 1) / primaryPartsTotalAmount) * 100
-            )}%`,
-          })
-        );
-        dispatch(
-          setChoosenItem([
-            ...choosenItem,
-            {
-              id: currentItemId,
-              name: currentItemName,
-              price: currentItemPrice,
-              categoryId: id,
-            },
-          ])
-        );
-      }
-    } else {
-      if (currentCategoryIndex !== -1) {
-        const added = !choosenCategory[currentCategoryIndex].choosen;
-        dispatch(
-          setChoosenCategory([
-            ...choosenCategory.filter((el) => el.id !== id),
-            { id, choosen: added },
-          ])
-        );
-        dispatch(
-          setChoosenItem([
-            ...choosenItem.filter((el) => el.categoryId !== id),
-            {
-              id: currentItemId,
-              name: currentItemName,
-              price: currentItemPrice,
-              categoryId: id,
-            },
-          ])
-        );
-      }
-      if (currentCategoryIndex === -1) {
-        dispatch(
-          setChoosenCategory([...choosenCategory, { id, choosen: true }])
-        );
-        dispatch(
-          setChoosenItem([
-            ...choosenItem,
-            {
-              id: currentItemId,
-              name: currentItemName,
-              price: currentItemPrice,
-              categoryId: id,
-            },
-          ])
-        );
-      }
+      dispatch(setChoosenCategory([...choosenCategory, id]));
+      dispatch(setPrimaryParts(primaryParts + 1));
+      dispatch(
+        setProgressbarStyle({
+          width: `${Math.floor(
+            ((primaryParts + 1) / primaryPartsTotalAmount) * 100
+          )}%`,
+        })
+      );
     }
-    console.log(currentItemId);
+    dispatch(setChoosenCategory([...choosenCategory, id]));
+    dispatch(
+      setChoosenItem([
+        ...choosenItem,
+        {
+          id: currentItemId,
+          name: currentItemName,
+          price: currentItemPrice,
+          categoryId: id,
+          img: currentItemImg,
+        },
+      ])
+    );
+    addConfiguratorItemsToLocalStorage(
+      id,
+      currentItemId,
+      currentItemName,
+      currentItemPrice,
+      currentItemImg
+    );
+
     dispatch(setOpenModal(false));
   };
+
+const addConfiguratorItemsToLocalStorage = (
+  id,
+  currentItemId,
+  currentItemName,
+  currentItemPrice,
+  currentItemImg
+) => {
+  const pack = localStorage.getItem("configurator");
+
+  if (!pack) {
+    localStorage.setItem(
+      "configurator",
+      JSON.stringify({
+        categories: [id],
+        items: [
+          {
+            id: currentItemId,
+            name: currentItemName,
+            price: currentItemPrice,
+            categoryId: id,
+            img: currentItemImg,
+          },
+        ],
+      })
+    );
+  } else {
+    const updated = JSON.parse(pack);
+
+    updated.categories.push(id);
+    updated.items.push({
+      id: currentItemId,
+      name: currentItemName,
+      price: currentItemPrice,
+      categoryId: id,
+      img: currentItemImg,
+    });
+
+    localStorage.setItem("configurator", JSON.stringify(updated));
+  }
+};
+
+const removeConfiguratorItemsFromLocalStorage = (id: number) => {
+  const pack = localStorage.getItem("configurator");
+
+  const updated = pack && JSON.parse(pack);
+
+  const spliceIndex = updated.categories.indexOf(id);
+
+  updated.categories.splice(spliceIndex, 1);
+
+  updated.items = updated.items.filter((el) => el.categoryId !== id);
+
+  localStorage.setItem("configurator", JSON.stringify(updated));
+};

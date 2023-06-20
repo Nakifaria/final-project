@@ -27,11 +27,7 @@ export const CategoryConfigurator = ({
                   className="flex justify-between gap-x-6 w-3/5"
                 >
                   <div className="flex-shrink-0">
-                    <img
-                      className="w-8 h-8"
-                      src="https://cdn1.ozone.ru/s3/multimedia-2/6368709194.jpg"
-                      alt="Neil image"
-                    />
+                    <img className="w-8 h-8" src={el.img} alt="Neil image" />
                   </div>
                   <div className="flex justify-left gap-x-4">
                     <div className="min-w-0 flex-auto ">
@@ -54,7 +50,8 @@ export const CategoryConfigurator = ({
                         significance,
                         el.id,
                         el.name,
-                        el.price
+                        el.price,
+                        el.img
                       )
                     }
                     type="button"
