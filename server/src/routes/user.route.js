@@ -29,9 +29,11 @@ router.post('/login', async (req, res) => {
       const clearPass = await bcrypt.compare(password, user.password);
 
       if (clearPass) {
-        const newCart = await Cart.create({ user_id: user.id });
+        const сart = await Cart.findOne({
+          where: { user_id: user.id, ordered: false },
+        });
 
-        req.session.user = { email, name, id: user.id, cartId: newCart.id };
+        req.session.user = { email, name, id: user.id, cartId: сart.id };
 
         res.json({
           auth: true,
@@ -39,7 +41,7 @@ router.post('/login', async (req, res) => {
             id: user.id,
             name: user.name,
             email: user.email,
-            cartId: newCart.id,
+            cartId: сart.id,
           },
         });
       } else {
