@@ -2,9 +2,10 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/hook';
 import { setCategory } from '../../redux/slices/catalogSlice';
 import { RootState } from '../../redux/store/store';
-import { useNavigate, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { Dropdown } from 'flowbite-react';
 import { CategoryItem } from './CategoryItem';
+import { categoryFetch, sortThunk } from '../../redux/thunk/category.action';
 
 export const CategoryCatalog = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -12,27 +13,11 @@ export const CategoryCatalog = () => {
   const [sortOption, setSortOption] = useState('');
   const [dropdawnLabel, setDropdawnLabel] = useState('Сортировка');
 
-  // const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { catId } = useParams();
 
-  const categoryData = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:3000/catalog/category/${catId}`
-      );
-
-      const categoryData = await response.json();
-      dispatch(setCategory(categoryData));
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(true);
-    }
-  };
-
   useEffect(() => {
-    categoryData();
+    dispatch(categoryFetch(catId, setIsLoading))
   }, []);
 
   const categoryItems = useAppSelector(
@@ -52,55 +37,6 @@ export const CategoryCatalog = () => {
       dispatch(setCategory(newCategoryItems));
     }
   };
-
-  if (sortOption === 'popularity') {
-    const newArr = JSON.parse(JSON.stringify(categoryItems));
-    const newCatalog = newArr.sort((a, b) => a.order_count - b.order_count);
-    dispatch(setCategory(newCatalog));
-    setSortOption('');
-    setDropdawnLabel('По популярности');
-  } else if (sortOption === 'priceLow') {
-    const newArr = JSON.parse(JSON.stringify(categoryItems));
-    const newCatalog = newArr.sort((a, b) => a.price - b.price);
-    dispatch(setCategory(newCatalog));
-    setSortOption('');
-    setDropdawnLabel('По цене (сначала дешевле)');
-  } else if (sortOption === 'priceHigh') {
-    const newArr = JSON.parse(JSON.stringify(categoryItems));
-    const newCatalog = newArr.sort((a, b) => b.price - a.price);
-    dispatch(setCategory(newCatalog));
-    setSortOption('');
-    setDropdawnLabel('По цене (сначала дороже)');
-  } else if (sortOption === 'nameAsc') {
-    const newArr = JSON.parse(JSON.stringify(categoryItems));
-    const newCatalog = newArr.sort((a, b) => {
-      if (a.name.toLowerCase() < b.name.toLowerCase()) {
-        return -1;
-      }
-      if (a.name.toLowerCase() > b.name.toLowerCase()) {
-        return 1;
-      }
-      return 0;
-    });
-    console.log(newCatalog);
-    dispatch(setCategory(newCatalog));
-    setSortOption('');
-    setDropdawnLabel('По названию (A-Я)');
-  } else if (sortOption === 'nameDesc') {
-    const newArr = JSON.parse(JSON.stringify(categoryItems));
-    const newCatalog = newArr.sort((a, b) => {
-      if (a.name.toLowerCase() < b.name.toLowerCase()) {
-        return 1;
-      }
-      if (a.name.toLowerCase() > b.name.toLowerCase()) {
-        return -1;
-      }
-      return 0;
-    });
-    dispatch(setCategory(newCatalog));
-    setSortOption('');
-    setDropdawnLabel('По названию (Я-А)');
-  }
 
   if (isLoading) {
     return (
@@ -134,19 +70,19 @@ export const CategoryCatalog = () => {
             Применить
           </button>
           <Dropdown color="light" label={dropdawnLabel}>
-            <Dropdown.Item onClick={() => setSortOption('popularity')}>
+            <Dropdown.Item onClick={() => {dispatch(sortThunk('popularity', setSortOption, setDropdawnLabel, categoryItems))}}>
               По популярности
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => setSortOption('priceLow')}>
+            <Dropdown.Item onClick={() => {dispatch(sortThunk('priceLow', setSortOption, setDropdawnLabel, categoryItems))}}>
               По цене (сначала дешевле)
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => setSortOption('priceHigh')}>
+            <Dropdown.Item onClick={() => {dispatch(sortThunk('priceHigh', setSortOption, setDropdawnLabel, categoryItems))}}>
               По цене (сначала дороже)
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => setSortOption('nameAsc')}>
+            <Dropdown.Item onClick={() => {dispatch(sortThunk('nameAsc', setSortOption, setDropdawnLabel, categoryItems))}}>
               По названию (А-Я)
             </Dropdown.Item>
-            <Dropdown.Item onClick={() => setSortOption('nameDesc')}>
+            <Dropdown.Item onClick={() => {dispatch(sortThunk('nameDesc', setSortOption, setDropdawnLabel, categoryItems))}}>
               По названию (Я-А)
             </Dropdown.Item>
           </Dropdown>
