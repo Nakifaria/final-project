@@ -6,6 +6,7 @@ export interface IUserInfo {
   name: string;
   email: string;
   isAuth: boolean;
+  cartId: number;
 }
 
 const initialState: IUserInfo = {
@@ -13,6 +14,7 @@ const initialState: IUserInfo = {
   name: '',
   email: '',
   isAuth: false,
+  cartId: NaN,
 };
 
 // export const userReg = createAsyncThunk(
@@ -38,12 +40,14 @@ export const userSlice = createSlice({
       state.name = action.payload.name;
       state.email = action.payload.email;
       state.isAuth = action.payload.isAuth;
+      state.cartId = action.payload.cartId;
     },
     userDelete: (state) => {
       state.email = '';
       state.id = NaN;
       state.name = '';
       state.isAuth = false;
+      state.cartId = NaN;
     },
   },
   // extraReducers: (builder) => {

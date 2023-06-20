@@ -79,7 +79,7 @@ export const FilteredItemsBox: FC<IPropsBox> = ({
           {btnName}
         </button>
       </div>
-      <div className="card-box flex gap-2 overflow-y-scroll">
+      <div className="card-box flex gap-x-16 md:gap-x-12 lg:gap-x-2 flex-wrap">
         {items && items.map((el) => <ItemCard item={el} key={el.id} />)}
       </div>
     </div>

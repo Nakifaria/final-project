@@ -1,4 +1,4 @@
-import { Dispatch, FC, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store/store';
 import { useLocation } from 'react-router';
@@ -41,8 +41,6 @@ export const ItemButton: FC<IItemBtn> = ({
   const currBtn = useRef<HTMLButtonElement>(null);
 
   const checkAdded = (added: boolean) => {
-    console.log(pack.length);
-
     if (!added) {
       changePackFn(packName, 'add');
       setAdded(true);
@@ -51,7 +49,7 @@ export const ItemButton: FC<IItemBtn> = ({
       setAdded(false);
 
       if (pathname === '/compare' && packName === 'compare') {
-        currBtn.current?.closest('.item-card')?.remove();
+        currBtn.current?.closest('.items-info')?.remove();
       }
     }
   };
@@ -60,7 +58,7 @@ export const ItemButton: FC<IItemBtn> = ({
     if (pack.includes(itemId)) {
       setAdded(true);
     }
-  }, []);
+  }, [pack, itemId]);
 
   return (
     <button
