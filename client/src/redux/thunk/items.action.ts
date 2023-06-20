@@ -40,7 +40,7 @@ export const loadItems: ThunkActionCreater = () => (dispatch) => {
 
         // искусственная задержка
         // setTimeout(() => {
-        //   dispatch(startLoad(false));
+        //   dispatch(endLoad());
         // }, 3000);
       } else {
         toast.error(msg, { autoClose: 2000 });
@@ -50,7 +50,7 @@ export const loadItems: ThunkActionCreater = () => (dispatch) => {
     .catch((error) => {
       toast.error('Непредусмотренная ошибка', { autoClose: 2000 });
       console.log(error);
-      dispatch(startLoad());
+      dispatch(endLoad());
     });
 };
 
