@@ -36,6 +36,14 @@ export const Searchbar = () => {
     (state: RootState) => state.PackItemsSlice.favourite
   ).length;
 
+  const [search, setSearch] = useState({
+    value: '',
+  });
+
+  const changeSearch = (event) => {
+    setSearch((prevState) => );
+  };
+
   const closeModal = (event: MouseEvent<HTMLDivElement>) => {
     if (!(event.target instanceof HTMLDivElement)) return;
 
@@ -90,6 +98,9 @@ export const Searchbar = () => {
         </div>
         <div className="flex w-2/3">
           <input
+            name="searchInput"
+            value={search.value}
+            onChange={changeSearch}
             type="text"
             className="border rounded-l-xl border-black w-3/4 px-4 py-2"
           />
