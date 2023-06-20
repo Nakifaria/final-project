@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
 
 export interface ILoader {
   load: boolean;
@@ -13,8 +12,8 @@ export const loaderSlice = createSlice({
   name: 'load',
   initialState,
   reducers: {
-    startLoad: (state, action: PayloadAction<boolean>) => {
-      state.load = action.payload;
+    startLoad: (state) => {
+      state.load = true;
     },
     endLoad: (state) => {
       state.load = false;

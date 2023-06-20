@@ -11,7 +11,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkSessionThunk } from './redux/thunk/user.action';
 import { RootState } from './redux/store/store';
-import { loadItems } from './redux/thunk/items.action';
+import { initialPacksAction, loadItems } from './redux/thunk/items.action';
 import { Modal } from './components/Modal/Modal';
 import PacmanLoader from 'react-spinners/PacmanLoader';
 import { Cart } from './components/Cart/Cart';
@@ -26,29 +26,16 @@ function App() {
 
   const loading = useSelector((state: RootState) => state.loaderSlice.load);
 
-  const isAuth = useSelector((state: RootState) => state.userSlice.isAuth);
-
   useEffect(() => {
-    dispatch(checkSessionThunk());
     dispatch(loadItems());
-
-    if (!isAuth) {
-      initialPack('cart');
-      initialPack('compare');
-      initialPack('favourite');
-			
-    }
+    dispatch(checkSessionThunk());
   }, []);
 
-  const initialPack = (packName: packNames) => {
-    const pack = localStorage.getItem(packName);
-
-    if (pack) {
-      const parsed: IPack = JSON.parse(pack);
-
-      dispatch(initial({ items: parsed.items, packName }));
-    }
-  };
+  // useEffect(() => {
+  //   initialPack('cart', userStatus.isAuth, userStatus.id);
+  //   initialPack('compare', userStatus.isAuth, userStatus.id);
+  //   initialPack('favourite', userStatus.isAuth, userStatus.id);
+  // }, [userStatus.isAuth]);
 
   return (
     <>

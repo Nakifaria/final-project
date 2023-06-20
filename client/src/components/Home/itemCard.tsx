@@ -1,4 +1,4 @@
-import { Dispatch, FC, useRef } from 'react';
+import { Dispatch, FC, useEffect, useRef } from 'react';
 import { IItem } from '../../redux/slices/items.slice';
 import { SVGComponent } from '../Svg/SVGComponent';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,13 +20,31 @@ export const ItemCard: FC<ICardItem> = ({ item }) => {
 
   const navigate = useNavigate();
 
-  const isAuth = useSelector((state: RootState) => state.userSlice.isAuth);
+  const userStatus = useSelector((state: RootState) => state.userSlice);
+
+  console.log(userStatus.cartId);
 
   const changePackFn = (packName: packNames, action: 'remove' | 'add') => {
     if (action === 'add') {
-      dispatch(addToAction({ id: item.id, isAuth, packName }));
+      dispatch(
+        addToAction({
+          id: item.id,
+          isAuth: userStatus.isAuth,
+          userId: userStatus.id,
+          packName,
+          cartId: userStatus.cartId,
+        })
+      );
     } else if (action === 'remove') {
-      dispatch(removeFromAction({ id: item.id, isAuth, packName }));
+      dispatch(
+        removeFromAction({
+          id: item.id,
+          isAuth: userStatus.isAuth,
+          userId: userStatus.id,
+          packName,
+          cartId: userStatus.cartId,
+        })
+      );
     }
   };
 

@@ -15,7 +15,9 @@ const dbCheck = require('./src/middlewares/dbCheck');
 const userRoute = require('./src/routes/user.route');
 const catalogRoute = require('./src/routes/catalog.route');
 const configuratorRoute = require('./src/routes/configurator.route');
-const favoritesRoute = require('./src/routes/favorites.route');
+const favouriteRoute = require('./src/routes/favourite.route');
+const compareRoute = require('./src/routes/compare.route');
+const cartRoute = require('./src/routes/cart.route');
 const itemRoute = require('./src/routes/items.route');
 
 const app = express();
@@ -52,7 +54,9 @@ app.use(dbCheck);
 app.use('/user', userRoute);
 app.use('/configurator', configuratorRoute);
 app.use('/catalog', catalogRoute);
-app.use('/favourites', favoritesRoute);
+app.use('/favourite', favouriteRoute);
+app.use('/compare', compareRoute);
+app.use('/cart', cartRoute);
 app.use('/items', itemRoute);
 
 app.listen(PORT, () => {

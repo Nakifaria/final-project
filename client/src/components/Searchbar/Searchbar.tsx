@@ -69,7 +69,11 @@ export const Searchbar = () => {
 
   return (
     <>
-      <div className="flex justify-between px-4 py-2 gap-1 mb-4 bg-white shadow-xl rounded-xl">
+      <div
+        className={`flex justify-between px-4 py-2 gap-1 bg-white shadow-xl ${
+          dropButtons ? '' : 'rounded-b-xl'
+        } `}
+      >
         <div className="flex w-1/3 gap-1 md:gap-2 lg:gap-2">
           <button onClick={backHome} className="btn w-1/3 flex justify-center">
             <SVGComponent svgName="home" />
@@ -137,29 +141,37 @@ export const Searchbar = () => {
         ref={dropDownBar}
         className={`${
           dropButtons ? 'flex' : 'hidden'
-        }  flex-col md:hidden lg:hidden gap-2 px-4 mb-[10px]`}
+        }  flex-col md:hidden lg:hidden gap-2 px-4 mb-[10px] rounded-md shadow-xl bg-white py-4`}
       >
         <button className="btn w-full flex justify-center" onClick={profile}>
           <SVGComponent svgName="profile" />
         </button>
-        <button className="btn w-full flex justify-center">
-          <SVGComponent svgName="sravnenie" />
+        <button
+          className="btn w-full flex justify-center"
+          onClick={() => {
+            navigate('/compare');
+            setDropButtons(false);
+          }}
+        >
+          <SVGComponent counter={compareLength} svgName="compare" />
         </button>
         <button
           className="btn w-full flex justify-center"
           onClick={() => {
-            navigate('/favorites');
+            navigate('/favourite');
+            setDropButtons(false);
           }}
         >
-          <SVGComponent svgName="favourite" />
+          <SVGComponent counter={favouriteLength} svgName="favourite" />
         </button>
         <button
           onClick={() => {
             navigate('/cart');
+            setDropButtons(false);
           }}
           className="btn w-full flex justify-center"
         >
-          <SVGComponent svgName="cart" />
+          <SVGComponent counter={cartLength} svgName="cart" />
         </button>
       </div>
       {!isAuth && showModal && (

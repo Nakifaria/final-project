@@ -57,7 +57,7 @@ export const ItemButton: FC<IItemBtn> = ({
     if (pack.includes(itemId)) {
       setAdded(true);
     }
-  }, []);
+  }, [pack, itemId]);
 
   return (
     <button

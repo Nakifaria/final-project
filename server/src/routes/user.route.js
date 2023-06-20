@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 const bcrypt = require('bcrypt');
 
-const { User } = require('../../db/models');
+const { User, Cart } = require('../../db/models');
 
 router.get('/', (req, res) => {
   if (req.session.user) {
@@ -29,11 +29,18 @@ router.post('/login', async (req, res) => {
       const clearPass = await bcrypt.compare(password, user.password);
 
       if (clearPass) {
-        req.session.user = { email, name, id: user.id };
+        const newCart = await Cart.create({ user_id: user.id });
+
+        req.session.user = { email, name, id: user.id, cartId: newCart.id };
 
         res.json({
           auth: true,
-          userInfo: { id: user.id, name: user.name, email: user.email },
+          userInfo: {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            cartId: newCart.id,
+          },
         });
       } else {
         res.json({ auth: false, msg: 'неверный пароль' });
@@ -59,11 +66,18 @@ router.post('/registration', async (req, res) => {
     });
 
     if (created) {
-      req.session.user = { email, name, id: user.id };
+      const newCart = await Cart.create({ user_id: user.id });
+
+      req.session.user = { email, name, id: user.id, cartId: newCart.id };
 
       res.json({
         auth: true,
-        userInfo: { id: user.id, name: user.name, email: user.email },
+        userInfo: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          cartId: newCart.id,
+        },
       });
     } else {
       res.json({
