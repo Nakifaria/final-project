@@ -1,4 +1,11 @@
-import { KeyboardEvent, MouseEvent, useEffect, useRef, useState } from 'react';
+import {
+  ChangeEvent,
+  KeyboardEvent,
+  MouseEvent,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Modal } from '../Modal/Modal';
@@ -40,8 +47,10 @@ export const Searchbar = () => {
     value: '',
   });
 
-  const changeSearch = (event) => {
-    setSearch((prevState) => );
+  const changeSearch = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearch((prevState) => {
+      return { ...prevState, [event.target.name]: event.target.value };
+    });
   };
 
   const closeModal = (event: MouseEvent<HTMLDivElement>) => {
@@ -98,14 +107,19 @@ export const Searchbar = () => {
         </div>
         <div className="flex w-2/3">
           <input
-            name="searchInput"
+            name="value"
             value={search.value}
             onChange={changeSearch}
             type="text"
             className="border rounded-l-xl border-black w-3/4 px-4 py-2"
             placeholder="поиск по названию"
           />
-          <button className="w-1/4 flex justify-center px-2 py-2 border border-l-0 rounded-l-none border-black rounded-xl hover:bg-black hover:text-white">
+          <button
+            onClick={() => {
+              navigate(`/search/?q=${search.value}`), setSearch({ value: '' });
+            }}
+            className="w-1/4 flex justify-center px-2 py-2 border border-l-0 rounded-l-none border-black rounded-xl hover:bg-black hover:text-white"
+          >
             <SVGComponent svgName="search" />
           </button>
         </div>

@@ -22,7 +22,7 @@ export const Favourite = () => {
           <span className="text-2xl mb-4 border-b border-gray-400 pb-10">
             Избранное
           </span>
-          <div className="flex justify-center gap-4 flex-wrap">
+          <div className="flex gap-4 justify-center flex-wrap">
             {favItems &&
               favItems.map((el) => <ItemCard item={el} key={el.id} />)}
           </div>
