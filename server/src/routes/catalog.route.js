@@ -34,7 +34,7 @@ router.get('/category/product/:id', async (req, res) => {
     const productResult = (
       await Item.findOne({ where: { id: req.params.id } })
     ).get({ plain: true });
-    // console.log(productResult);
+    console.log(productResult);
     res.json(productResult);
   } catch (error) {
     console.log(error);

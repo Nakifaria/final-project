@@ -19,6 +19,7 @@ const favouriteRoute = require('./src/routes/favourite.route');
 const compareRoute = require('./src/routes/compare.route');
 const cartRoute = require('./src/routes/cart.route');
 const itemRoute = require('./src/routes/items.route');
+const profileRoute = require('./src/routes/profile.route');
 
 const app = express();
 const PORT = process.env.PORT || 3002;
@@ -58,6 +59,7 @@ app.use('/favourite', favouriteRoute);
 app.use('/compare', compareRoute);
 app.use('/cart', cartRoute);
 app.use('/items', itemRoute);
+app.use('/profile', profileRoute);
 
 app.listen(PORT, () => {
   console.log(`Server started at ${PORT}`);
