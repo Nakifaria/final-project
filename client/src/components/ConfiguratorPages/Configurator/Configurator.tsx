@@ -24,6 +24,7 @@ import {
 } from "../../../redux/slices/configuratorSlice";
 import { ChooseHandlerType } from "../../../types/configurator.types";
 import { toast } from "react-toastify";
+import { addToCart } from "../../../redux/slices/cart.slice";
 
 function Configurator() {
   const navigate = useNavigate();
@@ -73,6 +74,7 @@ function Configurator() {
   const categoryItems = useAppSelector(
     (state: RootState) => state.catalog.category
   );
+  const userStatus = useAppSelector((state: RootState) => state.userSlice);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -140,62 +142,107 @@ function Configurator() {
   }
 
   async function saveBtnHandler() {
-    const pack = localStorage.getItem("configurator");
-    if (!pack) {
-      return;
-    }
-    if (primaryParts < primaryPartsTotalAmount) {
-      toast.error("Выберите все обязательные комплектующие ПК ", {
-        autoClose: 2000,
-      });
-      if (title === "") {
-        toast.error("Введите название сборки", {
-          autoClose: 2000,
-        });
+    if (userStatus.isAuth) {
+      const pack = localStorage.getItem("configurator");
+      if (!pack) {
         return;
       }
-      return;
-    }
-    const info = JSON.parse(pack);
-    const itemIdArr = info.items.map((el) => el.id);
-    const response = await fetch("http://localhost:3000/configurator", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({
-        title: info.title,
-        description: info.description,
-        itemIdArr,
-      }),
-    });
+      if (primaryParts < primaryPartsTotalAmount) {
+        toast.error("Выберите все обязательные комплектующие ПК ", {
+          autoClose: 2000,
+        });
+        if (title === "") {
+          toast.error("Введите название сборки", {
+            autoClose: 2000,
+          });
+          return;
+        }
+        return;
+      }
+      const info = JSON.parse(pack);
+      const itemIdArr = info.items.map((el) => el.id);
+      const response = await fetch("http://localhost:3000/configurator", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          title: info.title,
+          description: info.description,
+          itemIdArr,
+        }),
+      });
 
-    if (response.ok) {
-      localStorage.removeItem("configurator");
+      if (response.ok) {
+        localStorage.removeItem("configurator");
+      }
+    } else {
+      toast.error("Пожалуйста, войдите в свой аккаунт для сохранения сборки", {
+        autoClose: 2000,
+      });
+      return;
     }
   }
 
-  function buyBtnHandler() {
-    const pack = localStorage.getItem("configurator");
-    if (!pack) {
-      return;
-    }
-    const info = JSON.parse(pack);
-    if (info.items.length === 0 || info.items === undefined) {
-      return;
-    }
-    const itemIdArr = info.items.map((el) => el.id);
-    const cart = localStorage.getItem("cart");
-    if (!cart) {
-      localStorage.setItem(
-        "cart",
-        JSON.stringify({
-          items: [...itemIdArr],
-        })
-      );
+  async function buyBtnHandler() {
+    if (!userStatus.isAuth) {
+      const pack = localStorage.getItem("configurator");
+      if (!pack) {
+        return;
+      }
+      const info = JSON.parse(pack);
+      if (info.items.length === 0 || info.items === undefined) {
+        return;
+      }
+      const itemIdArr = info.items.map((el) => el.id);
+      const itemPriceArr = info.items.map((el) => {
+        return { id: el.id, price: el.price };
+      });
+      console.log;
+      const cart = localStorage.getItem("cart");
+      const fullCart = localStorage.getItem("fullCart");
+      if (!cart && !fullCart) {
+        localStorage.setItem(
+          "cart",
+          JSON.stringify({
+            items: [...itemIdArr],
+          })
+        );
+        localStorage.setItem(
+          "fullCart",
+          JSON.stringify({
+            items: [...itemPriceArr],
+          })
+        );
+      } else {
+        const updatedCart = JSON.parse(cart);
+        const updatedFullCart = JSON.parse(fullCart);
+        updatedCart.items = [...itemIdArr];
+        updatedFullCart.items = [...itemPriceArr];
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
+        localStorage.setItem("fullCart", JSON.stringify(updatedFullCart));
+      }
+      dispatch(addToCart(itemPriceArr));
     } else {
-      const updated = JSON.parse(cart);
-      updated.items = [...itemIdArr];
-      localStorage.setItem("cart", JSON.stringify(updated));
+      const pack = localStorage.getItem("configurator");
+      if (!pack) {
+        return;
+      }
+      const info = JSON.parse(pack);
+      const itemIdArr = info.items.map((el) => el.id);
+      itemIdArr.forEach(async (el) => {
+        const response = await fetch("http://localhost:3000/cart", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ cartId: userStatus.cartId, itemId: el }),
+        });
+        if (!response.ok) {
+          toast.error("Не удалось сохранить сборку", {
+            autoClose: 2000,
+          });
+          return;
+        }
+      });
     }
     navigate("/cart");
   }
@@ -238,6 +285,10 @@ function Configurator() {
     );
   }
 
+  function totalPrice() {
+    return choosenItem.reduce((acc, el) => acc + el.price, 0);
+  }
+
   useEffect(() => {
     dispatch(categoryFetch(categoryId, setIsLoading));
   }, [categoryId]);
@@ -262,7 +313,7 @@ function Configurator() {
                     <div className="w-1/4 items-center flex-row flex">
                       <div className=" bg-purple-500 text-white shadow-lg shadow-purple-200 w-12 h-12 mr-2 relative">
                         <img
-                          className="h-10 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"
+                          className="h-10 relative top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"
                           src={`${category.image}`}
                           alt="category image"
                         />
@@ -340,7 +391,7 @@ function Configurator() {
               ))}
           </ul>
         </div>
-        <div className="h-96 col-span-1 sticky top-20">
+        <div className="h-96 col-span-1 sticky top-20 z-0">
           <div className="bg-white py-3 px-4 rounded-lg">
             <div className="flex justify-between mb-1">
               <span className="text-base font-medium text-blue-700">
@@ -377,6 +428,9 @@ function Configurator() {
                 placeholder="Введите описание сборки (необязательно)"
                 className=" bg-gray-100 rounded-md  outline-none pl-2 ring-indigo-700 w-full mr-2 p-2 h-64"
               />
+            </div>
+            <div className="bg-white py-3 px-4 rounded-lg flex justify-around items-center ">
+              <span> {`Итого: ${totalPrice()}₽`}</span>
             </div>
             <div className="bg-white py-3 px-4 rounded-lg flex justify-around items-center ">
               <button
