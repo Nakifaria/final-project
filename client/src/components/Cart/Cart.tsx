@@ -7,10 +7,10 @@ import { useAppDispatch, useAppSelector } from '../../redux/hook';
 import { removeFromAction } from '../../redux/thunk/items.action';
 import { Empty } from '../Empty/Empty';
 import { deleteFromCart, initialCart } from '../../redux/slices/cart.slice';
+import { useEffect, useState } from 'react';
+import { CartItem } from './CartItem';
 
 export const Cart = () => {
-  const dispatch = useAppDispatch();
-
   const cartItemsId = useAppSelector(
     (state: RootState) => state.PackItemsSlice.cart
   );
@@ -18,36 +18,44 @@ export const Cart = () => {
   const allCategoryItems = useAppSelector(
     (state: RootState) => state.itemsSlice.items
   );
-  const isAuth = useAppSelector((state: RootState) => state.userSlice.isAuth);
 
-  const filteredItems = allCategoryItems.map((el) => el.Items).flat().filter((el) => cartItemsId.includes(el.id))
+  const filteredItems = allCategoryItems
+    .map((el) => el.Items)
+    .flat()
+    .filter((el) => cartItemsId.includes(el.id));
 
-  // const filteredItems: [] = cartItemsId.map((item) => {
-  //   return allItems.filter((el) => el.id === item);
-  // });
-  console.log(filteredItems);
-  
-  // dispatch(initialCart(filteredItems))
+  const allCart = useAppSelector((state: RootState) => state.cartSlice.items);
 
-  // const cartItems = useAppSelector (
-  //   (state: RootState) => state.cartSlice.items
-  // )
-  // console.log(cartItems);
-  
+  // useEffect(() => {
+  //   dispatch(
+  //     initialCart({
+  //       items: filteredItems.map((el) => {
+  //         return { id: el.id, price: el.price };
+  //       }),
+  //     })
+  //   );
+  // }, []);
 
-  const totalPrice = () => {
-    const sum = filteredItems.reduce((acc, val) => acc + val.price, 0);
-    return sum;
-  };
+  const [totalPrice, setTotalPrice] = useState(0);
 
   const title = (id) => {
     const resultTitle = allCategoryItems.filter((item) => item.id === id);
     return resultTitle[0].title;
   };
 
-  const deleteItem = (id) => {
-    // dispatch(deleteFromCart(id));
-    dispatch(removeFromAction({ id, isAuth, packName: 'cart' }));
+  useEffect(() => {
+    setTotalPrice(allCart.reduce((acc, val) => acc + val.price, 0));
+  }, [allCart]);
+
+  const updateTotalPrice = (
+    itemPrice: number,
+    action: 'increment' | 'decrement'
+  ) => {
+    if (action === 'increment') {
+      setTotalPrice((prevState) => prevState + itemPrice);
+    } else if (action === 'decrement') {
+      setTotalPrice((prevState) => prevState - itemPrice);
+    }
   };
 
   return (
@@ -61,67 +69,20 @@ export const Cart = () => {
               <div className="rounded-lg md:w-2/3">
                 {filteredItems &&
                   filteredItems.map((el) => (
-                    <div
+                    <CartItem
+                      item={el}
                       key={el.id}
-                      className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start"
-                    >
-                      <img
-                        src={el.img}
-                        alt="product-image"
-                        className="w-full rounded-lg sm:w-40"
-                      />
-                      <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
-                        <div className="mt-5 sm:mt-0">
-                          <h2 className="text-lg font-bold text-gray-900">
-                            {el.name}
-                          </h2>
-                          <p className="mt-1 text-xs text-gray-700">
-                            {title(el.category_id)}
-                          </p>
-                        </div>
-                        <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
-                          <div className="flex items-center border-gray-100">
-                            <span className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50">
-                              {' '}
-                              -{' '}
-                            </span>
-                            <input
-                              className="h-8 w-8 border bg-white text-center text-xs outline-none"
-                              type="number"
-                              defaultValue={1}
-                              min="1"
-                            />
-                            <span className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50">
-                              {' '}
-                              +{' '}
-                            </span>
-                          </div>
-                          <div className="flex items-center space-x-4">
-                            <p className="text-sm">{el.price} ₽</p>
-                            <button onClick={() => deleteItem(el.id)}>
-                              <SVGComponent svgName="delete" />
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                      itemCategoryTitle={title}
+                      updateTotalPrice={updateTotalPrice}
+                    />
                   ))}
               </div>
-
               <div className="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">
-                {/* <div className="mb-2 flex justify-between">
-		 <p className="text-gray-700">Subtotal</p>
-		 <p className="text-gray-700">$129.99</p>
-	 </div>
-	 <div className="flex justify-between">
-		 <p className="text-gray-700">Shipping</p>
-		 <p className="text-gray-700">$4.99</p>
-	 </div> */}
                 <hr className="my-4" />
                 <div className="flex justify-between">
                   <p className="text-lg font-bold">Итого к оплате:</p>
                   <div className="">
-                    <p className="mb-1 text-lg font-bold">{totalPrice()} ₽</p>
+                    <p className="mb-1 text-lg font-bold">{totalPrice} ₽</p>
                     <p className="text-sm text-gray-700">Включая НДС</p>
                   </div>
                 </div>

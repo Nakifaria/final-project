@@ -2,7 +2,16 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { IPack } from '../../components/Home/itemCard';
 
-const initialState: IPack = {
+export interface IItemsPrice {
+  id: number;
+  price: number;
+}
+
+export interface ICartPrice {
+  items: IItemsPrice[];
+}
+
+const initialState: ICartPrice = {
   items: [],
 };
 
@@ -10,18 +19,24 @@ export const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    initialCart: (state, action: PayloadAction<number[]>) => {
-      state.items = [...action.payload];
+    initialCart: (state, action: PayloadAction<ICartPrice>) => {
+      state.items = [...action.payload.items];
     },
 
-    addToCart: (state, action: PayloadAction<number>) => {
+    addToCart: (state, action: PayloadAction<IItemsPrice>) => {
       state.items.push(action.payload);
     },
 
-    deleteFromCart: (state, action: PayloadAction<number>) => {
+    deleteFromCart: (state, action: PayloadAction<IItemsPrice>) => {
       const spliceIndex = state.items.indexOf(action.payload);
 
       state.items.splice(spliceIndex, 1);
+    },
+
+    deleteFromCartById: (state, action: PayloadAction<IItemsPrice>) => {
+      state.items = [
+        ...state.items.filter((el) => el.id !== action.payload.id),
+      ];
     },
 
     clearCart: (state) => {
@@ -30,7 +45,12 @@ export const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, clearCart, initialCart, deleteFromCart } =
-  cartSlice.actions;
+export const {
+  addToCart,
+  clearCart,
+  initialCart,
+  deleteFromCart,
+  deleteFromCartById,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

@@ -92,6 +92,7 @@ export const Searchbar = () => {
           <input
             type="text"
             className="border rounded-l-xl border-black w-3/4 px-4 py-2"
+            placeholder="поиск по названию"
           />
           <button className="w-1/4 flex justify-center px-2 py-2 border border-l-0 rounded-l-none border-black rounded-xl hover:bg-black hover:text-white">
             <SVGComponent svgName="search" />

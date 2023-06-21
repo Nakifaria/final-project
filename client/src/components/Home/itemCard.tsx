@@ -1,12 +1,16 @@
-import { Dispatch, FC, useEffect, useRef } from 'react';
+import { FC } from 'react';
 import { IItem } from '../../redux/slices/items.slice';
 import { SVGComponent } from '../Svg/SVGComponent';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { RootState } from '../../redux/store/store';
 import { addToAction, removeFromAction } from '../../redux/thunk/items.action';
 import { ItemButton, packNames } from './ItemButton';
 import { useNavigate } from 'react-router';
 import { useAppSelector } from '../../redux/hook';
+import {
+  addToCartAction,
+  removeFromCartAction,
+} from '../../redux/thunk/cart.action';
 
 export interface ICardItem {
   item: IItem;
@@ -34,6 +38,14 @@ export const ItemCard: FC<ICardItem> = ({ item }) => {
           cartId: userStatus.cartId,
         })
       );
+
+      packName === 'cart' &&
+        dispatch(
+          addToCartAction({
+            item: { id: item.id, price: item.price },
+            isAuth: userStatus.isAuth,
+          })
+        );
     } else if (action === 'remove') {
       dispatch(
         removeFromAction({
@@ -44,6 +56,14 @@ export const ItemCard: FC<ICardItem> = ({ item }) => {
           cartId: userStatus.cartId,
         })
       );
+
+      packName === 'cart' &&
+        dispatch(
+          removeFromCartAction({
+            item: { id: item.id, price: item.price },
+            isAuth: userStatus.isAuth,
+          })
+        );
     }
   };
 
