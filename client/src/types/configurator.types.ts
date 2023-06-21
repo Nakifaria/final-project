@@ -7,11 +7,12 @@ export type category = {
   significance: number;
 };
 
-export type currentConfiguration = {
+export type currentConfigurationType = {
   id: number;
   title: string;
-  descriptiom: string;
-}
+  description: string;
+  items: [];
+};
 
 export type ChooseHandlerType = {
   (
@@ -57,4 +58,5 @@ export type configuratorSliceType = {
   choosenItem: choosenItemType[];
   title: string;
   description: string;
+  currentConfiguration: currentConfigurationType;
 };

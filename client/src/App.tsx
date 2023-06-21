@@ -1,26 +1,27 @@
-import { Route, Routes } from 'react-router-dom';
-import Configurator from './components/ConfiguratorPages/Configurator/Configurator';
-import { Catalog } from './components/Catalog/Catalog';
-import { CategoryCatalog } from './components/CategoryCatalog/CategoryCatalog';
-import { ItemPage } from './components/ItemPage/ItemPage';
+import { Route, Routes } from "react-router-dom";
+import Configurator from "./components/ConfiguratorPages/Configurator/Configurator";
+import { Catalog } from "./components/Catalog/Catalog";
+import { CategoryCatalog } from "./components/CategoryCatalog/CategoryCatalog";
+import { ItemPage } from "./components/ItemPage/ItemPage";
 
-import { ToastContainer } from 'react-toastify';
-import { Home } from './components/Home/Home';
-import { Searchbar } from './components/Searchbar/Searchbar';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { checkSessionThunk } from './redux/thunk/user.action';
-import { RootState } from './redux/store/store';
-import { loadItems } from './redux/thunk/items.action';
-import { Modal } from './components/Modal/Modal';
-import PacmanLoader from 'react-spinners/PacmanLoader';
-import { Cart } from './components/Cart/Cart';
+import { ToastContainer } from "react-toastify";
+import { Home } from "./components/Home/Home";
+import { Searchbar } from "./components/Searchbar/Searchbar";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { checkSessionThunk } from "./redux/thunk/user.action";
+import { RootState } from "./redux/store/store";
+import { loadItems } from "./redux/thunk/items.action";
+import { Modal } from "./components/Modal/Modal";
+import PacmanLoader from "react-spinners/PacmanLoader";
+import { Cart } from "./components/Cart/Cart";
 
-import { Compare } from './components/Compare/Compare';
-import { Favourite } from './components/newFav/Favourite';
-import { useAppSelector } from './redux/hook';
-import { Profile } from './components/Profile/Profile';
-import { Search } from './components/Search/Search';
+import { Compare } from "./components/Compare/Compare";
+import { Favourite } from "./components/newFav/Favourite";
+import { useAppSelector } from "./redux/hook";
+import { Profile } from "./components/Profile/Profile";
+import { Search } from "./components/Search/Search";
+import { ConfigurationPage } from "./components/ConfiguratorPages/ConfigurationPage/ConfigurationPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -46,6 +47,10 @@ function App() {
               <Route path="category/:catId" element={<CategoryCatalog />} />
               <Route path="product/:prodId" element={<ItemPage />} />
               <Route path="configurator" element={<Configurator />} />
+              <Route
+                path="configurator/:configurationId"
+                element={<ConfigurationPage />}
+              />
               <Route path="profile" element={<Profile />} />
               <Route path="favourite" element={<Favourite />} />
               <Route path="compare" element={<Compare />} />

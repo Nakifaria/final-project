@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react';
-import ModalConfigurator from '../ModalConfigurator/ModalConfigurator';
-import { Button } from 'flowbite-react';
-import { useAppDispatch, useAppSelector } from '../../../redux/hook';
-import { RootState } from '../../../redux/store/store';
-import { categoryFetch } from '../../../redux/thunk/category.action';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import ModalConfigurator from "../ModalConfigurator/ModalConfigurator";
+import { Button } from "flowbite-react";
+import { useAppDispatch, useAppSelector } from "../../../redux/hook";
+import { RootState } from "../../../redux/store/store";
+import { categoryFetch } from "../../../redux/thunk/category.action";
+import { useNavigate } from "react-router-dom";
 import {
   ChooseHandlerFetch,
   allCategoriesFetch,
   removeItemHandlerFetch,
-} from '../../../redux/thunk/configurator.action';
+} from "../../../redux/thunk/configurator.action";
 import {
   setCategoryId,
   setCategoryTitle,
@@ -21,11 +21,11 @@ import {
   setProgressbarStyle,
   setSignificance,
   setTitle,
-} from '../../../redux/slices/configuratorSlice';
-import { ChooseHandlerType } from '../../../types/configurator.types';
-import { toast } from 'react-toastify';
-import { addToCart } from '../../../redux/slices/cart.slice';
-import { addTo } from '../../../redux/slices/addItemsTo.slice';
+} from "../../../redux/slices/configuratorSlice";
+import { ChooseHandlerType } from "../../../types/configurator.types";
+import { toast } from "react-toastify";
+import { addToCart } from "../../../redux/slices/cart.slice";
+import { addTo } from "../../../redux/slices/addItemsTo.slice";
 
 function Configurator() {
   const navigate = useNavigate();
@@ -80,7 +80,7 @@ function Configurator() {
   const [isLoading, setIsLoading] = useState(false);
 
   function starterPack(): void {
-    const pack = localStorage.getItem('configurator');
+    const pack = localStorage.getItem("configurator");
     if (pack) {
       const parsed = JSON.parse(pack);
       // console.log("parsed", parsed.items[0]);
@@ -95,10 +95,10 @@ function Configurator() {
 
   const titleInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setTitle(e.target.value));
-    const pack = localStorage.getItem('configurator');
+    const pack = localStorage.getItem("configurator");
     if (!pack) {
       localStorage.setItem(
-        'configurator',
+        "configurator",
         JSON.stringify({
           title: e.target.value,
         })
@@ -106,16 +106,16 @@ function Configurator() {
     } else {
       const updated = JSON.parse(pack);
       updated.title = e.target.value;
-      localStorage.setItem('configurator', JSON.stringify(updated));
+      localStorage.setItem("configurator", JSON.stringify(updated));
     }
   };
 
   const descriptionInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setDescription(e.target.value));
-    const pack = localStorage.getItem('configurator');
+    const pack = localStorage.getItem("configurator");
     if (!pack) {
       localStorage.setItem(
-        'configurator',
+        "configurator",
         JSON.stringify({
           description: e.target.value,
         })
@@ -123,7 +123,7 @@ function Configurator() {
     } else {
       const updated = JSON.parse(pack);
       updated.description = e.target.value;
-      localStorage.setItem('configurator', JSON.stringify(updated));
+      localStorage.setItem("configurator", JSON.stringify(updated));
     }
   };
 
@@ -144,16 +144,16 @@ function Configurator() {
 
   async function saveBtnHandler() {
     if (userStatus.isAuth) {
-      const pack = localStorage.getItem('configurator');
+      const pack = localStorage.getItem("configurator");
       if (!pack) {
         return;
       }
       if (primaryParts < primaryPartsTotalAmount) {
-        toast.error('Выберите все обязательные комплектующие ПК ', {
+        toast.error("Выберите все обязательные комплектующие ПК ", {
           autoClose: 2000,
         });
-        if (title === '') {
-          toast.error('Введите название сборки', {
+        if (title === "") {
+          toast.error("Введите название сборки", {
             autoClose: 2000,
           });
           return;
@@ -162,22 +162,24 @@ function Configurator() {
       }
       const info = JSON.parse(pack);
       const itemIdArr = info.items.map((el) => el.id);
-      const response = await fetch('http://localhost:3000/configurator', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
+      const response = await fetch("http://localhost:3000/configurator", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({
           title: info.title,
           description: info.description,
           itemIdArr,
         }),
       });
-
-      if (response.ok) {
-        localStorage.removeItem('configurator');
+      const result = await response.json();
+      console.log(result);
+      if (result) {
+        localStorage.removeItem("configurator");
+        navigate(`/configurator/${result.id}`);
       }
     } else {
-      toast.error('Пожалуйста, войдите в свой аккаунт для сохранения сборки', {
+      toast.error("Пожалуйста, войдите в свой аккаунт для сохранения сборки", {
         autoClose: 2000,
       });
       return;
@@ -186,7 +188,7 @@ function Configurator() {
 
   async function buyBtnHandler() {
     if (!userStatus.isAuth) {
-      const pack = localStorage.getItem('configurator');
+      const pack = localStorage.getItem("configurator");
       if (!pack) {
         return;
       }
@@ -199,17 +201,17 @@ function Configurator() {
         return { id: el.id, price: el.price };
       });
       console.log;
-      const cart = localStorage.getItem('cart');
-      const fullCart = localStorage.getItem('fullCart');
+      const cart = localStorage.getItem("cart");
+      const fullCart = localStorage.getItem("fullCart");
       if (!cart && !fullCart) {
         localStorage.setItem(
-          'cart',
+          "cart",
           JSON.stringify({
             items: [...itemIdArr],
           })
         );
         localStorage.setItem(
-          'fullCart',
+          "fullCart",
           JSON.stringify({
             items: [...itemPriceArr],
           })
@@ -219,36 +221,36 @@ function Configurator() {
         const updatedFullCart = JSON.parse(fullCart);
         updatedCart.items = [...itemIdArr];
         updatedFullCart.items = [...itemPriceArr];
-        localStorage.setItem('cart', JSON.stringify(updatedCart));
-        localStorage.setItem('fullCart', JSON.stringify(updatedFullCart));
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
+        localStorage.setItem("fullCart", JSON.stringify(updatedFullCart));
       }
       itemPriceArr.forEach((el) => {
         dispatch(addToCart(el));
-        dispatch(addTo({ itemId: el.id, packName: 'cart' }));
+        dispatch(addTo({ itemId: el.id, packName: "cart" }));
       });
     } else {
-      const pack = localStorage.getItem('configurator');
+      const pack = localStorage.getItem("configurator");
       if (!pack) {
         return;
       }
       const info = JSON.parse(pack);
       const itemIdArr = info.items.map((el) => el.id);
       itemIdArr.forEach(async (el) => {
-        const response = await fetch('http://localhost:3000/cart', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
+        const response = await fetch("http://localhost:3000/cart", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
           body: JSON.stringify({ cartId: userStatus.cartId, itemId: el }),
         });
         if (!response.ok) {
-          toast.error('Не удалось сохранить сборку', {
+          toast.error("Не удалось сохранить сборку", {
             autoClose: 2000,
           });
           return;
         }
       });
     }
-    navigate('/cart');
+    navigate("/cart");
   }
 
   function ChooseHandler(
@@ -416,7 +418,7 @@ function Configurator() {
           <div className="bg-white  rounded-md">
             <div className="bg-white py-3 px-4 rounded-lg flex justify-around items-center ">
               <input
-                value={title}
+                value={title ? title : ""}
                 onChange={titleInputHandler}
                 type="text"
                 placeholder="Введите название сборки"
@@ -426,7 +428,7 @@ function Configurator() {
 
             <div className="bg-white py-3 px-4 rounded-lg flex justify-around items-center ">
               <input
-                value={description}
+                value={description ? description : ""}
                 onChange={descriptionInputHandler}
                 type="text"
                 placeholder="Введите описание сборки (необязательно)"

@@ -14,7 +14,7 @@ const initialState: configuratorSliceType = {
   choosenItem: [],
   title: "",
   description: "",
-  currentConfiguration: {},
+  currentConfiguration: { id: 0, title: "", description: "", items: [] },
 };
 
 export const configuratorSlice: Slice = createSlice({
@@ -128,6 +128,7 @@ export const {
   setChoosenItem,
   setTitle,
   setDescription,
+  setCurrentConfiguration,
 } = configuratorSlice.actions;
 
 export default configuratorSlice.reducer;
