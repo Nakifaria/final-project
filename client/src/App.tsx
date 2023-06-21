@@ -19,6 +19,7 @@ import { Cart } from './components/Cart/Cart';
 import { Compare } from './components/Compare/Compare';
 import { Favourite } from './components/newFav/Favourite';
 import { useAppSelector } from './redux/hook';
+import { Search } from './components/Search/Search';
 
 function App() {
   const dispatch = useDispatch();
@@ -47,6 +48,8 @@ function App() {
 
               <Route path="favourite" element={<Favourite />} />
               <Route path="compare" element={<Compare />} />
+
+              <Route path="search" element={<Search />} />
 
               <Route path="" element={<Home />} />
             </Routes>

@@ -9,6 +9,7 @@ import { AppDispatch, RootState } from '../store/store';
 import { initialPacksAction } from './items.action';
 import { endLoad, startLoad } from '../slices/loader.slice';
 import { AnyAction, ThunkAction, ThunkDispatch } from '@reduxjs/toolkit';
+import { initFullCartAction } from './cart.action';
 
 export const regUserThunk: ThunkActionCreater<Partial<IUserInfo>> =
   (formData) => (dispatch) => {
@@ -144,6 +145,7 @@ export const checkSessionThunk: ThunkResult<void> =
           );
           dispatch(initialPacksAction({ packName: 'cart', userId: user.id }));
         } else {
+          dispatch(initFullCartAction({ isAuth: session }));
           initialPackFromLocaleStorage('favourite', dispatch);
           initialPackFromLocaleStorage('compare', dispatch);
           initialPackFromLocaleStorage('cart', dispatch);

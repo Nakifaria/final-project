@@ -10,8 +10,6 @@ export const CategoryItem = ({el}) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  console.log(el);
-
   const isAuth = useAppSelector((state: RootState) => state.userSlice.isAuth);
   
 
@@ -23,7 +21,6 @@ export const CategoryItem = ({el}) => {
     }
   };
   
-
     return (
     <li key={el.id} className="flex justify-between gap-x-6 py-5">
     <div
