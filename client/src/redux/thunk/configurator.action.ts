@@ -37,7 +37,7 @@ export const removeItemHandlerFetch =
   ): void =>
   (dispatch) => {
     try {
-      if (significance !== 0) {
+      if (significance) {
         dispatch(setPrimaryParts(primaryParts - 1));
         dispatch(
           setProgressbarStyle({
@@ -51,7 +51,12 @@ export const removeItemHandlerFetch =
       dispatch(
         setChoosenItem(choosenItem.filter((el) => el.categoryId !== id))
       );
-      removeConfiguratorItemsFromLocalStorage(id);
+      removeConfiguratorItemsFromLocalStorage(
+        id,
+        primaryParts,
+        primaryPartsTotalAmount,
+        significance
+      );
     } catch (error) {
       toast.error("Непредусмотренная ошибка", { autoClose: 2000 });
       console.log(error);
@@ -73,7 +78,7 @@ export const ChooseHandlerFetch =
     choosenItem
   ): void =>
   (dispatch) => {
-    if (significance !== 0) {
+    if (significance) {
       dispatch(setChoosenCategory([...choosenCategory, id]));
       dispatch(setPrimaryParts(primaryParts + 1));
       dispatch(
@@ -97,14 +102,17 @@ export const ChooseHandlerFetch =
         },
       ])
     );
+
     addConfiguratorItemsToLocalStorage(
       id,
       currentItemId,
       currentItemName,
       currentItemPrice,
-      currentItemImg
+      currentItemImg,
+      primaryParts,
+      primaryPartsTotalAmount,
+      significance
     );
-
     dispatch(setOpenModal(false));
   };
 
@@ -113,26 +121,53 @@ const addConfiguratorItemsToLocalStorage = (
   currentItemId,
   currentItemName,
   currentItemPrice,
-  currentItemImg
+  currentItemImg,
+  primaryParts,
+  primaryPartsTotalAmount,
+  significance
 ) => {
   const pack = localStorage.getItem("configurator");
 
   if (!pack) {
-    localStorage.setItem(
-      "configurator",
-      JSON.stringify({
-        categories: [id],
-        items: [
-          {
-            id: currentItemId,
-            name: currentItemName,
-            price: currentItemPrice,
-            categoryId: id,
-            img: currentItemImg,
+    if (significance) {
+      localStorage.setItem(
+        "configurator",
+        JSON.stringify({
+          categories: [id],
+          items: [
+            {
+              id: currentItemId,
+              name: currentItemName,
+              price: currentItemPrice,
+              categoryId: id,
+              img: currentItemImg,
+            },
+          ],
+          primaries: primaryParts + 1,
+          progress: {
+            width: `${Math.floor(
+              ((primaryParts + 1) / primaryPartsTotalAmount) * 100
+            )}%`,
           },
-        ],
-      })
-    );
+        })
+      );
+    } else {
+      localStorage.setItem(
+        "configurator",
+        JSON.stringify({
+          categories: [id],
+          items: [
+            {
+              id: currentItemId,
+              name: currentItemName,
+              price: currentItemPrice,
+              categoryId: id,
+              img: currentItemImg,
+            },
+          ],
+        })
+      );
+    }
   } else {
     const updated = JSON.parse(pack);
 
@@ -145,11 +180,25 @@ const addConfiguratorItemsToLocalStorage = (
       img: currentItemImg,
     });
 
+    if (significance) {
+      updated.primaries = primaryParts + 1;
+      updated.progress = {
+        width: `${Math.floor(
+          ((primaryParts + 1) / primaryPartsTotalAmount) * 100
+        )}%`,
+      };
+    }
+
     localStorage.setItem("configurator", JSON.stringify(updated));
   }
 };
 
-const removeConfiguratorItemsFromLocalStorage = (id: number) => {
+const removeConfiguratorItemsFromLocalStorage = (
+  id: number,
+  primaryParts,
+  primaryPartsTotalAmount,
+  significance
+) => {
   const pack = localStorage.getItem("configurator");
 
   const updated = pack && JSON.parse(pack);
@@ -159,6 +208,15 @@ const removeConfiguratorItemsFromLocalStorage = (id: number) => {
   updated.categories.splice(spliceIndex, 1);
 
   updated.items = updated.items.filter((el) => el.categoryId !== id);
+
+  if (significance) {
+    updated.primaries = primaryParts - 1;
+    updated.progress = {
+      width: `${Math.floor(
+        ((primaryParts - 1) / primaryPartsTotalAmount) * 100
+      )}%`,
+    };
+  }
 
   localStorage.setItem("configurator", JSON.stringify(updated));
 };

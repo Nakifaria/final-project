@@ -12,6 +12,8 @@ const initialState: configuratorSliceType = {
   significance: 0,
   categoryTitle: "",
   choosenItem: [],
+  title: "",
+  description: "",
 };
 
 export const configuratorSlice: Slice = createSlice({
@@ -88,6 +90,20 @@ export const configuratorSlice: Slice = createSlice({
       ...state,
       choosenItem: action.payload,
     }),
+    setTitle: (
+      state,
+      action: PayloadAction<Partial<configuratorSliceType>>
+    ) => ({
+      ...state,
+      title: action.payload,
+    }),
+    setDescription: (
+      state,
+      action: PayloadAction<Partial<configuratorSliceType>>
+    ) => ({
+      ...state,
+      description: action.payload,
+    }),
   },
 });
 
@@ -102,6 +118,8 @@ export const {
   setSignificance,
   setCategoryTitle,
   setChoosenItem,
+  setTitle,
+  setDescription,
 } = configuratorSlice.actions;
 
 export default configuratorSlice.reducer;

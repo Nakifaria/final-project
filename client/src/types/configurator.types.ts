@@ -49,4 +49,6 @@ export type configuratorSliceType = {
   significance: number;
   categoryTitle: string;
   choosenItem: choosenItemType[];
+  title: string;
+  description: string;
 };
