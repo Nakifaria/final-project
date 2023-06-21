@@ -6,7 +6,6 @@ import { startLoad } from "../slices/loader.slice";
 
 export const categoryFetch = (categoryId, setIsLoading) => async (dispatch) => {
   try {
-    console.log("Я САНК!");
 
     const response = await fetch(
       `http://localhost:3000/catalog/category/${categoryId}`
