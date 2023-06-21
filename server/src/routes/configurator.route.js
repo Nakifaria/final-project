@@ -31,6 +31,23 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  try {
+    const { user } = req.session;
+    const configuration = (
+      await Configuration.findOne({
+        include: [{ model: ItemsToConfiguration }],
+        where: { user_id: user.id },
+      })
+    ).get({ plain: true });
+    configuration.items = configuration.ItemsToConfigurations;
+    delete configuration.ItemsToConfigurations;
+    res.json({ configuration });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 router.post("/", async (req, res) => {
   try {
     const { title, description, itemIdArr } = req.body;

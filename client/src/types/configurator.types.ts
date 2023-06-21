@@ -7,6 +7,12 @@ export type category = {
   significance: number;
 };
 
+export type currentConfiguration = {
+  id: number;
+  title: string;
+  descriptiom: string;
+}
+
 export type ChooseHandlerType = {
   (
     id: number,

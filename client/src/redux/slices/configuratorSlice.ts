@@ -14,6 +14,7 @@ const initialState: configuratorSliceType = {
   choosenItem: [],
   title: "",
   description: "",
+  currentConfiguration: {},
 };
 
 export const configuratorSlice: Slice = createSlice({
@@ -103,6 +104,13 @@ export const configuratorSlice: Slice = createSlice({
     ) => ({
       ...state,
       description: action.payload,
+    }),
+    setCurrentConfiguration: (
+      state,
+      action: PayloadAction<Partial<configuratorSliceType>>
+    ) => ({
+      ...state,
+      currentConfiguration: action.payload,
     }),
   },
 });
