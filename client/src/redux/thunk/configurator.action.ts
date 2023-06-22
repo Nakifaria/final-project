@@ -178,7 +178,7 @@ export const ChooseHandlerFetch =
       }
 
       if (
-        firstSocketType.socketName !== secondSocketType.socketName &&
+        currentSocketType !== secondSocketType.socketName &&
         secondSocketType.socketName !== ""
       ) {
         dispatch(
@@ -235,7 +235,7 @@ export const ChooseHandlerFetch =
         localStorage.setItem("configurator", JSON.stringify(updated));
       }
       if (
-        firstSocketType.socketName !== secondSocketType.socketName &&
+        firstSocketType.socketName !== currentSocketType &&
         firstSocketType.socketName !== ""
       ) {
         dispatch(
