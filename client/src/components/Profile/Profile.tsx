@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { SVGComponent } from "../Svg/SVGComponent"
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { RootState } from "../../redux/store/store";
-import { setUserConfig } from "../../redux/slices/profile.slice";
+import { setOrder, setUserConfig } from "../../redux/slices/profile.slice";
+import { Empty } from "../Empty/Empty";
 
 export const Profile = () => {
 
@@ -27,12 +28,30 @@ export const Profile = () => {
 		}
 	}
 
-	useEffect(() => {configFetch()}, [userInfo])   
+    const orderFetch = async () => {
+		try {
+			const response = await fetch (`http://localhost:3000/profile/orders/${userInfo.id}`);
+			const cartData = await response.json()
+			console.log(cartData);
+			if (cartData.ordered) {
+			dispatch(setOrder(cartData))
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+
+	useEffect(() => {configFetch(), orderFetch()}, [userInfo])   
 
 		const configInfo = useAppSelector(
 			(state: RootState) => state.profileSlice.userConfigs);
-			console.log(configInfo);
-	   
+
+		const orderInfo = useAppSelector(
+				(state: RootState) => state.profileSlice.userOrders);
+
+// console.log(orderInfo);
+
     return (
         <>
         <div className="bg-gray-100 border-b">
@@ -76,8 +95,10 @@ export const Profile = () => {
                                 </span>
                                 <span className="tracking-wide">Сохраненные конфигурации</span>
                             </div>
-                            <ul className="list-inside space-y-2">
 
+							{configInfo.length === 0 && <Empty title="конфигурациях" />}
+                            
+							<ul className="list-inside space-y-2">
                             {configInfo && configInfo.map((item) => (
 	                             <li key={item.id}>
                                     <div className="text-teal-600">{item.title}</div>
@@ -88,10 +109,12 @@ export const Profile = () => {
                         </div>
                     </div>
 
+                {orderInfo.length === 0 && <Empty title="заказах" />}
                 <div className="bg-white p-3 shadow-sm rounded-sm">
                 <div>
 			   <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
 				<div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
+
 					<table className="min-w-full leading-normal">
 						<thead>
 							<tr>
@@ -113,24 +136,26 @@ export const Profile = () => {
 								</th>
 							</tr>
 						</thead>
+						
 						<tbody>
-							<tr>
+						{orderInfo && orderInfo.map((item) => (
+							<tr key={item.id}>
 								<td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
 									<div className="flex items-center">
 
 											<div className="ml-3">
 												<p className="text-gray-900 whitespace-no-wrap">
-													100500
+													100500-{item.id}
 												</p>
 											</div>
 										</div>
 								</td>
 								<td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-									<p className="text-gray-900 whitespace-no-wrap">11111</p>
+									<p className="text-gray-900 whitespace-no-wrap">{item.total_price}</p>
 								</td>
 								<td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
 									<p className="text-gray-900 whitespace-no-wrap">
-										Jan 21, 2020
+									{new Date(item.createdAt).toLocaleDateString("ru-RU")}
 									</p>
 								</td>
 								<td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -142,35 +167,8 @@ export const Profile = () => {
 									</span>
 								</td>
 							</tr>
+                            ))}
 
-							<tr>
-								<td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-									<div className="flex items-center">
-											<div className="ml-3">
-												<p className="text-gray-900 whitespace-no-wrap">
-													100501
-												</p>
-											</div>
-										</div>
-								</td>
-								<td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-									<p className="text-gray-900 whitespace-no-wrap">22222</p>
-								</td>
-								<td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-									<p className="text-gray-900 whitespace-no-wrap">
-										Jan 01, 2020
-									</p>
-                                    </td>
-
-                                    <td className="px-5 py-5 bg-white text-sm">
-									<span
-                                        className="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight">
-                                        <span aria-hidden
-                                            className="absolute inset-0 bg-red-200 opacity-50 rounded-full"></span>
-									<span className="relative">Inactive</span>
-									</span>
-								</td>
-							</tr>
 						</tbody>
 					</table>
 
