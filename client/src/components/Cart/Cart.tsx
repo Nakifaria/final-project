@@ -59,7 +59,7 @@ export const Cart = () => {
   };
 
   return (
-    <div className=" pt-10 pb-60 bg-white shadow-xl shadow-neutral-300 px-4">
+    <div className=" pt-10 pb-40 bg-white shadow-xl shadow-neutral-300 px-4">
       {filteredItems.length === 0 && <Empty title="корзине" />}
       {filteredItems.length > 0 && (
         <div className=" h-full">

@@ -18,12 +18,8 @@ export const CategoryConfigurator = ({
   // );
   console.log("categoryItems", categoryItems);
   return (
-    <div className="mt-[30px] flex flex-col text-center w-full">
-      <h1 className="text-center text-2xl font-semibold leading-7 text-gray-900">
-        {categoryTitle}
-      </h1>
-      <div className="mt-10">фильтр</div>
-      <div className=" mt-10 bg-white shadow-xl shadow-neutral-100 border ">
+    <div className="flex flex-col text-center w-full">
+      <div className=" mt-10 bg-white shadow-xl shadow-neutral-100 h-full">
         <ul className="divide-y divide-gray-100 w-full">
           {categoryItems &&
             categoryItems.map((el) => (
@@ -33,20 +29,20 @@ export const CategoryConfigurator = ({
               >
                 <div
                   onClick={() => navigate(`/product/${el.id}`)}
-                  className="flex justify-between gap-x-6 w-3/5"
+                  className="flex justify-between gap-x-6 w-4/5"
                 >
                   <div className="flex-shrink-0">
-                    <img className="w-8 h-8" src={el.img} alt="Neil image" />
+                    <img className="w-14 h-14" src={el.img} alt="Neil image" />
                   </div>
-                  <div className="flex justify-left gap-x-4">
+                  <div className="flex justify-left gap-x-4 items-center">
                     <div className="min-w-0 flex-auto ">
-                      <p className="text-sm text-center font-bold leading-6 text-gray-900">
+                      <p className="text-base text-center font-bold leading-6 text-gray-900">
                         {el.name}
                       </p>
                     </div>
                   </div>
-                  <div className="ml-10 sm:flex sm:flex-col sm:items-end">
-                    <p className="text-sm text-center leading-6 text-gray-900">
+                  <div className="ml-10 sm:flex sm:flex-col sm:items-end flex flex-col justify-center">
+                    <p className="text-base text-center leading-6 text-gray-900">
                       {el.price} ₽
                     </p>
                   </div>
@@ -69,7 +65,7 @@ export const CategoryConfigurator = ({
                       )
                     }
                     type="button"
-                    className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 "
+                    className="text-white w-32 bg-gradient-to-r from-gray-800 via-gray-700 to-gray-600 hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 "
                   >
                     Добавить
                   </button>

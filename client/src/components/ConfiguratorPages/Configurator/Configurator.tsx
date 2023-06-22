@@ -330,7 +330,7 @@ function Configurator() {
 
   return (
     <>
-      <div className="bg-gray-100 sm:grid grid-cols-5 grid-rows-2 px-4 py-6 min-h-full lg:min-h-screen space-y-6 sm:space-y-0 sm:gap-4">
+      <div className="bg-gray-100 sm:grid lg:grid grid-cols-5 grid-rows-1 px-4 py-6 min-h-full lg:min-h-screen space-y-6 sm:space-y-0 lg:space-y-0 sm:gap-4 lg:gap-4 shadow-xl shadow-neutral-300">
         <div className="h-max col-span-4 bg-gradient-to-tr from-gray-400 to-gray-200 rounded-md flex">
           <ul className="w-full">
             {configurationSocketMistake ? (
@@ -349,9 +349,9 @@ function Configurator() {
                 <li key={category.id}>
                   <div className="bg-white py-3 px-4 rounded-lg my-3 mx-3 flex justify-between items-center">
                     <div className="w-1/4 items-center flex-row flex">
-                      <div className=" bg-purple-500 text-white shadow-lg shadow-purple-200 w-12 h-12 mr-2 relative">
+                      <div className=" bg-gray-800 text-white shadow-lg shadow-gray-200 w-12 h-12 min-w-[46px] mr-2 flex rounded-lg justify-center items-center p-1">
                         <img
-                          className="h-10 relative top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"
+                          className="w-full h-auto"
                           src={`${category.image}`}
                           alt="category image"
                         />
@@ -367,7 +367,7 @@ function Configurator() {
                         {category.amountItems} шт.
                       </span>
                     ) : (
-                      <div className="flex justify-between gap-x-6 w-1/2">
+                      <div className="flex justify-between gap-x-6 w-1/2 ">
                         <div className="flex-shrink-0">
                           <img
                             className="w-8 h-8"
@@ -410,7 +410,9 @@ function Configurator() {
                             category.title
                           )
                         }
-                        gradientDuoTone="purpleToBlue"
+                        color="failure"
+                        outline
+                        className="w-32"
                       >
                         Добавить +
                       </Button>
@@ -419,7 +421,8 @@ function Configurator() {
                         onClick={() =>
                           removeItemHandler(category.id, category.significance)
                         }
-                        gradientDuoTone="pinkToOrange"
+                        color="failure"
+                        className="w-32"
                       >
                         Удалить
                       </Button>
@@ -429,19 +432,19 @@ function Configurator() {
               ))}
           </ul>
         </div>
-        <div className="h-96 col-span-1 sticky top-20 z-0">
+        <div className="h-96 col-span-1 sticky top-20 z-10">
           <div className="bg-white py-3 px-4 rounded-lg">
             <div className="flex justify-between mb-1">
-              <span className="text-base font-medium text-blue-700">
+              <span className="text-base font-medium text-red-800">
                 * - обязательные комплектующие
               </span>
-              <span className="text-sm font-medium text-blue-700">
+              <span className="text-sm font-medium text-red-800">
                 {primaryParts}/{primaryPartsTotalAmount}
               </span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2.5">
               <div
-                className="bg-blue-600 h-2.5 rounded-full"
+                className="bg-red-800 h-2.5 rounded-full"
                 style={progressbarStyle}
               ></div>
             </div>
@@ -459,12 +462,12 @@ function Configurator() {
             </div>
 
             <div className="bg-white py-3 px-4 rounded-lg flex justify-around items-center ">
-              <input
+              <textarea
                 value={description ? description : ""}
                 onChange={descriptionInputHandler}
                 type="text"
                 placeholder="Введите описание сборки (необязательно)"
-                className=" bg-gray-100 rounded-md  outline-none pl-2 ring-indigo-700 w-full mr-2 p-2 h-64"
+                className=" bg-gray-100 rounded-md  outline-none pl-2 ring-indigo-700 w-full mr-2 p-2 h-64 resize-none"
               />
             </div>
             <div className="bg-white py-3 px-4 rounded-lg flex justify-around items-center ">
@@ -474,7 +477,7 @@ function Configurator() {
               <button
                 onClick={() => saveBtnHandler()}
                 type="button"
-                className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                className="w-full text-white bg-gradient-to-r from-gray-800 via-gray-700 to-gray-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
               >
                 Сохранить
               </button>
@@ -483,7 +486,7 @@ function Configurator() {
               <button
                 onClick={() => buyBtnHandler()}
                 type="button"
-                className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                className=" w-full text-white bg-gradient-to-r from-gray-800 via-gray-700 to-gray-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
               >
                 В корзину
               </button>

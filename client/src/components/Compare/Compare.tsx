@@ -42,7 +42,7 @@ export const Compare = () => {
   };
 
   return (
-    <div className="flex flex-col py-10 px-4 shadow-xl shadow-neutral-300">
+    <div className="flex flex-col pt-10 pb-40 px-4 shadow-xl shadow-neutral-300">
       {itemsToCompare.length === 0 && <Empty title="сравнении" />}
 
       {itemsToCompare.length > 0 && (
