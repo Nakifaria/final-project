@@ -31,6 +31,27 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { user } = req.session;
+    // console.log("user====================>", user);
+    const configuration = (
+      await Configuration.findOne({
+        include: [{ model: Item }],
+        order: [["createdAt", "DESC"]],
+        where: { user_id: user.id, id },
+      })
+    ).get({ plain: true });
+    configuration.items = configuration.Items;
+    delete configuration.Items;
+    console.log(configuration);
+    res.json(configuration);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 router.post("/", async (req, res) => {
   try {
     const { title, description, itemIdArr } = req.body;
@@ -49,8 +70,7 @@ router.post("/", async (req, res) => {
         item_id: el,
       });
     });
-
-    res.sendStatus(200);
+    res.json(newConfiguration);
   } catch (error) {
     console.log(error);
   }
