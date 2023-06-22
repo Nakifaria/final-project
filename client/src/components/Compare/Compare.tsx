@@ -1,10 +1,10 @@
-import { RootState } from '../../redux/store/store';
-import { CatButton } from '../Home/CatButton';
-import { useState } from 'react';
-import { IItem } from '../../redux/slices/items.slice';
-import { ItemCard } from '../Home/itemCard';
-import { Empty } from '../Empty/Empty';
-import { useAppSelector } from '../../redux/hook';
+import { RootState } from "../../redux/store/store";
+import { CatButton } from "../Home/CatButton";
+import { useState } from "react";
+import { IItem } from "../../redux/slices/items.slice";
+import { ItemCard } from "../Home/itemCard";
+import { Empty } from "../Empty/Empty";
+import { useAppSelector } from "../../redux/hook";
 
 export const Compare = () => {
   const idsToCompare = useAppSelector(
@@ -42,7 +42,7 @@ export const Compare = () => {
   };
 
   return (
-    <div className="flex flex-col py-10 px-4">
+    <div className="flex flex-col py-10 px-4 shadow-xl shadow-neutral-300">
       {itemsToCompare.length === 0 && <Empty title="сравнении" />}
 
       {itemsToCompare.length > 0 && (
@@ -71,18 +71,18 @@ export const Compare = () => {
                   <div className="gap-4 mt-5 max-w-[200px]">
                     {Object.entries(itemEl.description).map(
                       (el, index, array) => {
-                        if (el.includes('Dimensions')) {
+                        if (el.includes("Dimensions")) {
                           const dimensions = Object.entries(el[1]);
                           const newEl = dimensions
-                            .map((item) => item.join(': '))
-                            .join(' ');
+                            .map((item) => item.join(": "))
+                            .join(" ");
                           el[1] = newEl;
                         }
                         return (
                           <div
                             className={`${
                               index !== array.length - 1 &&
-                              'border-b border-gray-400'
+                              "border-b border-gray-400"
                             } py-4`}
                           >
                             <div className="flex flex-col">
@@ -93,7 +93,7 @@ export const Compare = () => {
                                 content={el[1]}
                                 className={`${
                                   el[1].length > 20 &&
-                                  'cursor-pointer relative hover:after:absolute hover:after:-top-10 hover:after:left-0 hover:after:min-w-[200px] hover:after:min-h-[60px] hover:after:border hover:after:rounded-md hover:after:border-black hover:after:bg-white hover:after:text-black hover:after:text-center hover:after:p-2 hover:after:content-between hover:after:content-[attr(content)] hover:after:z-10'
+                                  "cursor-pointer relative hover:after:absolute hover:after:-top-10 hover:after:left-0 hover:after:min-w-[200px] hover:after:min-h-[60px] hover:after:border hover:after:rounded-md hover:after:border-black hover:after:bg-white hover:after:text-black hover:after:text-center hover:after:p-2 hover:after:content-between hover:after:content-[attr(content)] hover:after:z-10"
                                 }`}
                               >
                                 {el[1].length > 20
