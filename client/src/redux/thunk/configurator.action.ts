@@ -66,25 +66,28 @@ export const removeItemHandlerFetch =
 
       const pack = localStorage.getItem("configurator");
       const updated = JSON.parse(pack);
-      if (configurationSocketMistake !== "") {
-        console.log("firstSocketType------>", firstSocketType);
-        console.log("secondSocketType------>", secondSocketType);
-        if (firstSocketType.categoryId === id) {
-          console.log("TUT");
-          dispatch(setFirstSocketType({ categoryId: 0, socketName: "" }));
-          dispatch(setConfigurationSocketMistake(""));
-          updated.firstSocket = { categoryId: 0, socketName: "" };
+      console.log("firstSocketType------>", firstSocketType);
+      console.log("secondSocketType------>", secondSocketType);
+      if (firstSocketType.categoryId === id) {
+        console.log("TUT");
+        dispatch(setFirstSocketType({ categoryId: 0, socketName: "" }));
+        dispatch(setConfigurationSocketMistake(""));
+        updated.firstSocket = { categoryId: 0, socketName: "" };
+        if (configurationSocketMistake !== "") {
           updated.socketMistake = "";
-          localStorage.setItem("configurator", JSON.stringify(updated));
         }
-        if (secondSocketType.categoryId === id) {
-          console.log("TUT2");
-          dispatch(setSecondSocketType({ categoryId: 0, socketName: "" }));
-          dispatch(setConfigurationSocketMistake(""));
-          updated.secondSocket = { categoryId: 0, socketName: "" };
+
+        localStorage.setItem("configurator", JSON.stringify(updated));
+      }
+      if (secondSocketType.categoryId === id) {
+        console.log("TUT2");
+        dispatch(setSecondSocketType({ categoryId: 0, socketName: "" }));
+        dispatch(setConfigurationSocketMistake(""));
+        updated.secondSocket = { categoryId: 0, socketName: "" };
+        if (configurationSocketMistake !== "") {
           updated.socketMistake = "";
-          localStorage.setItem("configurator", JSON.stringify(updated));
         }
+        localStorage.setItem("configurator", JSON.stringify(updated));
       }
     } catch (error) {
       toast.error("Непредусмотренная ошибка", { autoClose: 2000 });
