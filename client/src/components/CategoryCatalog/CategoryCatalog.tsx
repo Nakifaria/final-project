@@ -46,12 +46,17 @@ export const CategoryCatalog = () => {
   if (isLoading) {
     return (
       <div className=" flex flex-col text-center  bg-white shadow-xl shadow-neutral-300 ">
-        <h1 className="mt-[30px] text-center text-3xl font-semibold leading-7 text-gray-900 ">
+        <h1 className="mt-8 mb-8 text-center text-3xl font-semibold leading-7 text-gray-900 ">
           {categoryItems && categoryItems[0].category}
         </h1>
         <div className="flex justify-center">
           <div className="mt-10 mb-10 mr-10">
-            <Dropdown color="light" label={dropdawnLabel}>
+            <Dropdown
+              color="dark"
+              label={dropdawnLabel}
+              outline
+              // className="border-8 border-black"
+            >
               <Dropdown.Item
                 onClick={() => {
                   setSortOption("popularity"),
@@ -130,28 +135,28 @@ export const CategoryCatalog = () => {
             </Dropdown>
           </div>
           <div className="mt-10 mb-10">
-            Цена от
+            <span className="mr-4">Цена от</span>
             <input
               onChange={changeHandler}
               value={priceData?.low}
               name="low"
               type="number"
               min="1"
-              className="border rounded border-black"
+              className="border-2 rounded-lg border-black h-11"
             />
-            до
+            <span className="mr-4 ml-4">до</span>
             <input
               onChange={changeHandler}
               value={priceData?.high}
               name="high"
               type="number"
               min="1"
-              className="border rounded border-black"
+              className="border-2 rounded-lg border-black h-11"
             />
             <button
               onClick={submitHandler}
               type="button"
-              className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+              className="ml-4 text-gray-900 bg-white border-2 border-gray-800 focus:outline-none active:bg-gray-800 active:text-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
             >
               Применить
             </button>
