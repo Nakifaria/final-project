@@ -142,7 +142,7 @@ export const CategoryCatalog = () => {
               name="low"
               type="number"
               min="1"
-              className="border-2 rounded-lg border-black h-11"
+              className="border-2 rounded-lg border-black h-11 pl-4"
             />
             <span className="mr-4 ml-4">до</span>
             <input
@@ -151,7 +151,7 @@ export const CategoryCatalog = () => {
               name="high"
               type="number"
               min="1"
-              className="border-2 rounded-lg border-black h-11"
+              className="border-2 rounded-lg border-black h-11 pl-4"
             />
             <button
               onClick={submitHandler}

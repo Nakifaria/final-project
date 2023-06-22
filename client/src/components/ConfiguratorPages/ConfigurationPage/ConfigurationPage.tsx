@@ -63,7 +63,7 @@ export const ConfigurationPage = () => {
 
   if (isLoading) {
     return (
-      <div className="mt-10 flex items-center justify-center min-h-screen">
+      <div className="mt-10 flex items-center justify-center min-h-screen bg-white shadow-xl shadow-neutral-300">
         <div className="hidden bg-cover lg:block lg:w-2/5">
           {currentConfiguration && (
             <img
@@ -77,17 +77,17 @@ export const ConfigurationPage = () => {
 
         <div className="flex items-center w-full max-w-3xl p-8 mx-auto lg:px-12 lg:w-3/5">
           <div className="w-full">
-            <h1 className="text-2xl font-semibold tracking-wider text-gray-800 capitalize ">
+            <h1 className="text-2xl mb-10 font-semibold tracking-wider text-gray-800 capitalize ">
               {currentConfiguration.title}
             </h1>
 
             {currentConfiguration && currentConfiguration.description && (
-              <div className="mt-4 text-gray-500 ">
+              <div className="mt-8 text-gray-500 mb-6 ">
                 <span>{currentConfiguration.description}</span>
               </div>
             )}
             {currentConfiguration && currentConfiguration && (
-              <div className="mt-4">
+              <div className="mt-4 flex flex-col gap-y-6">
                 {currentConfiguration.items.map((el) => (
                   <div
                     key={el.id}
@@ -96,13 +96,13 @@ export const ConfigurationPage = () => {
                     <div className="flex justify-between gap-x-6 w-full">
                       <div className="flex-shrink-0">
                         <img
-                          className="w-8 h-8"
+                          className="w-16 h-16"
                           src={el.img}
                           alt="Neil image"
                         />
                       </div>
                       <div className="flex justify-left gap-x-4">
-                        <div className="min-w-0 flex-auto ">
+                        <div className="min-w-0 flex-auto flex items-center">
                           <p
                             onClick={() => navigate(`/product/${el.id}`)}
                             className="text-sm text-center font-bold leading-6 text-gray-900"
@@ -111,8 +111,8 @@ export const ConfigurationPage = () => {
                           </p>
                         </div>
                       </div>
-                      <div className="ml-10 sm:flex sm:flex-col sm:items-end w-1/4">
-                        <p className="text-sm text-center leading-6 text-gray-900">
+                      <div className="ml-10  w-1/4 flex items-center justify-center">
+                        <p className="text-sm text-center  text-gray-900 ">
                           {el.price}₽
                         </p>
                       </div>
@@ -123,12 +123,14 @@ export const ConfigurationPage = () => {
             )}
 
             <div className="mt-6">
-              <h1 className="text-black-500 ">Цена сборки: {totalPrice()} ₽</h1>
+              <h1 className="text-gray-800 text-xl text-center mt-10 mb-4">
+                Цена сборки: {totalPrice()} ₽
+              </h1>
               <div className="bg-white py-3 px-4 rounded-lg flex justify-around items-center ">
                 <button
                   onClick={() => buyBtnHandler()}
                   type="button"
-                  className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                  className="w-full text-white bg-gradient-to-r bg-red-800 hover:bg-red-500 active:hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                 >
                   Все детали в корзину
                 </button>

@@ -29,9 +29,9 @@ export const Catalog = () => {
   console.log(catalog);
 
   return (
-    <div>
-      <div className="mt-[30px] flex flex-col text-center">
-        <h1 className="text-center text-2xl font-semibold leading-7 text-gray-900">
+    <div className="bg-white shadow-xl shadow-neutral-300">
+      <div className="mt-8 flex flex-col text-center">
+        <h1 className="text-center text-3xl font-semibold leading-7 text-gray-900">
           Каталог товаров
         </h1>
 

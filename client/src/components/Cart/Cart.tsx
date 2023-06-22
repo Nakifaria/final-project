@@ -1,14 +1,14 @@
-import './Cart.css';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store/store';
-import { SVGComponent } from '../Svg/SVGComponent';
+import "./Cart.css";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store/store";
+import { SVGComponent } from "../Svg/SVGComponent";
 
-import { useAppDispatch, useAppSelector } from '../../redux/hook';
-import { removeFromAction } from '../../redux/thunk/items.action';
-import { Empty } from '../Empty/Empty';
-import { deleteFromCart, initialCart } from '../../redux/slices/cart.slice';
-import { useEffect, useState } from 'react';
-import { CartItem } from './CartItem';
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import { removeFromAction } from "../../redux/thunk/items.action";
+import { Empty } from "../Empty/Empty";
+import { deleteFromCart, initialCart } from "../../redux/slices/cart.slice";
+import { useEffect, useState } from "react";
+import { CartItem } from "./CartItem";
 
 export const Cart = () => {
   const cartItemsId = useAppSelector(
@@ -49,21 +49,21 @@ export const Cart = () => {
 
   const updateTotalPrice = (
     itemPrice: number,
-    action: 'increment' | 'decrement'
+    action: "increment" | "decrement"
   ) => {
-    if (action === 'increment') {
+    if (action === "increment") {
       setTotalPrice((prevState) => prevState + itemPrice);
-    } else if (action === 'decrement') {
+    } else if (action === "decrement") {
       setTotalPrice((prevState) => prevState - itemPrice);
     }
   };
 
   return (
-    <>
+    <div className="pt-20 pb-60 bg-white shadow-xl shadow-neutral-300">
       {filteredItems.length === 0 && <Empty title="корзине" />}
       {filteredItems.length > 0 && (
-        <div>
-          <div className="bg-gray-100 pt-20">
+        <div className=" h-full">
+          <div>
             <h1 className="mb-10 text-center text-2xl font-bold">Корзина</h1>
             <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
               <div className="rounded-lg md:w-2/3">
@@ -86,7 +86,7 @@ export const Cart = () => {
                     <p className="text-sm text-gray-700">Включая НДС</p>
                   </div>
                 </div>
-                <button className="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600">
+                <button className="mt-6 w-full rounded-md bg-red-800 py-1.5 font-medium text-blue-50 hover:bg-red-600 active:bg-gray-800">
                   Оформить заказ
                 </button>
               </div>
@@ -94,6 +94,6 @@ export const Cart = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
