@@ -33,14 +33,25 @@ export const CartItem: FC<ICartProps> = ({
 
   const isAuth = useAppSelector((state: RootState) => state.userSlice.isAuth);
 
+  const cartId = useAppSelector((state: RootState) => state.userSlice.cartId);
+  const userId = useAppSelector((state: RootState) => state.userSlice.id);
+
   const [itemCount, setItemCount] = useState(
     cartItems.filter((el) => el.id === item.id).length
   );
 
   const [itemPrice, setItemPrice] = useState(item.price);
 
+  console.log(itemCount);
+
   useEffect(() => {
-    setItemCount(cartItems.filter((el) => el.id === item.id).length);
+    if (!isAuth) {
+      setItemCount(cartItems.filter((el) => el.id === item.id).length);
+    } else {
+      setItemCount(
+        cartItems.filter((el) => el.id === item.id).map((el) => el.count)[0]
+      );
+    }
   }, [cartItems]);
 
   useEffect(() => {
@@ -48,13 +59,18 @@ export const CartItem: FC<ICartProps> = ({
   }, []);
 
   const deleteItem = (id, price) => {
-    dispatch(removeFromAction({ id, isAuth, packName: 'cart' }));
     dispatch(
-      removeAllByIdFromCartAction({
-        item: { id, price },
-        isAuth,
-      })
+      removeFromAction({ id, isAuth, packName: 'cart', cartId, userId })
     );
+
+    if (!isAuth) {
+      dispatch(
+        removeAllByIdFromCartAction({
+          item: { id, price },
+          isAuth,
+        })
+      );
+    }
   };
 
   const updateCount = (
@@ -65,13 +81,21 @@ export const CartItem: FC<ICartProps> = ({
   ) => {
     if (action === 'increment' && itemCount >= 1) {
       dispatch(
-        addToCartAction({ item: { id: itemId, price: itemPrice }, isAuth })
+        addToCartAction({
+          item: { id: itemId, price: itemPrice },
+          isAuth,
+          cartId,
+        })
       );
       updateTotalPrice(itemPrice, action);
       setItemPrice((prevState) => prevState + itemPrice);
     } else if (action === 'decrement' && itemCount > 1) {
       dispatch(
-        removeFromCartAction({ item: { id: itemId, price: itemPrice }, isAuth })
+        removeFromCartAction({
+          item: { id: itemId, price: itemPrice },
+          isAuth,
+          cartId,
+        })
       );
       updateTotalPrice(itemPrice, action);
       setItemPrice((prevState) => prevState - itemPrice);

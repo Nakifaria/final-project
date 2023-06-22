@@ -1,6 +1,4 @@
 import { ThunkActionCreater } from '../Types/thunk.type';
-import { IPack } from '../../components/Home/itemCard';
-import { addTo, deleteFrom } from '../slices/addItemsTo.slice';
 import {
   ICartPrice,
   IItemsPrice,
@@ -9,17 +7,24 @@ import {
   deleteFromCartById,
   initialCart,
 } from '../slices/cart.slice';
+import { toast } from 'react-toastify';
 
 interface ICartPayload {
   item: IItemsPrice;
   isAuth: boolean;
+  cartId?: number;
+}
+
+interface UpdateItemsCount {
+  settedItems: boolean;
+  msg: string;
 }
 
 export const addToCartAction: ThunkActionCreater<ICartPayload> =
-  ({ item, isAuth }) =>
-  (dispatch) => {
+  ({ item, isAuth, cartId }) =>
+  async (dispatch) => {
     const fullCart = localStorage.getItem('fullCart');
-    //!добавить логику для авторизированного
+
     if (!isAuth) {
       if (!fullCart) {
         localStorage.setItem(
@@ -35,15 +40,44 @@ export const addToCartAction: ThunkActionCreater<ICartPayload> =
 
         localStorage.setItem('fullCart', JSON.stringify(updatedCart));
       }
+    } else {
+      if (cartId) {
+        try {
+          const response = await fetch('http://localhost:3000/cart/increment', {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ itemId: item.id, cartId }),
+          });
+
+          const { settedItems, msg }: UpdateItemsCount = await response.json();
+
+          if (!settedItems) {
+            toast.error(msg, {
+              autoClose: 2000,
+              pauseOnHover: true,
+              closeOnClick: true,
+              draggable: false,
+            });
+          }
+        } catch (error) {
+          toast.error(error?.toString(), {
+            autoClose: 2000,
+            pauseOnHover: true,
+            closeOnClick: true,
+            draggable: false,
+          });
+        }
+      }
     }
+
     dispatch(addToCart(item));
   };
 
 export const removeFromCartAction: ThunkActionCreater<ICartPayload> =
-  ({ item, isAuth }) =>
-  (dispatch) => {
+  ({ item, isAuth, cartId }) =>
+  async (dispatch) => {
     const fullCart = localStorage.getItem('fullCart');
-    //!добавить логику для авторизированного
+
     if (!isAuth) {
       if (fullCart) {
         const updatedCart: ICartPrice = JSON.parse(fullCart);
@@ -53,6 +87,34 @@ export const removeFromCartAction: ThunkActionCreater<ICartPayload> =
         updatedCart.items.splice(spliceIndex, 1);
 
         localStorage.setItem('fullCart', JSON.stringify(updatedCart));
+      }
+    } else {
+      if (cartId) {
+        try {
+          const response = await fetch('http://localhost:3000/cart/decrement', {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ itemId: item.id, cartId }),
+          });
+
+          const { settedItems, msg }: UpdateItemsCount = await response.json();
+
+          if (!settedItems) {
+            toast.error(msg, {
+              autoClose: 2000,
+              pauseOnHover: true,
+              closeOnClick: true,
+              draggable: false,
+            });
+          }
+        } catch (error) {
+          toast.error(error?.toString(), {
+            autoClose: 2000,
+            pauseOnHover: true,
+            closeOnClick: true,
+            draggable: false,
+          });
+        }
       }
     }
 

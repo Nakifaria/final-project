@@ -9,6 +9,7 @@ import {
   addToLocalStorage,
   removeFromLocalStorage,
 } from './lib/localStorageFn';
+import { ICartPrice, IItemsPrice, initialCart } from '../slices/cart.slice';
 
 interface IPackPayload {
   id: number;
@@ -26,6 +27,12 @@ interface IPackInitPayload {
 interface UserItemsResponse {
   settedItems: boolean;
   userItems?: number[];
+  msg: string;
+}
+
+interface CartItemsResponse {
+  settedItems: boolean;
+  userItems?: IItemsPrice[];
   msg: string;
 }
 
@@ -66,18 +73,34 @@ export const initialPacksAction: ThunkActionCreater<IPackInitPayload> =
         }
       );
 
-      const { settedItems, msg, userItems }: UserItemsResponse =
-        await response.json();
+      if (packName === 'cart') {
+        const { settedItems, msg, userItems }: CartItemsResponse =
+          await response.json();
 
-      if (!settedItems) {
-        toast.error(msg, {
-          autoClose: 2000,
-          pauseOnHover: true,
-          closeOnClick: true,
-          draggable: false,
-        });
-      } else if (settedItems && userItems) {
-        dispatch(initial({ packName, items: userItems }));
+        if (!settedItems) {
+          toast.error(msg, {
+            autoClose: 2000,
+            pauseOnHover: true,
+            closeOnClick: true,
+            draggable: false,
+          });
+        } else if (settedItems && userItems) {
+          dispatch(initial({ packName, items: userItems.map((el) => el.id) }));
+          dispatch(initialCart({ items: userItems }));
+        }
+      } else {
+        const { settedItems, msg, userItems }: UserItemsResponse =
+          await response.json();
+        if (!settedItems) {
+          toast.error(msg, {
+            autoClose: 2000,
+            pauseOnHover: true,
+            closeOnClick: true,
+            draggable: false,
+          });
+        } else if (settedItems && userItems) {
+          dispatch(initial({ packName, items: userItems }));
+        }
       }
     } catch (error) {
       toast.error(`${error}`, {
