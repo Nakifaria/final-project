@@ -4,10 +4,12 @@ import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { RootState } from "../../redux/store/store";
 import { setOrder, setUserConfig } from "../../redux/slices/profile.slice";
 import { Empty } from "../Empty/Empty";
+import { useNavigate } from "react-router-dom";
 
 export const Profile = () => {
 
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 
 	const userInfo = useAppSelector(
 		(state: RootState) => state.userSlice);
@@ -63,7 +65,7 @@ export const Profile = () => {
         {/* <h1 className="mb-10 text-center text-2xl font-bold">Профиль Кота</h1> */}
         <div className="md:flex no-wrap md:-mx-2 ">
             <div className="w-full md:w-3/12 md:mx-2">
-                <div className="bg-white p-3 border-t-4 border-blue-400">
+                <div className="bg-white p-3 border-t-4 border-red-700">
                     <div className="image overflow-hidden">
                         <img className="h-auto w-full mx-auto"
                             src="https://koshka.top/uploads/posts/2021-12/1640328596_1-koshka-top-p-kota-na-avatarku-1.jpg"
@@ -100,8 +102,8 @@ export const Profile = () => {
                             
 							<ul className="list-inside space-y-2">
                             {configInfo && configInfo.map((item) => (
-	                             <li key={item.id}>
-                                    <div className="text-teal-600">{item.title}</div>
+	                             <li key={item.id} onClick={() => navigate(`/configurator/${item.id}`)}>
+                                    <div className="text-red-700">{item.title}</div>
                                     <div className="text-gray-500 text-xs">{new Date(item.createdAt).toLocaleDateString("ru-RU")}</div>
                                 </li>
                              ))}
