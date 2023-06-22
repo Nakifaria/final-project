@@ -59,8 +59,8 @@ export const Profile = () => {
   // console.log(orderInfo);
 
   return (
-    <>
-      <div className="bg-gray-100 border-b">
+    <div className="shadow-xl shadow-neutral-300 pb-20">
+      <div className="bg-gray-100 border-b ">
         <a className="block px-4 py-2 mt-2 text-sm text-gray-900" href="#">
           Logout
         </a>
@@ -70,7 +70,7 @@ export const Profile = () => {
         {/* <h1 className="mb-10 text-center text-2xl font-bold">Профиль Кота</h1> */}
         <div className="md:flex no-wrap md:-mx-2 ">
           <div className="w-full md:w-3/12 md:mx-2">
-            <div className="bg-white p-3 border-t-4 border-red-700">
+            <div className="bg-white p-3 ">
               <div className="image overflow-hidden">
                 <img
                   className="h-auto w-full mx-auto"
@@ -82,7 +82,7 @@ export const Profile = () => {
                 {userInfo.name}
               </h1>
               <h3 className="text-gray-600 font-lg text-semibold leading-6">
-                {userInfo.email}
+                E-mail: {userInfo.email}
               </h3>
               <ul className="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
                 <li className="flex items-center py-3">
@@ -196,6 +196,6 @@ export const Profile = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };

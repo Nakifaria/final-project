@@ -59,12 +59,14 @@ export const Cart = () => {
   };
 
   return (
-    <div className="pt-20 pb-60 bg-white shadow-xl shadow-neutral-300">
+    <div className=" pt-10 pb-40 bg-white shadow-xl shadow-neutral-300 px-4">
       {filteredItems.length === 0 && <Empty title="корзине" />}
       {filteredItems.length > 0 && (
         <div className=" h-full">
           <div>
-            <h1 className="mb-10 text-center text-2xl font-bold">Корзина</h1>
+            <h1 className="text-2xl mb-4 border-b border-gray-400 pb-10">
+              Корзина
+            </h1>
             <div className="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
               <div className="rounded-lg md:w-2/3">
                 {filteredItems &&

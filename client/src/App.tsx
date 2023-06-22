@@ -36,7 +36,7 @@ function App() {
   return (
     <>
       {!loading && (
-        <div className="box-border">
+        <div className="box-border ">
           <header className="max-w-screen-xl mx-auto sticky top-0">
             <Searchbar />
           </header>

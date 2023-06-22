@@ -89,8 +89,8 @@ export const ItemPage = () => {
                 <ItemButton
                   packName="cart"
                   changePackFn={changePackFn}
-                  addedBtnName="addedToBtnFromItem"
-                  btnName="btnInItems"
+                  addedBtnName="addedToCartBtnFromItem"
+                  btnName="cartBtnInItems"
                   itemId={item.id}
                 >
                   <SVGComponent svgName="cart" />
@@ -99,8 +99,8 @@ export const ItemPage = () => {
                 <ItemButton
                   packName="favourite"
                   changePackFn={changePackFn}
-                  addedBtnName="addedToBtnFromItem"
-                  btnName="btnInItems"
+                  addedBtnName="addedToFavBtnFromItem"
+                  btnName="favBtnInItems"
                   itemId={item.id}
                 >
                   <SVGComponent svgName="favourite" />
@@ -109,8 +109,8 @@ export const ItemPage = () => {
                 <ItemButton
                   packName="compare"
                   changePackFn={changePackFn}
-                  addedBtnName="addedToBtnFromItem"
-                  btnName="btnInItems"
+                  addedBtnName="addedToCompareBtnFromItem"
+                  btnName="compareBtnInItems"
                   itemId={item.id}
                 >
                   <SVGComponent svgName="compare" />

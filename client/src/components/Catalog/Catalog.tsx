@@ -31,7 +31,11 @@ export const Catalog = () => {
   return (
     <div className="bg-white shadow-xl shadow-neutral-300">
       <div className="mt-8 flex flex-col text-center">
-        <h1 className="text-center text-3xl font-semibold leading-7 text-gray-900">
+        {/* <h1 className="text-center text-3xl font-semibold leading-7 text-gray-900">
+          Каталог товаров
+        </h1> */}
+
+        <h1 className="text-3xl mb-4 border-b font-semibold border-gray-400 pb-10 text-gray-900 leading-7">
           Каталог товаров
         </h1>
 
@@ -40,7 +44,7 @@ export const Catalog = () => {
             onClick={() => {
               navigate("/configurator");
             }}
-            className="flex flex-col items-center text-center mt-10 bg-red-800 hover:bg-red-700 text-white p-6 rounded text-2xl font-bold overflow-hidden"
+            className="flex flex-col items-center text-center mt-6 bg-red-800 hover:bg-red-700 text-white p-6 rounded text-2xl font-bold overflow-hidden"
           >
             <div className="h-10 w-10">
               <SVGComponent svgName="config" />

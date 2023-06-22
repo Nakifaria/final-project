@@ -1,4 +1,4 @@
-import { KeyboardEvent, MouseEvent } from 'react';
+import { KeyboardEvent, MouseEvent } from "react";
 
 interface IModalProps {
   children: JSX.Element;

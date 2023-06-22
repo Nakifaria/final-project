@@ -46,7 +46,10 @@ export const CategoryCatalog = () => {
   if (isLoading) {
     return (
       <div className=" flex flex-col text-center  bg-white shadow-xl shadow-neutral-300 ">
-        <h1 className="mt-8 mb-8 text-center text-3xl font-semibold leading-7 text-gray-900 ">
+        {/* <h1 className="mt-8 mb-8 text-center text-3xl font-semibold leading-7 text-gray-900 ">
+          {categoryItems && categoryItems[0].category}
+        </h1> */}
+        <h1 className="text-3xl mt-8 mb-4 border-b border-gray-400 pb-10 font-semibold text-gray-800 leading-7 ">
           {categoryItems && categoryItems[0].category}
         </h1>
         <div className="flex justify-center">

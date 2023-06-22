@@ -151,8 +151,8 @@ export const ChooseHandlerFetch =
     const pack = localStorage.getItem("configurator");
 
     if (
-      (firstSocketType.socketName === "" ||
-        firstSocketType.categoryId === id) &&
+      (firstSocketType?.socketName === "" ||
+        firstSocketType?.categoryId === id) &&
       currentSocketType !== undefined
     ) {
       dispatch(
@@ -181,8 +181,8 @@ export const ChooseHandlerFetch =
       }
 
       if (
-        currentSocketType !== secondSocketType.socketName &&
-        secondSocketType.socketName !== ""
+        currentSocketType !== secondSocketType?.socketName &&
+        secondSocketType?.socketName !== ""
       ) {
         dispatch(
           setConfigurationSocketMistake(
@@ -206,8 +206,8 @@ export const ChooseHandlerFetch =
         }
       }
     } else if (
-      (secondSocketType.socketName === "" ||
-        secondSocketType.categoryId === id) &&
+      (secondSocketType?.socketName === "" ||
+        secondSocketType?.categoryId === id) &&
       currentSocketType !== undefined
       // && firstSocketType.categoryId !== id &&
       // firstSocketType.socketName !== currentSocketType
@@ -238,8 +238,8 @@ export const ChooseHandlerFetch =
         localStorage.setItem("configurator", JSON.stringify(updated));
       }
       if (
-        firstSocketType.socketName !== currentSocketType &&
-        firstSocketType.socketName !== ""
+        firstSocketType?.socketName !== currentSocketType &&
+        firstSocketType?.socketName !== ""
       ) {
         dispatch(
           setConfigurationSocketMistake(
