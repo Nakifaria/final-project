@@ -12,6 +12,18 @@ const initialState: configuratorSliceType = {
   significance: 0,
   categoryTitle: "",
   choosenItem: [],
+  title: "",
+  description: "",
+  currentConfiguration: { id: 0, title: "", description: "", items: [] },
+  firstSocketType: {
+    categoryId: 0,
+    socketName: "",
+  },
+  secondSocketType: {
+    categoryId: 0,
+    socketName: "",
+  },
+  configurationSocketMistake: "",
 };
 
 export const configuratorSlice: Slice = createSlice({
@@ -88,6 +100,48 @@ export const configuratorSlice: Slice = createSlice({
       ...state,
       choosenItem: action.payload,
     }),
+    setTitle: (
+      state,
+      action: PayloadAction<Partial<configuratorSliceType>>
+    ) => ({
+      ...state,
+      title: action.payload,
+    }),
+    setDescription: (
+      state,
+      action: PayloadAction<Partial<configuratorSliceType>>
+    ) => ({
+      ...state,
+      description: action.payload,
+    }),
+    setCurrentConfiguration: (
+      state,
+      action: PayloadAction<Partial<configuratorSliceType>>
+    ) => ({
+      ...state,
+      currentConfiguration: action.payload,
+    }),
+    setFirstSocketType: (
+      state,
+      action: PayloadAction<Partial<configuratorSliceType>>
+    ) => ({
+      ...state,
+      firstSocketType: action.payload,
+    }),
+    setSecondSocketType: (
+      state,
+      action: PayloadAction<Partial<configuratorSliceType>>
+    ) => ({
+      ...state,
+      secondSocketType: action.payload,
+    }),
+    setConfigurationSocketMistake: (
+      state,
+      action: PayloadAction<Partial<configuratorSliceType>>
+    ) => ({
+      ...state,
+      configurationSocketMistake: action.payload,
+    }),
   },
 });
 
@@ -102,6 +156,12 @@ export const {
   setSignificance,
   setCategoryTitle,
   setChoosenItem,
+  setTitle,
+  setDescription,
+  setCurrentConfiguration,
+  setConfigurationSocketMistake,
+  setSecondSocketType,
+  setFirstSocketType,
 } = configuratorSlice.actions;
 
 export default configuratorSlice.reducer;

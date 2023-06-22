@@ -9,6 +9,7 @@ import { AppDispatch, RootState } from '../store/store';
 import { initialPacksAction } from './items.action';
 import { endLoad, startLoad } from '../slices/loader.slice';
 import { AnyAction, ThunkAction, ThunkDispatch } from '@reduxjs/toolkit';
+import { initFullCartAction } from './cart.action';
 
 export const regUserThunk: ThunkActionCreater<Partial<IUserInfo>> =
   (formData) => (dispatch) => {
@@ -22,6 +23,8 @@ export const regUserThunk: ThunkActionCreater<Partial<IUserInfo>> =
     })
       .then((data) => data.json())
       .then(({ auth, userInfo, msg }) => {
+        console.log(userInfo);
+        
         if (auth) {
           dispatch(
             userAuth({
@@ -30,6 +33,7 @@ export const regUserThunk: ThunkActionCreater<Partial<IUserInfo>> =
               name: userInfo.name,
               isAuth: true,
               cartId: userInfo.cartId,
+              regDate: userInfo.regDate
             })
           );
           toast.update(loading, {
@@ -76,6 +80,7 @@ export const logUserThunk: ThunkActionCreater<Partial<IUserInfo>> =
               name: userInfo.name,
               isAuth: true,
               cartId: userInfo.cartId,
+              regDate: userInfo.regDate
             })
           );
           toast.update(loading, {
@@ -144,6 +149,7 @@ export const checkSessionThunk: ThunkResult<void> =
           );
           dispatch(initialPacksAction({ packName: 'cart', userId: user.id }));
         } else {
+          dispatch(initFullCartAction({ isAuth: session }));
           initialPackFromLocaleStorage('favourite', dispatch);
           initialPackFromLocaleStorage('compare', dispatch);
           initialPackFromLocaleStorage('cart', dispatch);

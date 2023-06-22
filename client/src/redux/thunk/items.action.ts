@@ -9,6 +9,7 @@ import {
   addToLocalStorage,
   removeFromLocalStorage,
 } from './lib/localStorageFn';
+import { ICartPrice, IItemsPrice, initialCart } from '../slices/cart.slice';
 
 interface IPackPayload {
   id: number;
@@ -29,6 +30,12 @@ interface UserItemsResponse {
   msg: string;
 }
 
+interface CartItemsResponse {
+  settedItems: boolean;
+  userItems?: IItemsPrice[];
+  msg: string;
+}
+
 export const loadItems: ThunkActionCreater = () => (dispatch) => {
   dispatch(startLoad());
   fetch('http://localhost:3000/items', { credentials: 'include' })
@@ -40,7 +47,7 @@ export const loadItems: ThunkActionCreater = () => (dispatch) => {
 
         // искусственная задержка
         // setTimeout(() => {
-        //   dispatch(startLoad(false));
+        //   dispatch(endLoad());
         // }, 3000);
       } else {
         toast.error(msg, { autoClose: 2000 });
@@ -50,7 +57,7 @@ export const loadItems: ThunkActionCreater = () => (dispatch) => {
     .catch((error) => {
       toast.error('Непредусмотренная ошибка', { autoClose: 2000 });
       console.log(error);
-      dispatch(startLoad());
+      dispatch(endLoad());
     });
 };
 
@@ -66,18 +73,34 @@ export const initialPacksAction: ThunkActionCreater<IPackInitPayload> =
         }
       );
 
-      const { settedItems, msg, userItems }: UserItemsResponse =
-        await response.json();
+      if (packName === 'cart') {
+        const { settedItems, msg, userItems }: CartItemsResponse =
+          await response.json();
 
-      if (!settedItems) {
-        toast.error(msg, {
-          autoClose: 2000,
-          pauseOnHover: true,
-          closeOnClick: true,
-          draggable: false,
-        });
-      } else if (settedItems && userItems) {
-        dispatch(initial({ packName, items: userItems }));
+        if (!settedItems) {
+          toast.error(msg, {
+            autoClose: 2000,
+            pauseOnHover: true,
+            closeOnClick: true,
+            draggable: false,
+          });
+        } else if (settedItems && userItems) {
+          dispatch(initial({ packName, items: userItems.map((el) => el.id) }));
+          dispatch(initialCart({ items: userItems }));
+        }
+      } else {
+        const { settedItems, msg, userItems }: UserItemsResponse =
+          await response.json();
+        if (!settedItems) {
+          toast.error(msg, {
+            autoClose: 2000,
+            pauseOnHover: true,
+            closeOnClick: true,
+            draggable: false,
+          });
+        } else if (settedItems && userItems) {
+          dispatch(initial({ packName, items: userItems }));
+        }
       }
     } catch (error) {
       toast.error(`${error}`, {

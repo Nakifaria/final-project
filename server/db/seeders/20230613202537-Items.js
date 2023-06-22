@@ -857,9 +857,9 @@ module.exports = {
           createdAt: faker.date.anytime(),
         },
         {
-          name: 'G.Skill Ripjaws V 16GB (2 x 8GB) DDR4 3200MHz',
+          name: 'G.Skill Ripjaws V 16GB (2 x 8GB) DDR5 3200MHz',
           category_id: 3,
-          price: 7000,
+          price: 9000,
           order_count: randomOrderCount(),
           img: 'http://localhost:3000/images/G.SkillRipjawsV16GB.jpg',
           description: JSON.stringify({

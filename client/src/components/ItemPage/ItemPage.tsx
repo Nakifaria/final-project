@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../redux/hook';
-import { setItem } from '../../redux/slices/catalogSlice';
-import { RootState } from '../../redux/store/store';
-import { useParams } from 'react-router-dom';
-import { SVGComponent } from '../Svg/SVGComponent';
-import { addToAction, removeFromAction } from '../../redux/thunk/items.action';
-import { ItemButton } from '../Home/ItemButton';
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import { setItem } from "../../redux/slices/catalogSlice";
+import { RootState } from "../../redux/store/store";
+import { useParams } from "react-router-dom";
+import { SVGComponent } from "../Svg/SVGComponent";
+import { addToAction, removeFromAction } from "../../redux/thunk/items.action";
+import { ItemButton } from "../Home/ItemButton";
 
 export const ItemPage = () => {
   const dispatch = useAppDispatch();
@@ -39,10 +39,10 @@ export const ItemPage = () => {
 
   const userId = useAppSelector((state: RootState) => state.userSlice.id);
 
-  const changePackFn = (packName, action: 'remove' | 'add') => {
-    if (action === 'add') {
+  const changePackFn = (packName, action: "remove" | "add") => {
+    if (action === "add") {
       dispatch(addToAction({ id: item.id, isAuth, packName, cartId, userId }));
-    } else if (action === 'remove') {
+    } else if (action === "remove") {
       dispatch(
         removeFromAction({ id: item.id, isAuth, packName, cartId, userId })
       );
@@ -53,16 +53,16 @@ export const ItemPage = () => {
     const description = item.description;
     const result = Object.entries(description);
     result.map((el) => {
-      if (el.includes('Dimensions')) {
+      if (el.includes("Dimensions")) {
         const dimensions = Object.entries(el[1]);
-        const newEl = dimensions.map((item) => item.join(': ')).join(' ');
+        const newEl = dimensions.map((item) => item.join(": ")).join(" ");
         el[1] = newEl;
       }
     });
 
     return (
-      <div className="mt-10 flex justify-center min-h-screen">
-        <div className="hidden bg-cover lg:block lg:w-2/5">
+      <div className="mt-10 flex justify-center min-h-screen bg-white shadow-xl shadow-neutral-300">
+        <div className="hidden bg-cover lg:block lg:w-2/5 self-center">
           <img src={item.img} />
         </div>
 
@@ -89,8 +89,8 @@ export const ItemPage = () => {
                 <ItemButton
                   packName="cart"
                   changePackFn={changePackFn}
-                  addedBtnName="addedToBtnFromItem"
-                  btnName="btnInItems"
+                  addedBtnName="addedToCartBtnFromItem"
+                  btnName="cartBtnInItems"
                   itemId={item.id}
                 >
                   <SVGComponent svgName="cart" />
@@ -99,8 +99,8 @@ export const ItemPage = () => {
                 <ItemButton
                   packName="favourite"
                   changePackFn={changePackFn}
-                  addedBtnName="addedToBtnFromItem"
-                  btnName="btnInItems"
+                  addedBtnName="addedToFavBtnFromItem"
+                  btnName="favBtnInItems"
                   itemId={item.id}
                 >
                   <SVGComponent svgName="favourite" />
@@ -109,8 +109,8 @@ export const ItemPage = () => {
                 <ItemButton
                   packName="compare"
                   changePackFn={changePackFn}
-                  addedBtnName="addedToBtnFromItem"
-                  btnName="btnInItems"
+                  addedBtnName="addedToCompareBtnFromItem"
+                  btnName="compareBtnInItems"
                   itemId={item.id}
                 >
                   <SVGComponent svgName="compare" />

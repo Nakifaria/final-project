@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const { User, Cart } = require('../../db/models');
 
 router.get('/', (req, res) => {
+  console.log("rrrrrrrrrrrrrrrrr", req.session.user);
   if (req.session.user) {
     res.json({ session: true, user: req.session.user });
   } else {
@@ -20,7 +21,7 @@ router.get('/logout', (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-  const { email, name, password } = req.body;
+  const { email, password } = req.body;
 
   try {
     const user = await User.findOne({ where: { email } });
@@ -29,9 +30,12 @@ router.post('/login', async (req, res) => {
       const clearPass = await bcrypt.compare(password, user.password);
 
       if (clearPass) {
-        const newCart = await Cart.create({ user_id: user.id });
+        const [cart, created] = await Cart.findOrCreate({
+          where: { user_id: user.id, ordered: false },
+          defaults: { user_id: user.id, ordered: false }
+        });
 
-        req.session.user = { email, name, id: user.id, cartId: newCart.id };
+        req.session.user = { email, name: user.name, id: user.id, cartId: cart.id, regDate: user.createdAt };
 
         res.json({
           auth: true,
@@ -39,7 +43,8 @@ router.post('/login', async (req, res) => {
             id: user.id,
             name: user.name,
             email: user.email,
-            cartId: newCart.id,
+            cartId: cart.id,
+            regDate: user.createdAt
           },
         });
       } else {
@@ -68,7 +73,7 @@ router.post('/registration', async (req, res) => {
     if (created) {
       const newCart = await Cart.create({ user_id: user.id });
 
-      req.session.user = { email, name, id: user.id, cartId: newCart.id };
+      req.session.user = { email, name, id: user.id, cartId: newCart.id, regDate: user.createdAt };
 
       res.json({
         auth: true,
@@ -77,6 +82,7 @@ router.post('/registration', async (req, res) => {
           name: user.name,
           email: user.email,
           cartId: newCart.id,
+          regDate: user.createdAt
         },
       });
     } else {

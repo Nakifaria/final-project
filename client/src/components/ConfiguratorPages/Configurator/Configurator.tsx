@@ -15,10 +15,20 @@ import {
   setCategoryTitle,
   setChoosenCategory,
   setChoosenItem,
+  setConfigurationSocketMistake,
+  setDescription,
+  setFirstSocketType,
   setOpenModal,
+  setPrimaryParts,
+  setProgressbarStyle,
+  setSecondSocketType,
   setSignificance,
+  setTitle,
 } from "../../../redux/slices/configuratorSlice";
 import { ChooseHandlerType } from "../../../types/configurator.types";
+import { toast } from "react-toastify";
+import { addToCart } from "../../../redux/slices/cart.slice";
+import { addTo } from "../../../redux/slices/addItemsTo.slice";
 
 function Configurator() {
   const navigate = useNavigate();
@@ -26,6 +36,14 @@ function Configurator() {
 
   const categoriesArr = useAppSelector(
     (state: RootState) => state.configuratorSlice.categoriesArr
+  );
+
+  const title = useAppSelector(
+    (state: RootState) => state.configuratorSlice.title
+  );
+
+  const description = useAppSelector(
+    (state: RootState) => state.configuratorSlice.description
   );
 
   const choosenCategory = useAppSelector(
@@ -56,10 +74,20 @@ function Configurator() {
   const choosenItem = useAppSelector(
     (state: RootState) => state.configuratorSlice.choosenItem
   );
-
   const categoryItems = useAppSelector(
     (state: RootState) => state.catalog.category
   );
+  const firstSocketType = useAppSelector(
+    (state: RootState) => state.configuratorSlice.firstSocketType
+  );
+  const secondSocketType = useAppSelector(
+    (state: RootState) => state.configuratorSlice.secondSocketType
+  );
+  const configurationSocketMistake = useAppSelector(
+    (state: RootState) => state.configuratorSlice.configurationSocketMistake
+  );
+
+  const userStatus = useAppSelector((state: RootState) => state.userSlice);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -70,8 +98,49 @@ function Configurator() {
       // console.log("parsed", parsed.items[0]);
       dispatch(setChoosenCategory(parsed.categories));
       dispatch(setChoosenItem(parsed.items));
+      dispatch(setProgressbarStyle(parsed.progress));
+      dispatch(setPrimaryParts(parsed.primaries));
+      dispatch(setTitle(parsed.title));
+      dispatch(setDescription(parsed.description));
+      dispatch(setConfigurationSocketMistake(parsed.socketMistake));
+      dispatch(setFirstSocketType(parsed.firstSocket));
+      dispatch(setSecondSocketType(parsed.secondSocket));
     }
   }
+
+  const titleInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setTitle(e.target.value));
+    const pack = localStorage.getItem("configurator");
+    if (!pack) {
+      localStorage.setItem(
+        "configurator",
+        JSON.stringify({
+          title: e.target.value,
+        })
+      );
+    } else {
+      const updated = JSON.parse(pack);
+      updated.title = e.target.value;
+      localStorage.setItem("configurator", JSON.stringify(updated));
+    }
+  };
+
+  const descriptionInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setDescription(e.target.value));
+    const pack = localStorage.getItem("configurator");
+    if (!pack) {
+      localStorage.setItem(
+        "configurator",
+        JSON.stringify({
+          description: e.target.value,
+        })
+      );
+    } else {
+      const updated = JSON.parse(pack);
+      updated.description = e.target.value;
+      localStorage.setItem("configurator", JSON.stringify(updated));
+    }
+  };
 
   useEffect(() => {
     dispatch(allCategoriesFetch(), starterPack());
@@ -88,13 +157,125 @@ function Configurator() {
     dispatch(setCategoryTitle(categoryTitle));
   }
 
+  async function saveBtnHandler() {
+    if (userStatus.isAuth) {
+      const pack = localStorage.getItem("configurator");
+      if (!pack) {
+        return;
+      }
+      if (primaryParts < primaryPartsTotalAmount) {
+        toast.error("Выберите все обязательные комплектующие ПК ", {
+          autoClose: 2000,
+        });
+        if (title === "") {
+          toast.error("Введите название сборки", {
+            autoClose: 2000,
+          });
+          return;
+        }
+        return;
+      }
+      const info = JSON.parse(pack);
+      const itemIdArr = info.items.map((el) => el.id);
+      const response = await fetch("http://localhost:3000/configurator", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          title: info.title,
+          description: info.description,
+          itemIdArr,
+        }),
+      });
+      const result = await response.json();
+      console.log(result);
+      if (result) {
+        localStorage.removeItem("configurator");
+        navigate(`/configurator/${result.id}`);
+      }
+    } else {
+      toast.error("Пожалуйста, войдите в свой аккаунт для сохранения сборки", {
+        autoClose: 2000,
+      });
+      return;
+    }
+  }
+
+  async function buyBtnHandler() {
+    if (!userStatus.isAuth) {
+      const pack = localStorage.getItem("configurator");
+      if (!pack) {
+        return;
+      }
+      const info = JSON.parse(pack);
+      if (info.items.length === 0 || info.items === undefined) {
+        return;
+      }
+      const itemIdArr = info.items.map((el) => el.id);
+      const itemPriceArr = info.items.map((el) => {
+        return { id: el.id, price: el.price };
+      });
+      console.log;
+      const cart = localStorage.getItem("cart");
+      const fullCart = localStorage.getItem("fullCart");
+      if (!cart && !fullCart) {
+        localStorage.setItem(
+          "cart",
+          JSON.stringify({
+            items: [...itemIdArr],
+          })
+        );
+        localStorage.setItem(
+          "fullCart",
+          JSON.stringify({
+            items: [...itemPriceArr],
+          })
+        );
+      } else {
+        const updatedCart = JSON.parse(cart);
+        const updatedFullCart = JSON.parse(fullCart);
+        updatedCart.items = [...itemIdArr];
+        updatedFullCart.items = [...itemPriceArr];
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
+        localStorage.setItem("fullCart", JSON.stringify(updatedFullCart));
+      }
+      itemPriceArr.forEach((el) => {
+        dispatch(addToCart(el));
+        dispatch(addTo({ itemId: el.id, packName: "cart" }));
+      });
+    } else {
+      const pack = localStorage.getItem("configurator");
+      if (!pack) {
+        return;
+      }
+      const info = JSON.parse(pack);
+      const itemIdArr = info.items.map((el) => el.id);
+      itemIdArr.forEach(async (el) => {
+        const response = await fetch("http://localhost:3000/cart", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ cartId: userStatus.cartId, itemId: el }),
+        });
+        if (!response.ok) {
+          toast.error("Не удалось сохранить сборку", {
+            autoClose: 2000,
+          });
+          return;
+        }
+      });
+    }
+    navigate("/cart");
+  }
+
   function ChooseHandler(
     id,
     significance,
     currentItemId,
     currentItemName,
     currentItemPrice,
-    currentItemImg
+    currentItemImg,
+    currentSocketType
   ): ChooseHandlerType {
     dispatch(
       ChooseHandlerFetch(
@@ -107,7 +288,10 @@ function Configurator() {
         choosenCategory,
         primaryParts,
         primaryPartsTotalAmount,
-        choosenItem
+        choosenItem,
+        firstSocketType,
+        secondSocketType,
+        currentSocketType
       )
     );
   }
@@ -120,9 +304,16 @@ function Configurator() {
         choosenCategory,
         primaryParts,
         primaryPartsTotalAmount,
-        choosenItem
+        choosenItem,
+        firstSocketType,
+        secondSocketType,
+        configurationSocketMistake
       )
     );
+  }
+
+  function totalPrice() {
+    return choosenItem.reduce((acc, el) => acc + el.price, 0);
   }
 
   useEffect(() => {
@@ -139,17 +330,28 @@ function Configurator() {
 
   return (
     <>
-      <div className="bg-gray-100 sm:grid grid-cols-5 grid-rows-2 px-4 py-6 min-h-full lg:min-h-screen space-y-6 sm:space-y-0 sm:gap-4">
+      <div className="bg-gray-100 sm:grid lg:grid grid-cols-5 grid-rows-1 px-4 py-6 min-h-full lg:min-h-screen space-y-6 sm:space-y-0 lg:space-y-0 sm:gap-4 lg:gap-4 shadow-xl shadow-neutral-300">
         <div className="h-max col-span-4 bg-gradient-to-tr from-gray-400 to-gray-200 rounded-md flex">
           <ul className="w-full">
+            {configurationSocketMistake ? (
+              <li>
+                <div className="bg-white py-3 px-4 rounded-lg my-3 mx-3 flex justify-between items-center">
+                  <ul>
+                    <li className="text-red-500">
+                      ! {configurationSocketMistake}
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            ) : null}
             {categoriesArr &&
               categoriesArr.map((category) => (
                 <li key={category.id}>
                   <div className="bg-white py-3 px-4 rounded-lg my-3 mx-3 flex justify-between items-center">
                     <div className="w-1/4 items-center flex-row flex">
-                      <div className=" bg-purple-500 text-white shadow-lg shadow-purple-200 w-12 h-12 mr-2 relative">
+                      <div className=" bg-gray-800 text-white shadow-lg shadow-gray-200 w-12 h-12 min-w-[46px] mr-2 flex rounded-lg justify-center items-center p-1">
                         <img
-                          className="h-10 absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"
+                          className="w-full h-auto"
                           src={`${category.image}`}
                           alt="category image"
                         />
@@ -165,7 +367,7 @@ function Configurator() {
                         {category.amountItems} шт.
                       </span>
                     ) : (
-                      <div className="flex justify-between gap-x-6 w-1/2">
+                      <div className="flex justify-between gap-x-6 w-1/2 ">
                         <div className="flex-shrink-0">
                           <img
                             className="w-8 h-8"
@@ -208,7 +410,9 @@ function Configurator() {
                             category.title
                           )
                         }
-                        gradientDuoTone="purpleToBlue"
+                        color="failure"
+                        outline
+                        className="w-32"
                       >
                         Добавить +
                       </Button>
@@ -217,7 +421,8 @@ function Configurator() {
                         onClick={() =>
                           removeItemHandler(category.id, category.significance)
                         }
-                        gradientDuoTone="pinkToOrange"
+                        color="failure"
+                        className="w-32"
                       >
                         Удалить
                       </Button>
@@ -227,19 +432,19 @@ function Configurator() {
               ))}
           </ul>
         </div>
-        <div className="h-96 col-span-1 sticky top-20">
+        <div className="h-96 col-span-1 sticky top-20 z-10">
           <div className="bg-white py-3 px-4 rounded-lg">
             <div className="flex justify-between mb-1">
-              <span className="text-base font-medium text-blue-700">
+              <span className="text-base font-medium text-red-800">
                 * - обязательные комплектующие
               </span>
-              <span className="text-sm font-medium text-blue-700">
+              <span className="text-sm font-medium text-red-800">
                 {primaryParts}/{primaryPartsTotalAmount}
               </span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2.5">
               <div
-                className="bg-blue-600 h-2.5 rounded-full"
+                className="bg-red-800 h-2.5 rounded-full"
                 style={progressbarStyle}
               ></div>
             </div>
@@ -248,6 +453,8 @@ function Configurator() {
           <div className="bg-white  rounded-md">
             <div className="bg-white py-3 px-4 rounded-lg flex justify-around items-center ">
               <input
+                value={title ? title : ""}
+                onChange={titleInputHandler}
                 type="text"
                 placeholder="Введите название сборки"
                 className=" bg-gray-100 rounded-md  outline-none pl-2 ring-indigo-700 w-full mr-2 p-2"
@@ -255,24 +462,31 @@ function Configurator() {
             </div>
 
             <div className="bg-white py-3 px-4 rounded-lg flex justify-around items-center ">
-              <input
+              <textarea
+                value={description ? description : ""}
+                onChange={descriptionInputHandler}
                 type="text"
                 placeholder="Введите описание сборки (необязательно)"
-                className=" bg-gray-100 rounded-md  outline-none pl-2 ring-indigo-700 w-full mr-2 p-2 h-64"
+                className=" bg-gray-100 rounded-md  outline-none pl-2 ring-indigo-700 w-full mr-2 p-2 h-64 resize-none"
               />
             </div>
             <div className="bg-white py-3 px-4 rounded-lg flex justify-around items-center ">
+              <span> {`Итого: ${totalPrice()}₽`}</span>
+            </div>
+            <div className="bg-white py-3 px-4 rounded-lg flex justify-around items-center ">
               <button
+                onClick={() => saveBtnHandler()}
                 type="button"
-                className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                className="w-full text-white bg-gradient-to-r from-gray-800 via-gray-700 to-gray-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
               >
                 Сохранить
               </button>
             </div>
             <div className="bg-white py-3 px-4 rounded-lg flex justify-around items-center ">
               <button
+                onClick={() => buyBtnHandler()}
                 type="button"
-                className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                className=" w-full text-white bg-gradient-to-r from-gray-800 via-gray-700 to-gray-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
               >
                 В корзину
               </button>

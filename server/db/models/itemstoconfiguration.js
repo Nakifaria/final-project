@@ -9,15 +9,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.Configuration, { foreignKey: "configuration_id" });
-      this.belongsTo(models.Item, { foreignKey: "item_id" });
     }
   }
   ItemsToConfiguration.init(
     {
-      cart_id: DataTypes.INTEGER,
+      configuration_id: DataTypes.INTEGER,
       item_id: DataTypes.INTEGER,
-      count: DataTypes.INTEGER,
     },
     {
       sequelize,

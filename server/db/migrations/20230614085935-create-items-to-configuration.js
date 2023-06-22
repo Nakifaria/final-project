@@ -9,23 +9,23 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      configuration_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: { tableName: "Configurations" },
-          key: "id",
-        },
-      },
       item_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: { tableName: "Items" },
+          model: {
+            tableName: "Items",
+          },
           key: "id",
         },
       },
-      count: {
+      configuration_id: {
         type: Sequelize.INTEGER,
-        defaultValue: 0,
+        references: {
+          model: {
+            tableName: "Configurations",
+          },
+          key: "id",
+        },
       },
       createdAt: {
         allowNull: false,
