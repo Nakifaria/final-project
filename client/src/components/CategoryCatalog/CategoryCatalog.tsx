@@ -1,24 +1,24 @@
-import './Category.css';
-import { ChangeEvent, useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../redux/hook';
-import { setCategory } from '../../redux/slices/catalogSlice';
-import { RootState } from '../../redux/store/store';
-import { useParams } from 'react-router';
-import { Dropdown } from 'flowbite-react';
-import { CategoryItem } from './CategoryItem';
-import { categoryFetch, sortThunk } from '../../redux/thunk/category.action';
+import "./Category.css";
+import { ChangeEvent, useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import { setCategory } from "../../redux/slices/catalogSlice";
+import { RootState } from "../../redux/store/store";
+import { useParams } from "react-router";
+import { Dropdown } from "flowbite-react";
+import { CategoryItem } from "./CategoryItem";
+import { categoryFetch, sortThunk } from "../../redux/thunk/category.action";
 
 export const CategoryCatalog = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [priceData, setFormData] = useState({ low: '', high: '' });
-  const [sortOption, setSortOption] = useState('');
-  const [dropdawnLabel, setDropdawnLabel] = useState('Сортировка');
+  const [priceData, setFormData] = useState({ low: "", high: "" });
+  const [sortOption, setSortOption] = useState("");
+  const [dropdawnLabel, setDropdawnLabel] = useState("Сортировка");
 
   const dispatch = useAppDispatch();
   const { catId } = useParams();
 
   useEffect(() => {
-    dispatch(categoryFetch(catId, setIsLoading))
+    dispatch(categoryFetch(catId, setIsLoading));
   }, []);
 
   const categoryItems = useAppSelector(
@@ -28,10 +28,10 @@ export const CategoryCatalog = () => {
 
   const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (+e.target.value === 0) {
-      setFormData({ ...priceData, [e.target.name]: 1 })
-   } else {
-    setFormData({ ...priceData, [e.target.name]: e.target.value }) 
-  }
+      setFormData({ ...priceData, [e.target.name]: 1 });
+    } else {
+      setFormData({ ...priceData, [e.target.name]: e.target.value });
+    }
   };
 
   const submitHandler = () => {
@@ -45,62 +45,124 @@ export const CategoryCatalog = () => {
 
   if (isLoading) {
     return (
-      <div className="mt-[30px] flex flex-col text-center">
-        <h1 className="text-center text-2xl font-semibold leading-7 text-gray-900">
+      <div className=" flex flex-col text-center  bg-white shadow-xl shadow-neutral-300 ">
+        <h1 className="mt-[30px] text-center text-3xl font-semibold leading-7 text-gray-900 ">
           {categoryItems && categoryItems[0].category}
         </h1>
-        <div className="mt-10 mb-10">
-          Цена от
-          <input
-            onChange={changeHandler}
-            value={priceData?.low}
-            name="low"
-            type="number"
-            min="1"
-            className="border rounded border-black"
-          />
-          до
-          <input
-            onChange={changeHandler}
-            value={priceData?.high}
-            name="high"
-            type="number"
-            min="1"
-            className="border rounded border-black"
-          />
-          <button
-            onClick={submitHandler}
-            type="button"
-            className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-          >
-            Применить
-          </button>
+        <div className="flex justify-center">
+          <div className="mt-10 mb-10 mr-10">
+            <Dropdown color="light" label={dropdawnLabel}>
+              <Dropdown.Item
+                onClick={() => {
+                  setSortOption("popularity"),
+                    dispatch(
+                      sortThunk(
+                        "popularity",
+                        setSortOption,
+                        setDropdawnLabel,
+                        categoryItems
+                      )
+                    );
+                }}
+              >
+                По популярности
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  setSortOption("priceLow"),
+                    dispatch(
+                      sortThunk(
+                        "priceLow",
+                        setSortOption,
+                        setDropdawnLabel,
+                        categoryItems
+                      )
+                    );
+                }}
+              >
+                По цене (сначала дешевле)
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  setSortOption("priceHigh"),
+                    dispatch(
+                      sortThunk(
+                        "priceHigh",
+                        setSortOption,
+                        setDropdawnLabel,
+                        categoryItems
+                      )
+                    );
+                }}
+              >
+                По цене (сначала дороже)
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  setSortOption("nameAsc"),
+                    dispatch(
+                      sortThunk(
+                        "nameAsc",
+                        setSortOption,
+                        setDropdawnLabel,
+                        categoryItems
+                      )
+                    );
+                }}
+              >
+                По названию (А-Я)
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  setSortOption("nameDesc"),
+                    dispatch(
+                      sortThunk(
+                        "nameDesc",
+                        setSortOption,
+                        setDropdawnLabel,
+                        categoryItems
+                      )
+                    );
+                }}
+              >
+                По названию (Я-А)
+              </Dropdown.Item>
+            </Dropdown>
           </div>
-          <div className="flex justify-center ">
-          <Dropdown color="light" label={dropdawnLabel}>
-            <Dropdown.Item onClick={() => {setSortOption('popularity'), dispatch(sortThunk('popularity', setSortOption, setDropdawnLabel, categoryItems))}}>
-              По популярности
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => {setSortOption('priceLow'), dispatch(sortThunk('priceLow', setSortOption, setDropdawnLabel, categoryItems))}}>
-              По цене (сначала дешевле)
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => {setSortOption('priceHigh'), dispatch(sortThunk('priceHigh', setSortOption, setDropdawnLabel, categoryItems))}}>
-              По цене (сначала дороже)
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => {setSortOption('nameAsc'), dispatch(sortThunk('nameAsc', setSortOption, setDropdawnLabel, categoryItems))}}>
-              По названию (А-Я)
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => {setSortOption('nameDesc'), dispatch(sortThunk('nameDesc', setSortOption, setDropdawnLabel, categoryItems))}}>
-              По названию (Я-А)
-            </Dropdown.Item>
-          </Dropdown>
+          <div className="mt-10 mb-10">
+            Цена от
+            <input
+              onChange={changeHandler}
+              value={priceData?.low}
+              name="low"
+              type="number"
+              min="1"
+              className="border rounded border-black"
+            />
+            до
+            <input
+              onChange={changeHandler}
+              value={priceData?.high}
+              name="high"
+              type="number"
+              min="1"
+              className="border rounded border-black"
+            />
+            <button
+              onClick={submitHandler}
+              type="button"
+              className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+            >
+              Применить
+            </button>
+          </div>
         </div>
-        <div className="w-[824px] mx-auto max-w-screen-xl mt-10 grid group bg-white shadow-xl shadow-neutral-100 border ">
-          <ul role="list" className="divide-y divide-gray-100">
+        <div className="w-full mx-auto max-w-screen-xl mt-10 grid group  ">
+          <ul role="list" className="divide-y-2 divide-gray-500">
             {categoryItems &&
-              categoryItems.map((item) => 
+              categoryItems.map((item) => (
                 <CategoryItem el={item} key={item.id} />
-              )}
+              ))}
           </ul>
         </div>
       </div>
