@@ -4,10 +4,13 @@ import {
   setCategoriesArr,
   setChoosenCategory,
   setChoosenItem,
+  setConfigurationSocketMistake,
+  setFirstSocketType,
   setOpenModal,
   setPrimaryParts,
   setPrimaryPartsTotalAmount,
   setProgressbarStyle,
+  setSecondSocketType,
 } from "../slices/configuratorSlice";
 
 export const allCategoriesFetch = () => async (dispatch) => {
@@ -33,7 +36,10 @@ export const removeItemHandlerFetch =
     choosenCategory,
     primaryParts,
     primaryPartsTotalAmount,
-    choosenItem
+    choosenItem,
+    firstSocketType,
+    secondSocketType,
+    configurationSocketMistake
   ): void =>
   (dispatch) => {
     try {
@@ -57,6 +63,29 @@ export const removeItemHandlerFetch =
         primaryPartsTotalAmount,
         significance
       );
+
+      const pack = localStorage.getItem("configurator");
+      const updated = JSON.parse(pack);
+      if (configurationSocketMistake !== "") {
+        console.log("firstSocketType------>", firstSocketType);
+        console.log("secondSocketType------>", secondSocketType);
+        if (firstSocketType.categoryId === id) {
+          console.log("TUT");
+          dispatch(setFirstSocketType({ categoryId: 0, socketName: "" }));
+          dispatch(setConfigurationSocketMistake(""));
+          updated.firstSocket = { categoryId: 0, socketName: "" };
+          updated.socketMistake = "";
+          localStorage.setItem("configurator", JSON.stringify(updated));
+        }
+        if (secondSocketType.categoryId === id) {
+          console.log("TUT2");
+          dispatch(setSecondSocketType({ categoryId: 0, socketName: "" }));
+          dispatch(setConfigurationSocketMistake(""));
+          updated.secondSocket = { categoryId: 0, socketName: "" };
+          updated.socketMistake = "";
+          localStorage.setItem("configurator", JSON.stringify(updated));
+        }
+      }
     } catch (error) {
       toast.error("Непредусмотренная ошибка", { autoClose: 2000 });
       console.log(error);
@@ -75,7 +104,10 @@ export const ChooseHandlerFetch =
     choosenCategory,
     primaryParts,
     primaryPartsTotalAmount,
-    choosenItem
+    choosenItem,
+    firstSocketType,
+    secondSocketType,
+    currentSocketType
   ): void =>
   (dispatch) => {
     if (significance) {
@@ -113,6 +145,124 @@ export const ChooseHandlerFetch =
       primaryPartsTotalAmount,
       significance
     );
+    const pack = localStorage.getItem("configurator");
+
+    if (
+      (firstSocketType.socketName === "" ||
+        firstSocketType.categoryId === id) &&
+      currentSocketType !== undefined
+    ) {
+      dispatch(
+        setFirstSocketType({
+          categoryId: id,
+          socketName: currentSocketType,
+        })
+      );
+      if (!pack) {
+        localStorage.setItem(
+          "configurator",
+          JSON.stringify({
+            firstSocket: {
+              categoryId: id,
+              socketName: currentSocketType,
+            },
+          })
+        );
+      } else {
+        const updated = JSON.parse(pack);
+        updated.firstSocket = {
+          categoryId: id,
+          socketName: currentSocketType,
+        };
+        localStorage.setItem("configurator", JSON.stringify(updated));
+      }
+
+      if (
+        firstSocketType.socketName !== secondSocketType.socketName &&
+        secondSocketType.socketName !== ""
+      ) {
+        dispatch(
+          setConfigurationSocketMistake(
+            "Сокеты процессора и материнской платы несовместимы"
+          )
+        );
+        const pack = localStorage.getItem("configurator");
+        if (!pack) {
+          localStorage.setItem(
+            "configurator",
+            JSON.stringify({
+              socketMistake:
+                "Сокеты процессора и материнской платы несовместимы",
+            })
+          );
+        } else {
+          const updated = JSON.parse(pack);
+          updated.socketMistake =
+            "Сокеты процессора и материнской платы несовместимы";
+          localStorage.setItem("configurator", JSON.stringify(updated));
+        }
+      }
+    } else if (
+      (secondSocketType.socketName === "" ||
+        secondSocketType.categoryId === id) &&
+      currentSocketType !== undefined
+      // && firstSocketType.categoryId !== id &&
+      // firstSocketType.socketName !== currentSocketType
+    ) {
+      dispatch(
+        setSecondSocketType({
+          categoryId: id,
+          socketName: currentSocketType,
+        })
+      );
+
+      if (!pack) {
+        localStorage.setItem(
+          "configurator",
+          JSON.stringify({
+            secondSocket: {
+              categoryId: id,
+              socketName: currentSocketType,
+            },
+          })
+        );
+      } else {
+        const updated = JSON.parse(pack);
+        updated.secondSocket = {
+          categoryId: id,
+          socketName: currentSocketType,
+        };
+        localStorage.setItem("configurator", JSON.stringify(updated));
+      }
+      if (
+        firstSocketType.socketName !== secondSocketType.socketName &&
+        firstSocketType.socketName !== ""
+      ) {
+        dispatch(
+          setConfigurationSocketMistake(
+            "Сокеты процессора и материнской платы несовместимы"
+          )
+        );
+        const pack = localStorage.getItem("configurator");
+        if (!pack) {
+          localStorage.setItem(
+            "configurator",
+            JSON.stringify({
+              socketMistake:
+                "Сокеты процессора и материнской платы несовместимы",
+            })
+          );
+        } else {
+          const updated = JSON.parse(pack);
+          updated.socketMistake =
+            "Сокеты процессора и материнской платы несовместимы";
+          localStorage.setItem("configurator", JSON.stringify(updated));
+        }
+      }
+    }
+
+    // ---------------------
+
     dispatch(setOpenModal(false));
   };
 
@@ -170,7 +320,6 @@ const addConfiguratorItemsToLocalStorage = (
     }
   } else {
     const updated = JSON.parse(pack);
-
     updated.categories.push(id);
     updated.items.push({
       id: currentItemId,
@@ -200,15 +349,10 @@ const removeConfiguratorItemsFromLocalStorage = (
   significance
 ) => {
   const pack = localStorage.getItem("configurator");
-
   const updated = pack && JSON.parse(pack);
-
   const spliceIndex = updated.categories.indexOf(id);
-
   updated.categories.splice(spliceIndex, 1);
-
   updated.items = updated.items.filter((el) => el.categoryId !== id);
-
   if (significance) {
     updated.primaries = primaryParts - 1;
     updated.progress = {
