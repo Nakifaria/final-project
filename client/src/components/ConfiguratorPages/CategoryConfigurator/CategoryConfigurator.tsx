@@ -8,6 +8,15 @@ export const CategoryConfigurator = ({
   ChooseHandler,
 }) => {
   const navigate = useNavigate();
+  // console.log("categoryItems", categoryItems[0]?.description?.["Socket Type"]);
+  // console.log("categoryItems", categoryItems[0]?.description?.["Form Factor"]);
+  // console.log("categoryItems", categoryItems[0]?.description?.["Memory Type"]);
+  // console.log("categoryItems", categoryItems[0]?.description?.["Power"]);
+  // console.log(
+  //   "categoryItems",
+  //   categoryItems[0]?.description?.["Recommended Power Supply"]
+  // );
+  console.log("categoryItems", categoryItems);
   return (
     <div className="mt-[30px] flex flex-col text-center w-full">
       <h1 className="text-center text-2xl font-semibold leading-7 text-gray-900">
@@ -51,7 +60,12 @@ export const CategoryConfigurator = ({
                         el.id,
                         el.name,
                         el.price,
-                        el.img
+                        el.img,
+                        el.description?.["Socket Type"]
+                        // el.description?.["Form Factor"]
+                        // el.description?.["Memory Type"]
+                        // el.description?.["Power"]
+                        // el.description?.["Recommended Power Supply"]
                       )
                     }
                     type="button"

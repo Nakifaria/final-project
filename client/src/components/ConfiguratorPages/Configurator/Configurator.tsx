@@ -15,10 +15,13 @@ import {
   setCategoryTitle,
   setChoosenCategory,
   setChoosenItem,
+  setConfigurationSocketMistake,
   setDescription,
+  setFirstSocketType,
   setOpenModal,
   setPrimaryParts,
   setProgressbarStyle,
+  setSecondSocketType,
   setSignificance,
   setTitle,
 } from "../../../redux/slices/configuratorSlice";
@@ -71,10 +74,19 @@ function Configurator() {
   const choosenItem = useAppSelector(
     (state: RootState) => state.configuratorSlice.choosenItem
   );
-
   const categoryItems = useAppSelector(
     (state: RootState) => state.catalog.category
   );
+  const firstSocketType = useAppSelector(
+    (state: RootState) => state.configuratorSlice.firstSocketType
+  );
+  const secondSocketType = useAppSelector(
+    (state: RootState) => state.configuratorSlice.secondSocketType
+  );
+  const configurationSocketMistake = useAppSelector(
+    (state: RootState) => state.configuratorSlice.configurationSocketMistake
+  );
+
   const userStatus = useAppSelector((state: RootState) => state.userSlice);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -90,6 +102,9 @@ function Configurator() {
       dispatch(setPrimaryParts(parsed.primaries));
       dispatch(setTitle(parsed.title));
       dispatch(setDescription(parsed.description));
+      dispatch(setConfigurationSocketMistake(parsed.socketMistake));
+      dispatch(setFirstSocketType(parsed.firstSocket));
+      dispatch(setSecondSocketType(parsed.secondSocket));
     }
   }
 
@@ -259,7 +274,8 @@ function Configurator() {
     currentItemId,
     currentItemName,
     currentItemPrice,
-    currentItemImg
+    currentItemImg,
+    currentSocketType
   ): ChooseHandlerType {
     dispatch(
       ChooseHandlerFetch(
@@ -272,7 +288,10 @@ function Configurator() {
         choosenCategory,
         primaryParts,
         primaryPartsTotalAmount,
-        choosenItem
+        choosenItem,
+        firstSocketType,
+        secondSocketType,
+        currentSocketType
       )
     );
   }
@@ -286,7 +305,9 @@ function Configurator() {
         primaryParts,
         primaryPartsTotalAmount,
         choosenItem,
-        progressbarStyle
+        firstSocketType,
+        secondSocketType,
+        configurationSocketMistake
       )
     );
   }
@@ -312,6 +333,17 @@ function Configurator() {
       <div className="bg-gray-100 sm:grid grid-cols-5 grid-rows-2 px-4 py-6 min-h-full lg:min-h-screen space-y-6 sm:space-y-0 sm:gap-4">
         <div className="h-max col-span-4 bg-gradient-to-tr from-gray-400 to-gray-200 rounded-md flex">
           <ul className="w-full">
+            {configurationSocketMistake ? (
+              <li>
+                <div className="bg-white py-3 px-4 rounded-lg my-3 mx-3 flex justify-between items-center">
+                  <ul>
+                    <li className="text-red-500">
+                      ! {configurationSocketMistake}
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            ) : null}
             {categoriesArr &&
               categoriesArr.map((category) => (
                 <li key={category.id}>
