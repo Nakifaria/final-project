@@ -49,7 +49,7 @@ export const CategoryCatalog = () => {
         <h1 className="text-center text-2xl font-semibold leading-7 text-gray-900">
           {categoryItems && categoryItems[0].category}
         </h1>
-        <div className="mt-10">
+        <div className="mt-10 mb-10">
           Цена от
           <input
             onChange={changeHandler}
@@ -75,6 +75,8 @@ export const CategoryCatalog = () => {
           >
             Применить
           </button>
+          </div>
+          <div className="flex justify-center ">
           <Dropdown color="light" label={dropdawnLabel}>
             <Dropdown.Item onClick={() => {setSortOption('popularity'), dispatch(sortThunk('popularity', setSortOption, setDropdawnLabel, categoryItems))}}>
               По популярности
@@ -93,7 +95,7 @@ export const CategoryCatalog = () => {
             </Dropdown.Item>
           </Dropdown>
         </div>
-        <div className=" mx-auto max-w-screen-xl mt-10 grid  group bg-white shadow-xl shadow-neutral-100 border ">
+        <div className="w-[824px] mx-auto max-w-screen-xl mt-10 grid group bg-white shadow-xl shadow-neutral-100 border ">
           <ul role="list" className="divide-y divide-gray-100">
             {categoryItems &&
               categoryItems.map((item) => 

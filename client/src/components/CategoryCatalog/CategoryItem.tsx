@@ -22,32 +22,32 @@ export const CategoryItem = ({el}) => {
   };
   
     return (
-    <li key={el.id} className="flex justify-between gap-x-6 py-5">
+    <li key={el.id} className="w-full flex justify-between py-5">
     <div
       onClick={() => navigate(`/product/${el.id}`)}
-      className="flex justify-between gap-x-6"
+      className=" grow flex justify-between gap-x-6"
     >
-      <div className="flex-shrink-0">
+      <div className="ml-5 w-1/6 flex-shrink-0">
         <img
           className="w-8 h-8"
           src={el.img}
           alt="Neil image"
         />
       </div>
-      <div className="flex justify-left gap-x-4">
+      <div className="grow flex justify-left gap-x-4">
         <div className="min-w-0 flex-auto">
           <p className="text-sm text-center font-bold leading-6 text-gray-900">
             {el.name}
           </p>
         </div>
       </div>
-      <div className="ml-10 sm:flex sm:flex-col sm:items-end">
+      <div className="mr-10 w-1/6 ml-10 sm:flex sm:flex-col sm:items-end">
         <p className="text-sm text-center leading-6 text-gray-900">
           {el.price} ₽
         </p>
       </div>
     </div>
-    <div className="sm:flex sm:items-end">
+    <div className="mr-5 w-1/4 sm:flex sm:items-end">
     <ItemButton
   packName="cart"
   changePackFn={changePackFn}

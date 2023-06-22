@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 import { SVGComponent } from "../Svg/SVGComponent"
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { RootState } from "../../redux/store/store";
-import { setUserConfig } from "../../redux/slices/profile.slice";
+import { setOrder, setUserConfig } from "../../redux/slices/profile.slice";
+import { Empty } from "../Empty/Empty";
+import { useNavigate } from "react-router-dom";
 
 export const Profile = () => {
 
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 
 	const userInfo = useAppSelector(
 		(state: RootState) => state.userSlice);
@@ -27,12 +30,30 @@ export const Profile = () => {
 		}
 	}
 
-	useEffect(() => {configFetch()}, [userInfo])   
+    const orderFetch = async () => {
+		try {
+			const response = await fetch (`http://localhost:3000/profile/orders/${userInfo.id}`);
+			const cartData = await response.json()
+			console.log(cartData);
+			if (cartData.ordered) {
+			dispatch(setOrder(cartData))
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+
+	useEffect(() => {configFetch(), orderFetch()}, [userInfo])   
 
 		const configInfo = useAppSelector(
 			(state: RootState) => state.profileSlice.userConfigs);
-			console.log(configInfo);
-	   
+
+		const orderInfo = useAppSelector(
+				(state: RootState) => state.profileSlice.userOrders);
+
+// console.log(orderInfo);
+
     return (
         <>
         <div className="bg-gray-100 border-b">
@@ -44,7 +65,7 @@ export const Profile = () => {
         {/* <h1 className="mb-10 text-center text-2xl font-bold">Профиль Кота</h1> */}
         <div className="md:flex no-wrap md:-mx-2 ">
             <div className="w-full md:w-3/12 md:mx-2">
-                <div className="bg-white p-3 border-t-4 border-blue-400">
+                <div className="bg-white p-3 border-t-4 border-red-700">
                     <div className="image overflow-hidden">
                         <img className="h-auto w-full mx-auto"
                             src="https://koshka.top/uploads/posts/2021-12/1640328596_1-koshka-top-p-kota-na-avatarku-1.jpg"
@@ -76,11 +97,13 @@ export const Profile = () => {
                                 </span>
                                 <span className="tracking-wide">Сохраненные конфигурации</span>
                             </div>
-                            <ul className="list-inside space-y-2">
 
+							{configInfo.length === 0 && <Empty title="конфигурациях" />}
+                            
+							<ul className="list-inside space-y-2">
                             {configInfo && configInfo.map((item) => (
-	                             <li key={item.id}>
-                                    <div className="text-teal-600">{item.title}</div>
+	                             <li key={item.id} onClick={() => navigate(`/configurator/${item.id}`)}>
+                                    <div className="text-red-700">{item.title}</div>
                                     <div className="text-gray-500 text-xs">{new Date(item.createdAt).toLocaleDateString("ru-RU")}</div>
                                 </li>
                              ))}
@@ -88,10 +111,12 @@ export const Profile = () => {
                         </div>
                     </div>
 
+                {orderInfo.length === 0 && <Empty title="заказах" />}
                 <div className="bg-white p-3 shadow-sm rounded-sm">
                 <div>
 			   <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
 				<div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
+
 					<table className="min-w-full leading-normal">
 						<thead>
 							<tr>
@@ -113,24 +138,26 @@ export const Profile = () => {
 								</th>
 							</tr>
 						</thead>
+						
 						<tbody>
-							<tr>
+						{orderInfo && orderInfo.map((item) => (
+							<tr key={item.id}>
 								<td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
 									<div className="flex items-center">
 
 											<div className="ml-3">
 												<p className="text-gray-900 whitespace-no-wrap">
-													100500
+													100500-{item.id}
 												</p>
 											</div>
 										</div>
 								</td>
 								<td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-									<p className="text-gray-900 whitespace-no-wrap">11111</p>
+									<p className="text-gray-900 whitespace-no-wrap">{item.total_price}</p>
 								</td>
 								<td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
 									<p className="text-gray-900 whitespace-no-wrap">
-										Jan 21, 2020
+									{new Date(item.createdAt).toLocaleDateString("ru-RU")}
 									</p>
 								</td>
 								<td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -142,35 +169,8 @@ export const Profile = () => {
 									</span>
 								</td>
 							</tr>
+                            ))}
 
-							<tr>
-								<td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-									<div className="flex items-center">
-											<div className="ml-3">
-												<p className="text-gray-900 whitespace-no-wrap">
-													100501
-												</p>
-											</div>
-										</div>
-								</td>
-								<td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-									<p className="text-gray-900 whitespace-no-wrap">22222</p>
-								</td>
-								<td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-									<p className="text-gray-900 whitespace-no-wrap">
-										Jan 01, 2020
-									</p>
-                                    </td>
-
-                                    <td className="px-5 py-5 bg-white text-sm">
-									<span
-                                        className="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight">
-                                        <span aria-hidden
-                                            className="absolute inset-0 bg-red-200 opacity-50 rounded-full"></span>
-									<span className="relative">Inactive</span>
-									</span>
-								</td>
-							</tr>
 						</tbody>
 					</table>
 
