@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { setCatalog } from "../../redux/slices/catalogSlice";
 import { RootState } from "../../redux/store/store";
 import { useNavigate } from "react-router";
+import { SVGComponent } from "../Svg/SVGComponent";
 
 export const Catalog = () => {
   const dispatch = useAppDispatch();
@@ -34,32 +35,38 @@ export const Catalog = () => {
           Каталог товаров
         </h1>
 
-        <div>
+        <div className="flex flex-col text-center">
           <button
             onClick={() => {
               navigate("/configurator");
             }}
-            className="mt-10 bg-gray-800 hover:bg-gray-900 text-white p-6 rounded text-2xl font-bold overflow-hidden"
+            className="flex flex-col items-center text-center mt-10 bg-red-800 hover:bg-red-700 text-white p-6 rounded text-2xl font-bold overflow-hidden"
           >
-            Собрать ПК
+            <div className="h-10 w-10">
+								<SVGComponent svgName="config" /> 
+            </div>    
+            <div>
+               Собрать ПК
+            </div>
+          
           </button>
         </div>
 
-        <div className=" mx-auto max-w-screen-lg mt-10 grid grid-cols-1 md:lg:xl:grid-cols-3 group bg-white shadow-xl shadow-neutral-100 border ">
+        <div className=" mx-auto max-w-screen-lg mt-10 grid grid-cols-1 md:lg:xl:grid-cols-3 group bg-gray-800 shadow-xl shadow-neutral-100 border ">
           {catalog &&
             catalog.map((el) => (
               <div
                 onClick={() => navigate(`/category/${el.id}`)}
                 key={el.id}
-                className="p-10 flex flex-col items-center text-center group md:lg:xl:border-r md:lg:xl:border-b hover:bg-slate-50 cursor-pointer"
+                className="p-10 flex flex-col items-center text-center group md:lg:xl:border-r md:lg:xl:border-b hover:bg-slate-500 cursor-pointer"
               >
-                <span className="p-5 rounded-full bg-red-500 text-white shadow-lg shadow-red-200">
+                <span className="">
                  <img className="w-14 h-14" src={el.image}/>
                 </span>
-                <p className="text-xl font-medium text-slate-700 mt-3">
+                <p className="text-xl font-medium text-white mt-3">
                   {el.title}
                 </p>
-                <p className="mt-2 text-sm text-slate-500">Количество товаров: {el.amountItems} шт.</p>
+                <p className="mt-2 text-sm text-white">Количество товаров: {el.amountItems} шт.</p>
               </div>
             ))}
         </div>
