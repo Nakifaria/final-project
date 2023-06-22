@@ -13,9 +13,9 @@ router.get('/:userId', async (req, res) => {
       })
     )
       .get({ plain: true })
-      .CartItems.map((el) => el.id);
-
-    console.log(userItems);
+      .CartItems.map((el) => {
+        return { id: el.item_id, count: el.count };
+      });
 
     res.json({ settedItems: true, userItems });
   } catch (error) {
@@ -43,6 +43,27 @@ router.delete('/', async (req, res) => {
     await CartItem.destroy({ where: { cart_id: cartId, item_id: itemId } });
 
     res.json({ settedItems: true });
+  } catch (error) {
+    res.json({ settedItems: false, msg: error.toString() });
+  }
+});
+
+router.patch('/:action', async (req, res) => {
+  const { itemId, cartId } = req.body;
+
+  const { action } = req.params;
+
+  try {
+    const itemToUpdate = await CartItem.findOne({
+      where: { item_id: itemId, cart_id: cartId },
+    });
+
+    if (action === 'increment') {
+      await itemToUpdate.increment('count');
+    } else if (action === 'decrement') {
+      await itemToUpdate.decrement('count');
+    }
+    res.json({ settedItems: false });
   } catch (error) {
     res.json({ settedItems: false, msg: error.toString() });
   }

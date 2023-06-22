@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { IPack } from '../../components/Home/itemCard';
 
 export interface IItemsPrice {
   id: number;
+  count?: number;
   price: number;
 }
 
