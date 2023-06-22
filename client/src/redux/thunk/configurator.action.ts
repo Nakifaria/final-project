@@ -176,6 +176,32 @@ export const ChooseHandlerFetch =
         };
         localStorage.setItem("configurator", JSON.stringify(updated));
       }
+
+      if (
+        firstSocketType.socketName !== secondSocketType.socketName &&
+        secondSocketType.socketName !== ""
+      ) {
+        dispatch(
+          setConfigurationSocketMistake(
+            "Сокеты процессора и материнской платы несовместимы"
+          )
+        );
+        const pack = localStorage.getItem("configurator");
+        if (!pack) {
+          localStorage.setItem(
+            "configurator",
+            JSON.stringify({
+              socketMistake:
+                "Сокеты процессора и материнской платы несовместимы",
+            })
+          );
+        } else {
+          const updated = JSON.parse(pack);
+          updated.socketMistake =
+            "Сокеты процессора и материнской платы несовместимы";
+          localStorage.setItem("configurator", JSON.stringify(updated));
+        }
+      }
     } else if (
       (secondSocketType.socketName === "" ||
         secondSocketType.categoryId === id) &&
@@ -208,36 +234,34 @@ export const ChooseHandlerFetch =
         };
         localStorage.setItem("configurator", JSON.stringify(updated));
       }
+      if (
+        firstSocketType.socketName !== secondSocketType.socketName &&
+        firstSocketType.socketName !== ""
+      ) {
+        dispatch(
+          setConfigurationSocketMistake(
+            "Сокеты процессора и материнской платы несовместимы"
+          )
+        );
+        const pack = localStorage.getItem("configurator");
+        if (!pack) {
+          localStorage.setItem(
+            "configurator",
+            JSON.stringify({
+              socketMistake:
+                "Сокеты процессора и материнской платы несовместимы",
+            })
+          );
+        } else {
+          const updated = JSON.parse(pack);
+          updated.socketMistake =
+            "Сокеты процессора и материнской платы несовместимы";
+          localStorage.setItem("configurator", JSON.stringify(updated));
+        }
+      }
     }
 
     // ---------------------
-
-    if (
-      secondSocketType.socketName !== "" &&
-      firstSocketType.socketName !== "" &&
-      (firstSocketType.socketName !== currentSocketType ||
-        secondSocketType.socketName !== currentSocketType)
-    ) {
-      dispatch(
-        setConfigurationSocketMistake(
-          "Сокеты процессора и материнской платы несовместимы"
-        )
-      );
-      const pack = localStorage.getItem("configurator");
-      if (!pack) {
-        localStorage.setItem(
-          "configurator",
-          JSON.stringify({
-            socketMistake: "Сокеты процессора и материнской платы несовместимы",
-          })
-        );
-      } else {
-        const updated = JSON.parse(pack);
-        updated.socketMistake =
-          "Сокеты процессора и материнской платы несовместимы";
-        localStorage.setItem("configurator", JSON.stringify(updated));
-      }
-    }
 
     dispatch(setOpenModal(false));
   };
